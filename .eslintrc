@@ -61,6 +61,8 @@
 				"simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
 				"@typescript-eslint/no-unused-vars": "off",
 				"unused-imports/no-unused-imports": "error",
+				"import/no-extraneous-dependencies": "off",
+				"tailwindcss/no-custom-classname": "off",
 				"unused-imports/no-unused-vars": [
 					"error",
 					{ "argsIgnorePattern": "^_" }
@@ -70,18 +72,8 @@
 		// Configuration for testing
 		{
 			"files": ["**/*.test.ts", "**/*.test.tsx"],
-			"plugins": [
-				"jest",
-				"jest-formatting",
-				"testing-library",
-				"jest-dom"
-			],
-			"extends": [
-				"plugin:jest/recommended",
-				"plugin:jest-formatting/recommended",
-				"plugin:testing-library/react",
-				"plugin:jest-dom/recommended"
-			]
+			"plugins": [],
+			"extends": []
 		}
 	]
 }

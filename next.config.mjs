@@ -27,4 +27,7 @@ export default bundleAnalyzer({
 
     return config;
   },
+  images: {
+    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh'],
+  },
 });
