@@ -5,7 +5,7 @@ name: backoffice
 build:
     next-app:
         context: next-app
-        dockerfile: prod.dockerfile
+        dockerfile: prod.Dockerfile
 deploy:
     compose:
         - file: deploy/docker-compose.okteto.yml

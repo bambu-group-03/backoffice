@@ -10,7 +10,7 @@ services:
         ENV_VARIABLE: ${ENV_VARIABLE}
         NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
     env_file:
-      - ../next-app/.env
+      - ../next-app/.env.remote
     restart: always
     ports:
       - 3000:3000

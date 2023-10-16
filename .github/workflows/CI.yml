@@ -62,6 +62,9 @@ jobs:
     devflow:
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
+        defaults:
+            run:
+                working-directory: ./
         steps:
             - name: checkout
               uses: actions/checkout@master

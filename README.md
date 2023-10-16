@@ -8,16 +8,25 @@
 
 - Run `cd next-app`, then run `npm install` to generate a lockfile.
 
+## Config 
+
+```bash
+# in case that you don't create the network yet
+docker network create microservices
+
+cp deploy/.env_template deploy/.env
+```
 ## Development
 
 First, run the development server:
 
 ```bash
-# Create a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-docker network create microservices 
+# install development dependencies for visual studio code
+cd next-app
+npm i
+cd ..
 
-docker compose -f deploy/docker-compose.dev.yml . up --build
+docker compose -f deploy/docker-compose.dev.yml up --build
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -47,9 +56,7 @@ docker system prune -af --volumes
 │   ├── components                  # React components
 │   ├── layouts                     # Layouts components
 │   ├── libs                        # 3rd party libraries
-│   ├── models                      # Database models
 │   ├── pages                       # Next JS Pages (page router)
-│   ├── pages.test                  # Next JS Pages tests (this avoids tests to be treated as a Next.js pages)
 │   ├── styles                      # Styles folder
 │   ├── templates                   # Default template
 │   ├── validations                 # Validation schemas
