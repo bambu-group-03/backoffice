@@ -8,10 +8,12 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: ./next-app
     strategy:
       matrix:
         node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     name: Build with ${{ matrix.node-version }}
     runs-on: ubuntu-latest
@@ -25,15 +27,16 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npx next build
-
   test:
+    defaults:
+      run:
+        working-directory: ./next-app
     strategy:
       matrix:
         node-version: [18.x]
 
     name: Run all tests
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
