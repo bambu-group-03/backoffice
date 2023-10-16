@@ -8,21 +8,27 @@ export const dynamic = 'force-dynamic';
 const dummyUsers: User[] = [
   {
     id: 1,
-    name: 'John Doe',
-    username: 'johndoe',
-    email: 'johndoe@example.com',
+    name: 'Edu',
+    username: 'edu',
+    email: 'edu@gmail.com',
   },
   {
     id: 2,
-    name: 'Alice Smith',
-    username: 'alicesmith',
-    email: 'alicesmith@example.com',
+    name: 'Dani',
+    username: 'noxethiems',
+    email: 'dani@gmail.com',
   },
   {
     id: 3,
-    name: 'Bob Johnson',
-    username: 'bobjohnson',
-    email: 'bobjohnson@example.com',
+    name: 'M. Pont',
+    username: 'Maferep',
+    email: 'mafer@gmail.com',
+  },
+  {
+    id: 4,
+    name: 'Luis Paredes',
+    username: 'LuisParedes1',
+    email: 'luis@gmail.com',
   },
   // Add more dummy users as needed
 ];

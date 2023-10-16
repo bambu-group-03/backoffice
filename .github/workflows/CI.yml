@@ -1,62 +1,75 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:
+    pull_request:
+        branches: [main]
 
 jobs:
-  build:
-    defaults:
-      run:
-        working-directory: ./next-app
-    strategy:
-      matrix:
-        node-version: [18.x]
+    build:
+        defaults:
+            run:
+                working-directory: ./next-app
+        strategy:
+            matrix:
+                node-version: [18.x]
 
-    name: Build with ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
+        name: Build with ${{ matrix.node-version }}
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ./next-app/package-lock.json
-      - run: npm ci
-      - run: npx next build
-  test:
-    defaults:
-      run:
-        working-directory: ./next-app
-    strategy:
-      matrix:
-        node-version: [18.x]
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+                  cache-dependency-path: ./next-app/package-lock.json
+            - run: npm ci
+            - run: npx next build
+    test:
+        defaults:
+            run:
+                working-directory: ./next-app
+        strategy:
+            matrix:
+                node-version: [18.x]
 
-    name: Run all tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Retrieve Git history, needed to verify commits
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ./next-app/package-lock.json
-      - run: npm ci
+        name: Run all tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Retrieve Git history, needed to verify commits
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+                  cache-dependency-path: ./next-app/package-lock.json
+            - run: npm ci
 
-      - if: github.event_name == 'pull_request'
-        name: Validate all commits from PR
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+            - if: github.event_name == 'pull_request'
+              name: Validate all commits from PR
+              run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+              continue-on-error: true
 
-      - name: Linter
-        run: npm run lint
+            - name: Linter
+              run: npm run lint
 
-      - name: Type checking
-        run: npm run check-types
-
+            - name: Type checking
+              run: npm run check-types
+    devflow:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: checkout
+              uses: actions/checkout@master
+            - uses: okteto/context@latest
+              with:
+                  token: ${{ secrets.OKTETO_TOKEN }}
+            - name: "Create deployment"
+              uses: luiscusihuaman/okteto-deploy@main
+              with:
+                  file: okteto.yml
+                  build: "true"

@@ -1,0 +1,16 @@
+name: backoffice
+
+# The build section defines how to build the images of your development environment
+# More info: https://www.okteto.com/docs/reference/manifest/#build
+build:
+    next-app:
+        context: next-app
+        dockerfile: prod.dockerfile
+deploy:
+    compose:
+        - file: deploy/docker-compose.okteto.yml
+    endpoints:
+        - path: /
+          service: next-app
+          port: 3000
+namespace: identity-socializer-luiscusihuaman
