@@ -5,33 +5,7 @@ import type { User } from './table';
 import UsersTable from './table';
 
 export const dynamic = 'force-dynamic';
-const dummyUsers: User[] = [
-  {
-    id: 1,
-    name: 'Edu',
-    username: 'edu',
-    email: 'edu@gmail.com',
-  },
-  {
-    id: 2,
-    name: 'Dani',
-    username: 'noxethiems',
-    email: 'dani@gmail.com',
-  },
-  {
-    id: 3,
-    name: 'M. Pont',
-    username: 'Maferep',
-    email: 'mafer@gmail.com',
-  },
-  {
-    id: 4,
-    name: 'Luis Paredes',
-    username: 'LuisParedes1',
-    email: 'luis@gmail.com',
-  },
-  // Add more dummy users as needed
-];
+
 export default async function IndexPage({
   searchParams,
 }: {
@@ -44,7 +18,9 @@ export default async function IndexPage({
   //   .select(['id', 'name', 'username', 'email'])
   //   .where('name', 'like', `%${search}%`)
   //   .execute();
-  const users = dummyUsers;
+
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users: User[] = await res.json();
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
