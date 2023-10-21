@@ -23,6 +23,7 @@ export default function UsersTable({ users }: { users: User[] }) {
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Username</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Link</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -34,6 +35,14 @@ export default function UsersTable({ users }: { users: User[] }) {
             </TableCell>
             <TableCell>
               <Text>{user.email}</Text>
+            </TableCell>
+            <TableCell>
+              <a
+                className="text-blue-500 hover:text-blue-700"
+                href={`https://jsonplaceholder.typicode.com/users/${user.id}`}
+              >
+                View
+              </a>
             </TableCell>
           </TableRow>
         ))}
