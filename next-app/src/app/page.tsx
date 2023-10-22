@@ -4,7 +4,21 @@ import Search from './search';
 import type { User } from './table';
 import UsersTable from './table';
 
+const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
+
 export const dynamic = 'force-dynamic';
+
+async function getData() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users', {
+    next: { revalidate: REFRESH_INTERVAL },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
 
 export default async function IndexPage({
   searchParams,
@@ -19,8 +33,7 @@ export default async function IndexPage({
   //   .where('name', 'like', `%${search}%`)
   //   .execute();
 
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  const users: User[] = await res.json();
+  const users: User[] = await getData();
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
