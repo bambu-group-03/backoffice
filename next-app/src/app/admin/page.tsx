@@ -1,26 +1,40 @@
 'use client'
 import { useAuthContext } from "@/context/AuthContext";
+import logOut from "@/firebase/auth/signOut";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 function Page(): JSX.Element {
-  // Access the user object from the authentication context
-  // const { user } = useAuthContext();
-  const { user } = useAuthContext() as { user: any }; // Use 'as' to assert the type as { user: any }
+  
+  const { user } = useAuthContext() as { user: any };
   const router = useRouter();
 
   useEffect( () => {
-    // Redirect to the home page if the user is not logged in
+    
+    // Redirect to the logIn page if the user is not logged in
     if ( user == null ) {
       router.push( "/signin" );
     }
-    // }, [ user ] );
-  }, [ user, router ] ); // Include 'router' in the dependency array to resolve eslint warning
+  }, [ user, router ] );
 
   return (
-    <h1>Only logged-in users can view this page</h1>
+    <div>
+      <h1>Only logged-in users can view this page</h1>
+
+      <p>The user is {user.email}</p>      
+      <button onClick={ async (event: { preventDefault: () => void }) => {
+        event.preventDefault()
+        
+        const { result, error } = await logOut()
+        if (error) {
+          console.log(error)
+          return
+        }
+        
+        }}>LogOut</button>
+    </div>
+    
   );
 }
-
 
 export default Page;
