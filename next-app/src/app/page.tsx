@@ -6,21 +6,6 @@ import Search from './search';
 import type { User } from './table';
 import UsersTable from './table';
 
-const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
-
-export const dynamic = 'force-dynamic';
-
-async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users', {
-    next: { revalidate: REFRESH_INTERVAL },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json();
-}
 
 export default async function IndexPage(){
   redirect('/admin');

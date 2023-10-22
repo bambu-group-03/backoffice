@@ -4,7 +4,49 @@ import logOut from "@/firebase/auth/signOut";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-function Page(): JSX.Element {
+import { Card, Text, Title } from '@tremor/react';
+
+
+import Search from '../../app/search';
+import type { User } from '../../app/table';
+import UsersTable from '../../app/table';
+
+const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
+
+export const dynamic = 'force-dynamic';
+
+async function getData() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users', {
+    next: { revalidate: REFRESH_INTERVAL },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+async function logOutAccount(event: { preventDefault: () => void }) {
+  
+    event.preventDefault();
+    
+    const { result, error } = await logOut();
+    if (error) {
+      console.log(error)
+      return
+    }
+}
+
+
+async function Page({
+  searchParams,
+  }: {
+    searchParams: { q: string };
+  }   ) {
+
+  const search = searchParams.q ?? '';
+  console.log('search', search);
   
   const { user } = useAuthContext() as { user: any };
   const router = useRouter();
@@ -17,23 +59,20 @@ function Page(): JSX.Element {
     }
   }, [ user, router ] );
 
-  return (
-    <div>
-      <h1>Only logged-in users can view this page</h1>
+  const users: User[] = await getData();
 
-      <p>The user is {user.email}</p>      
-      <button onClick={ async (event: { preventDefault: () => void }) => {
-        event.preventDefault()
-        
-        const { result, error } = await logOut()
-        if (error) {
-          console.log(error)
-          return
-        }
-        
-        }}>LogOut</button>
-    </div>
-    
+  return (
+    <main className="mx-auto max-w-7xl p-4 md:p-10">
+     
+       <Title>Users</Title>
+       <Text>A list of users retrieved from a MySQL database.</Text>
+       <Search />
+       <Card className="mt-6">
+         <UsersTable users={users} />
+       </Card>     
+      
+      <button onClick={ logOutAccount}>LogOut</button>
+    </main>
   );
 }
 
