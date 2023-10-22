@@ -15,14 +15,6 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@types/node": "20.8.0",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.15",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
-    "postcss": "8.4.31",
-    "typescript": "5.2.2",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",

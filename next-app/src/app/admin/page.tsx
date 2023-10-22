@@ -1,7 +1,7 @@
 'use client'
 import { useAuthContext } from "@/context/AuthContext";
 import logOut from "@/firebase/auth/signOut";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { Card, Text, Title } from '@tremor/react';
@@ -16,9 +16,13 @@ const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 export const dynamic = 'force-dynamic';
 
 async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users', {
+  const url =  'https://jsonplaceholder.typicode.com/users';
+  //const url = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/users?limit=10&offset=0'
+  const res = await fetch(url, {
     next: { revalidate: REFRESH_INTERVAL },
   });
+
+  console.log('res', res);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
