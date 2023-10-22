@@ -1,14 +1,11 @@
-import { Card, Text, Title } from '@tremor/react';
-
 import { redirect } from 'next/navigation';
-
-import Search from './search';
-import type { User } from './table';
-import UsersTable from './table';
-
 
 export default async function IndexPage(){
   redirect('/admin');
+}
+
+
+// IndexPage({
 //   searchParams,
 // }: {
 //   searchParams: { q: string };
@@ -33,4 +30,4 @@ export default async function IndexPage(){
 //       </Card>
 //     </main>
 //   );
-}
+//}

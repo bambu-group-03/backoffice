@@ -1,7 +1,7 @@
 'use client'
 import { useAuthContext } from "@/context/AuthContext";
 import logOut from "@/firebase/auth/signOut";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useEffect } from "react";
 
 import { Card, Text, Title } from '@tremor/react';
@@ -38,7 +38,6 @@ async function logOutAccount(event: { preventDefault: () => void }) {
     }
 }
 
-
 async function Page({
   searchParams,
   }: {
@@ -63,6 +62,11 @@ async function Page({
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
+
+      <div className="flex  bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
+        <button onClick={() => router.push( "/signup" )}>Create Admin Account</button>
+      </div>
+      
      
        <Title>Users</Title>
        <Text>A list of users retrieved from a MySQL database.</Text>
@@ -71,7 +75,9 @@ async function Page({
          <UsersTable users={users} />
        </Card>     
       
-      <button onClick={ logOutAccount}>LogOut</button>
+      <div className="flex bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
+        <button onClick={logOutAccount}>LogOut</button>
+      </div>
     </main>
   );
 }

@@ -1,12 +1,24 @@
 "use client";
+import { useAuthContext } from "@/context/AuthContext";
 import signUp from "@/firebase/auth/signUp";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Page(): JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  // Admin must be logged in to create a new user 
+  const { user } = useAuthContext() as { user: any };
+
+  useEffect( () => {
+    // Redirect to the logIn page if the user is not logged in
+    if ( user == null ) {
+      router.push( "/signin" );
+    }
+  }, [ user, router ] );
+
 
   // Handle form submission
   const handleForm = async (event: { preventDefault: () => void }) => {
