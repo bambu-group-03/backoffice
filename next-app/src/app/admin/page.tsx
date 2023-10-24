@@ -17,6 +17,7 @@ export const dynamic = 'force-dynamic';
 
 async function getData() {
   const url =  'https://jsonplaceholder.typicode.com/users';
+  //const url = "https://dummyjson.com/users";
   //const url = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/users?limit=10&offset=0'
   const res = await fetch(url, {
     next: { revalidate: REFRESH_INTERVAL },
@@ -28,7 +29,7 @@ async function getData() {
     throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  return await res.json();
 }
 
 async function logOutAccount(event: { preventDefault: () => void }) {

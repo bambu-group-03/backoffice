@@ -1,3 +1,6 @@
+import Link from "next/link";
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+
 import {
   Table,
   TableBody,
@@ -11,8 +14,13 @@ import {
 export interface User {
   id: number;
   name: string;
+  firstName: string;
   username: string;
   email: string;
+  verified: boolean;
+  image:string;
+  bio?: string;
+  bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {
@@ -37,12 +45,9 @@ export default function UsersTable({ users }: { users: User[] }) {
               <Text>{user.email}</Text>
             </TableCell>
             <TableCell>
-              <a
-                className="text-blue-500 hover:text-blue-700"
-                href={`https://jsonplaceholder.typicode.com/users/${user.id}`}
-              >
-                View
-              </a>
+              <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
+                <span className="link">View</span>
+              </Link>
             </TableCell>
           </TableRow>
         ))}
