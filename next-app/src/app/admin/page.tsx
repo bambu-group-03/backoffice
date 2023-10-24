@@ -10,14 +10,15 @@ import { Card, Text, Title } from '@tremor/react';
 import Search from '../../app/search';
 import type { User } from '../../app/table';
 import UsersTable from '../../app/table';
+import { url } from "inspector";
 
 const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 
 export const dynamic = 'force-dynamic';
 
 async function getData() {
-  const url =  'https://jsonplaceholder.typicode.com/users';
-  //const url = "https://dummyjson.com/users";
+  //const url =  'https://jsonplaceholder.typicode.com/users';
+  const url = "https://dummyjson.com/users";
   //const url = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/users?limit=10&offset=0'
   const res = await fetch(url, {
     next: { revalidate: REFRESH_INTERVAL },
@@ -29,7 +30,9 @@ async function getData() {
     throw new Error(`Failed to fetch users: ${res.status} ${res.statusText}`);
   }
 
-  return await res.json();
+  const data = await res.json();
+
+  return data.users
 }
 
 async function logOutAccount(event: { preventDefault: () => void }) {
@@ -74,7 +77,6 @@ async function Page({
       
      
        <Title>Users</Title>
-       <Text>A list of users retrieved from a MySQL database.</Text>
        <Search />
        <Card className="mt-6">
          <UsersTable users={users} />

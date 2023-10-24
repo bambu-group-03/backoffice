@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 import {
   Table,
@@ -13,12 +12,12 @@ import {
 
 export interface User {
   id: number;
-  name: string;
+  name?: string;
   firstName: string;
   lastName: string;
   username: string;
   email: string;
-  verified: boolean;
+  verified?: boolean;
   image:string;
   bio?: string;
 }
@@ -37,7 +36,7 @@ export default function UsersTable({ users }: { users: User[] }) {
       <TableBody>
         {users.map((user) => (
           <TableRow key={user.id}>
-            <TableCell>{user.name}</TableCell>
+            <TableCell>{user.firstName} {user.lastName}</TableCell>
             <TableCell>
               <Text>{user.username}</Text>
             </TableCell>
