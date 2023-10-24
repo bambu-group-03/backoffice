@@ -75,11 +75,14 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               <h1 className="text-2xl font-semibold text-black truncate">
                 {user.firstName} {user.lastName}
               </h1>
+              <h2 className="text-sm font-mono text-gray-400 truncate">
+                @{user.username}
+              </h2>
               {user.verified && (
                 <CheckInCircleIcon className="w-6 h-6 text-[#0070F3]" />
               )}
             </div>
-            {user.verified ? (
+            {/* {user.verified ? (
               <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                 <a
                   href={`https://github.com/${user.username}`}
@@ -88,7 +91,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                   className="inline-flex justify-center px-4 py-2 border border-gray-800 hover:border-white shadow-sm text-sm font-medium rounded-md text-black font-mono bg-black focus:outline-none focus:ring-0 transition-all"
                 >
                   <GitHubIcon className="mr-3 h-5 w-5 text-black" />
-                  <span>View GitHub Profile</span>
+                  <span>More info</span>
                 </a>
               </div>
             ) : (
@@ -103,7 +106,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                   <span>Demo Account</span>
                 </a>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -116,11 +119,11 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               {tabs.map((tab) => (
                 <button
                   key={tab.name}
-                  disabled={tab.name !== 'Profile'}
+                  //disabled={tab.name !== 'Profile'}
                   className={`${
                     tab.name === 'Profile'
                       ? 'border-white text-black'
-                      : 'border-transparent text-gray-400 cursor-not-allowed'
+                      : 'border-transparent text-gray-400 '
                   }
                     whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm font-mono`}
                 >
