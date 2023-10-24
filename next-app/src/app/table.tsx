@@ -15,12 +15,12 @@ export interface User {
   id: number;
   name: string;
   firstName: string;
+  lastName: string;
   username: string;
   email: string;
   verified: boolean;
   image:string;
   bio?: string;
-  bioMdx: MDXRemoteSerializeResult<Record<string, unknown>>;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {
