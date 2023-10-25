@@ -1,10 +1,9 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { User } from '../table';
 import UserProfile from './userProfile';
 import { fetch_async } from './commun/fetch_async';
-import error from 'next/error';
 import { useEffect, useState } from 'react';
 
 import { BASE_REAL_URL, BASE_TEST_URL } from './commun/urls';

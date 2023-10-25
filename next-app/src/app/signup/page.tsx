@@ -3,7 +3,6 @@ import { useAuthContext } from "@/context/AuthContext";
 import signUp, { register_in_db } from "@/firebase/auth/signUp";
 import error from "next/error";
 import { useRouter } from "next/navigation";
-import result, { name } from "postcss/lib/result";
 import { useEffect, useState } from "react";
 
 function Page(): JSX.Element {
