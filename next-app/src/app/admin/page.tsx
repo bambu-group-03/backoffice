@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import { Card, Text, Title } from '@tremor/react';
 
-import { BASE_TEST_URL, REAL_URL } from '../../app/user/commun/urls';
+import { BASE_TEST_URL, BASE_REAL_URL } from '../../app/user/commun/urls';
 
 import Search from '../../app/search';
 import UsersTable from '../../app/table';
