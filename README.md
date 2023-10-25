@@ -14,7 +14,7 @@
 # in case that you don't create the network yet
 docker network create microservices
 
-cp deploy/.env_template deploy/.env
+cp next-app/.env_template next-app/.env
 ```
 ## Development
 
