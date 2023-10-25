@@ -37,8 +37,7 @@ function Page(): JSX.Element {
     }
 
     if (result !== null){
-      const uid:string = result.user.uid;
-      await register_in_db(email, uid);
+      await register_in_db(email, result.user.uid);
     }
      
     // Sign up successful
