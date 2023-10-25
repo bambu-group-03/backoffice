@@ -1,7 +1,9 @@
 "use client";
 import { useAuthContext } from "@/context/AuthContext";
-import signUp from "@/firebase/auth/signUp";
+import signUp, { register_in_db } from "@/firebase/auth/signUp";
+import error from "next/error";
 import { useRouter } from "next/navigation";
+import result, { name } from "postcss/lib/result";
 import { useEffect, useState } from "react";
 
 function Page(): JSX.Element {
@@ -30,15 +32,21 @@ function Page(): JSX.Element {
     if (error) {
       // Display and log any sign-up errors
       console.log(error);
+      alert(error.message);
       return;
     }
 
+    if (result !== null){
+      const uid:string = result.user.uid;
+      await register_in_db(email, uid);
+    }
+     
     // Sign up successful
     console.log(result);
 
     // Redirect to the admin page
     router.push("/admin");
-  };
+    };
 
   return (
     <div className="flex justify-center items-center h-screen text-black">
@@ -76,7 +84,7 @@ function Page(): JSX.Element {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white font-semibold py-2 rounded"
-            onClick={async () => signUp(email, password)}
+            onClick={async () => console.log("sign up")}
           >
             Sign up
           </button>
