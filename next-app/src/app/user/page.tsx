@@ -3,30 +3,42 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { User } from '../table';
 import UserProfile from './userProfile';
-
-const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
+import { fetch_async } from './commun/fetch_async';
+import error from 'next/error';
+import { useEffect, useState } from 'react';
 
 
 const ProfilePage = async () => {
-  //const router = useRouter();
+
+  let [user, setUser] = useState({
+    id: 1,
+    name: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    verified: true,
+    image:"",
+    bio: "",
+  });
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  //const { id } = router.query;
 
   const query = `${pathname}?${searchParams}`
 
   const url = `https://dummyjson.com/users/${searchParams?.toString().slice(-1)}`; //"https://dummyjson.com/users/1";
 
 
-  const res = await fetch(url, {
-    next: { revalidate: REFRESH_INTERVAL },
-  });
+  useEffect(() => {
+    const fetchPost = async () => {
+      let data: User = await fetch_async(url); 
+      setUser(data);
+    };
+    fetchPost();
+  }, []);
 
-  const user:User = await res.json();
-
-  //console.log('res', res);
-
+  
   return (
     <UserProfile settings={false} user={user} />
   );
