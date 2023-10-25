@@ -10,24 +10,18 @@ import { useEffect, useState } from 'react';
 
 const ProfilePage = async () => {
 
-  let [user, setUser] = useState({
-    id: 1,
-    name: "",
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    verified: true,
-    image:"",
-    bio: "",
-  });
+  let [user, setUser] = useState({});
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const query = `${pathname}?${searchParams}`
 
-  const url = `https://dummyjson.com/users/${searchParams?.toString().slice(-1)}`; //"https://dummyjson.com/users/1";
+  const url = `http://localhost:8000/api/auth/users/${searchParams?.toString()
+                  .split("=")[1]}`; //"http://localhost:8000/api/auth/users/string";
+
+
+  console.log('url', url);
 
 
   useEffect(() => {

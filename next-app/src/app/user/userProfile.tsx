@@ -15,6 +15,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { getGradient } from '@/components/lib/gradient';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
+
 export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
 export default function UsersTable({ settings, user }: {  settings?: boolean, user: User }) {
@@ -23,8 +25,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
   const [saving, setSaving] = useState(false);
 
   const [data, setData] = useState({
-    username: user.username,
-    image: user.image,
+    username: user.username || 'default',
+    image: user.image || DEFAULT_IMG_LINK,
     bio: user.bio || 'No Bio provided',
   });
 
@@ -47,7 +49,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       <div>
         <div
           className={`h-48 w-full lg:h-64 
-          ${getGradient(user.username)}`}
+          ${getGradient(data.username)}`}
         />
         <div
           className={`${profileWidth} -mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5`}
@@ -64,7 +66,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               </button>
             )} */}
             <BlurImage
-              src={user.image}
+              src={data.image}
               alt={user.name}
               width={300}
               height={300}
@@ -76,7 +78,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                 {user.firstName} {user.lastName}
               </h1>
               <h2 className="text-sm font-mono text-gray-400 truncate">
-                @{user.username}
+                @{data.username}
               </h2>
               {user.verified && (
                 <CheckInCircleIcon className="w-6 h-6 text-[#0070F3]" />
@@ -85,7 +87,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             {/* {user.verified ? (
               <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                 <a
-                  href={`https://github.com/${user.username}`}
+                  href={`https://github.com/${data.username}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex justify-center px-4 py-2 border border-gray-800 hover:border-white shadow-sm text-sm font-medium rounded-md text-black font-mono bg-black focus:outline-none focus:ring-0 transition-all"
@@ -182,13 +184,13 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               <CheckIcon className="h-4 w-4 text-black" />
             )}
           </button>
-          <Link href={`/${user.username}`} shallow replace scroll={false}>
+          <Link href={`/${data.username}`} shallow replace scroll={false}>
             <a className="rounded-full border border-gray-800 hover:border-white w-12 h-12 flex justify-center items-center transition-all">
               <XIcon className="h-4 w-4 text-black" />
             </a>
           </Link>
         </div>
-      ) : session?.username === user.username ? (
+      ) : session?.username === data.username ? (
         <Link
           href={{ query: { settings: true } }}
           as="/settings"
