@@ -2,7 +2,7 @@
 import { useAuthContext } from "@/context/AuthContext";
 import logOut from "@/firebase/auth/signOut";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Card, Text, Title } from '@tremor/react';
 
@@ -11,15 +11,32 @@ import Search from '../../app/search';
 import type { User } from '../../app/table';
 import UsersTable from '../../app/table';
 import { url } from "inspector";
+import error from "next/error";
 
 const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 
 export const dynamic = 'force-dynamic';
 
+export async function fetch_async(url:string){
+  let data:any = null;
+  try{
+      const response = await fetch(url, {
+        next: { revalidate: REFRESH_INTERVAL },
+      });
+      data = await response.json();
+  }catch(error){
+      throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
+  }
+
+  return data;
+} 
+
 async function getData() {
   //const url =  'https://jsonplaceholder.typicode.com/users';
   const url = "https://dummyjson.com/users";
   //const url = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/users?limit=10&offset=0'
+  //const url = "http://localhost:8000/api/auth/users?limit=10&offset=0"
+
   const res = await fetch(url, {
     next: { revalidate: REFRESH_INTERVAL },
   });
@@ -32,7 +49,7 @@ async function getData() {
 
   const data = await res.json();
 
-  return data.users
+  return data
 }
 
 async function logOutAccount(event: { preventDefault: () => void }) {
@@ -57,6 +74,7 @@ async function Page({
   
   const { user } = useAuthContext() as { user: any };
   const router = useRouter();
+  let [users, setUsers] = useState([]);
 
   useEffect( () => {
     
@@ -66,7 +84,23 @@ async function Page({
     }
   }, [ user, router ] );
 
-  const users: User[] = await getData();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const url = "http://localhost:8000/api/auth/users?limit=10&offset=0";
+
+      let data: any = await fetch_async(url); // Espera a obtener la respuesta para avanzar
+
+      if (data === null) {
+        throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
+      }
+
+      setUsers(data);
+    };
+    fetchPost(); // Como es una funcion, debe ser llamada
+  }, []);
+
+  //const users: User[] = await getData();
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
