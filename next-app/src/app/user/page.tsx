@@ -7,6 +7,8 @@ import { fetch_async } from './commun/fetch_async';
 import error from 'next/error';
 import { useEffect, useState } from 'react';
 
+import { REAL_URL, BASE_TEST_URL } from './commun/urls';
+
 
 const ProfilePage = async () => {
 
@@ -17,9 +19,10 @@ const ProfilePage = async () => {
 
   const query = `${pathname}?${searchParams}`
 
-  const url = `http://localhost:8000/api/auth/users/${searchParams?.toString()
-                  .split("=")[1]}`; //"http://localhost:8000/api/auth/users/string";
-
+  //const url = `http://localhost:8000/api/auth/users/${searchParams?.toString().split("=")[1]}`;
+                   
+  const url = BASE_TEST_URL + "users/" + searchParams?.toString().split("=")[1];
+     
 
   console.log('url', url);
 

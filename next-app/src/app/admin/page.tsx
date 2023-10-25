@@ -6,21 +6,11 @@ import { useEffect, useState } from "react";
 
 import { Card, Text, Title } from '@tremor/react';
 
+import { BASE_TEST_URL, REAL_URL } from '../../app/user/commun/urls';
 
 import Search from '../../app/search';
-import type { User } from '../../app/table';
 import UsersTable from '../../app/table';
-import error from "next/error";
 import { fetch_async } from "../user/commun/fetch_async";
-
-
-const TEST_URL = "http://localhost:8000/api/auth/users?limit=10&offset=0";
-const REAL_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/users?limit=10&offset=0';
-
-// Other userfull URL
-//const url =  'https://jsonplaceholder.typicode.com/users';
-const DUMMY_URL = "https://dummyjson.com/users";
-
 
 export const dynamic = 'force-dynamic';
 
@@ -61,7 +51,7 @@ async function Page({
   // Load data
   useEffect(() => {
     const fetchPost = async () => {
-      const url = TEST_URL;
+      const url = BASE_TEST_URL + "users?limit=10&offset=0";
       let data: [] = await fetch_async(url);
       setUsers(data);
     };

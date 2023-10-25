@@ -15,7 +15,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { getGradient } from '@/components/lib/gradient';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
+import { DEFAULT_IMG_LINK } from './commun/urls';
+
+
 
 export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
