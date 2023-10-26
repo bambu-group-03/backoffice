@@ -1,3 +1,4 @@
+import { AuthContextProvider } from '@/context/AuthContext';
 import '@/styles/globals.css';
 
 import { Suspense } from 'react';
@@ -20,7 +21,10 @@ export default async function RootLayout({
         <Suspense>
           <Nav />
         </Suspense>
-        {children}
+        <AuthContextProvider>
+          {children}
+        </AuthContextProvider>
+        
       </body>
     </html>
   );
