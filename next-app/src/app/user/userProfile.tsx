@@ -1,29 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { User } from '../table';
-import {
-  CheckInCircleIcon,
-  CheckIcon,
-  EditIcon,
-  GitHubIcon,
-  LoadingDots,
-  UploadIcon,
-  XIcon,
-  BlurImage
-} from '@/components/icons';
-//import { MDXRemote } from 'next-mdx-remote';
+import { usePathname, useSearchParams } from 'next/navigation';
+import React, { useState } from 'react';
+// import { MDXRemote } from 'next-mdx-remote';
 import TextareaAutosize from 'react-textarea-autosize';
+
+import { BlurImage, CheckInCircleIcon } from '@/components/icons';
 import { getGradient } from '@/components/lib/gradient';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import type { User } from '../table';
 import { DEFAULT_IMG_LINK } from './commun/urls';
-
-
 
 export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
-export default function UsersTable({ settings, user }: {  settings?: boolean, user: User }) {
-
-  
+export default function UsersTable({
+  settings,
+  user,
+}: {
+  settings?: boolean;
+  user: User;
+}) {
   const [saving, setSaving] = useState(false);
 
   const [data, setData] = useState({
@@ -32,21 +26,16 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
     bio: user.bio || 'No Bio provided',
   });
 
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const [error, setError] = useState('');
 
- 
-
   const settingsPage =
     settings ||
     (searchParams.get('settings') === 'true' && pathname === '/settings');
 
-
   return (
-
     <div className="min-h-screen pb-20">
       <div>
         <div
@@ -56,7 +45,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         <div
           className={`${profileWidth} -mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5`}
         >
-          <div className="relative group h-24 w-24 rounded-full overflow-hidden sm:h-32 sm:w-32">
+          <div className="group relative h-24 w-24 overflow-hidden rounded-full sm:h-32 sm:w-32">
             {/* {settingsPage && (
               <button
                 className="absolute bg-gray-800 bg-opacity-50 hover:bg-opacity-70 w-full h-full z-10 transition-all flex items-center justify-center"
@@ -74,16 +63,16 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               height={300}
             />
           </div>
-          <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+          <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div className="flex min-w-0 flex-1 items-center space-x-2">
-              <h1 className="text-2xl font-semibold text-black truncate">
+              <h1 className="truncate text-2xl font-semibold text-black">
                 {user.firstName} {user.lastName}
               </h1>
-              <h2 className="text-sm font-mono text-gray-400 truncate">
+              <h2 className="truncate font-mono text-sm text-gray-400">
                 @{data.username}
               </h2>
               {user.verified && (
-                <CheckInCircleIcon className="w-6 h-6 text-[#0070F3]" />
+                <CheckInCircleIcon className="h-6 w-6 text-[#0070F3]" />
               )}
             </div>
             {/* {user.verified ? (
@@ -123,13 +112,13 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               {tabs.map((tab) => (
                 <button
                   key={tab.name}
-                  //disabled={tab.name !== 'Profile'}
+                  // disabled={tab.name !== 'Profile'}
                   className={`${
                     tab.name === 'Profile'
                       ? 'border-white text-black'
                       : 'border-transparent text-gray-400 '
                   }
-                    whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm font-mono`}
+                    whitespace-nowrap border-b-2 px-1 py-3 font-mono text-sm font-medium`}
                 >
                   {tab.name}
                 </button>
@@ -141,29 +130,29 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
       {/* Bio */}
       <div className={`${profileWidth} mt-16`}>
-        <h2 className="font-semibold font-mono text-2xl text-black">Bio</h2>
+        <h2 className="font-mono text-2xl font-semibold text-black">Bio</h2>
         {settingsPage ? (
           <>
             <TextareaAutosize
               name="description"
-              onInput={(e:any) => {
+              onInput={(e: any) => {
                 setData({
                   ...data,
-                  bio: (e.target as HTMLTextAreaElement).value
+                  bio: (e.target as HTMLTextAreaElement).value,
                 });
               }}
-              className="mt-1 w-full max-w-2xl px-0 text-sm tracking-wider leading-6 text-black bg-black font-mono border-0 border-b border-gray-800 focus:border-white resize-none focus:outline-none focus:ring-0"
+              className="mt-1 w-full max-w-2xl resize-none border-0 border-b border-gray-800 bg-black px-0 font-mono text-sm leading-6 tracking-wider text-black focus:border-white focus:outline-none focus:ring-0"
               placeholder="Enter a short bio about yourself... (Markdown supported)"
               value={data.bio}
             />
-            <div className="flex justify-end w-full max-w-2xl">
-              <p className="text-gray-400 font-mono text-sm">
+            <div className="flex w-full max-w-2xl justify-end">
+              <p className="font-mono text-sm text-gray-400">
                 {data.bio.length}/256
               </p>
             </div>
           </>
         ) : (
-          <article className="mt-3 max-w-2xl text-sm tracking-wider leading-6 text-black font-mono prose prose-headings:text-black prose-a:text-black">
+          <article className="prose prose-headings:text-black prose-a:text-black mt-3 max-w-2xl font-mono text-sm leading-6 tracking-wider text-black">
             <p className="text-gray-400">{data.bio}</p>
           </article>
         )}

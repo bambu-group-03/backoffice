@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation';
 
-export default async function IndexPage(){
+export default async function IndexPage() {
   redirect('/admin');
 }
-
 
 // IndexPage({
 //   searchParams,
@@ -30,4 +29,4 @@ export default async function IndexPage(){
 //       </Card>
 //     </main>
 //   );
-//}
+// }
