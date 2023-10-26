@@ -9,7 +9,7 @@ import logOut from '@/firebase/auth/signOut';
 
 import Search from '../search';
 import UsersTable from '../table';
-import { fetch_async } from '../user/commun/fetch_async';
+import { fetchAsync } from '../user/commun/fetch_async';
 import { BASE_TEST_URL } from '../user/commun/urls';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 async function logOutAccount(event: { preventDefault: () => void }) {
   event.preventDefault();
 
-  const { result, error } = await logOut();
+  const { error } = await logOut();
   if (error) {
     console.log(error);
   }
@@ -42,7 +42,7 @@ async function Page({ searchParams }: { searchParams: { q: string } }) {
   useEffect(() => {
     const fetchPost = async () => {
       const url = `${BASE_TEST_URL}users?limit=10&offset=0`;
-      const data: [] = await fetch_async(url);
+      const data: [] = await fetchAsync(url);
       setUsers(data);
     };
     fetchPost();
@@ -63,7 +63,7 @@ async function Page({ searchParams }: { searchParams: { q: string } }) {
       </Card>
 
       <div className="flex bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
-        <button onClick={logOutAccount}>LogOut</button>
+        <Button onClick={logOutAccount}>LogOut</Button>
       </div>
     </main>
   );

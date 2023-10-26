@@ -39,7 +39,7 @@ const registerIntoDb = async (
   return res;
 };
 
-export async function register_in_db(email: string, id: string) {
+export async function registerInDb(email: string, id: string) {
   try {
     const result = await registerIntoDb(email.split('@')[0], email, id);
 

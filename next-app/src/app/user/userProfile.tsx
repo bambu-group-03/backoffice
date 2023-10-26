@@ -1,3 +1,4 @@
+import { Button } from '@tremor/react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 // import { MDXRemote } from 'next-mdx-remote';
@@ -18,7 +19,12 @@ export default function UsersTable({
   settings?: boolean;
   user: User;
 }) {
-  const [saving, setSaving] = useState(false);
+  const tabs = [
+    { name: 'Profile' },
+    { name: 'Tweets' },
+    { name: 'Following' },
+    { name: 'Followers' },
+  ];
 
   const [data, setData] = useState({
     username: user.username || 'default',
@@ -28,8 +34,6 @@ export default function UsersTable({
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
-  const [error, setError] = useState('');
 
   const settingsPage =
     settings ||
@@ -58,7 +62,7 @@ export default function UsersTable({
             )} */}
             <BlurImage
               src={data.image}
-              alt={user.name}
+              alt={user?.name || "User's profile picture"}
               width={300}
               height={300}
             />
@@ -110,7 +114,7 @@ export default function UsersTable({
           <div className={`${profileWidth} mt-10`}>
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
               {tabs.map((tab) => (
-                <button
+                <Button
                   key={tab.name}
                   // disabled={tab.name !== 'Profile'}
                   className={`${
@@ -121,7 +125,7 @@ export default function UsersTable({
                     whitespace-nowrap border-b-2 px-1 py-3 font-mono text-sm font-medium`}
                 >
                   {tab.name}
-                </button>
+                </Button>
               ))}
             </nav>
           </div>
@@ -197,10 +201,3 @@ export default function UsersTable({
     </div>
   );
 }
-
-const tabs = [
-  { name: 'Profile' },
-  { name: 'Tweets' },
-  { name: 'Following' },
-  { name: 'Followers' },
-];

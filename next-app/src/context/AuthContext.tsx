@@ -3,7 +3,7 @@
 import type { User } from 'firebase/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import type { ReactNode } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 import firebaseApp from '@/firebase/config';
 
@@ -28,10 +28,10 @@ export function AuthContextProvider({
 
   useEffect(() => {
     // Subscribe to the authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, (userOnChange) => {
+      if (userOnChange) {
         // User is signed in
-        setUser(user);
+        setUser(userOnChange);
       } else {
         // User is signed out
         setUser(null);
@@ -44,8 +44,10 @@ export function AuthContextProvider({
     return () => unsubscribe();
   }, []);
 
+  const authContextValue = useMemo(() => ({ user }), [user]);
+
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={authContextValue}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );

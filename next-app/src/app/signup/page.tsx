@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useAuthContext } from '@/context/AuthContext';
-import signUp, { register_in_db } from '@/firebase/auth/signUp';
+import signUp, { registerInDb } from '@/firebase/auth/signUp';
 
 function Page(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ function Page(): JSX.Element {
     }
 
     if (result !== null) {
-      await register_in_db(email, result.user.uid);
+      await registerInDb(email, result.user.uid);
     }
 
     // Sign up successful

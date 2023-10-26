@@ -1,6 +1,6 @@
 const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 
-export async function fetch_async(url: string) {
+export async function fetchAsync(url: string) {
   let data: any = null;
   try {
     const response = await fetch(url, {
