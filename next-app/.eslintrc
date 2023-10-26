@@ -67,7 +67,20 @@
 					"error",
 					{ "argsIgnorePattern": "^_" }
 				],
-				"@next/next/no-async-client-component": "off"
+				"@next/next/no-async-client-component": "off",
+				"no-console": "off",
+				"no-alert": "off",
+				"jsx-a11y/label-has-associated-control": [
+					"error",
+					{
+						"required": {
+							"some": ["nesting", "id"]
+						}
+					}
+				],
+				"no-bitwise": "off",
+				"no-plusplus": "off",
+				"@typescript-eslint/default-param-last": "off"
 			}
 		},
 		// Configuration for testing
