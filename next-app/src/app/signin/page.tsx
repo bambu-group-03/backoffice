@@ -23,7 +23,7 @@ function Page(): JSX.Element {
     // Sign in successful
     console.log( result );
 
-    router.push( "/admin" );
+    router.push( "/" );
   }
 
   return (

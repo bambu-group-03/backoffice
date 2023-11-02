@@ -1,4 +1,5 @@
 "use client";
+
 import { useAuthContext } from "@/context/AuthContext";
 import signUp, { register_in_db } from "@/firebase/auth/signUp";
 import { useRouter } from "next/navigation";
@@ -41,8 +42,8 @@ function Page(): JSX.Element {
     // Sign up successful
     console.log(result);
 
-    // Redirect to the admin page
-    router.push("/admin");
+    // Redirect to the main page
+    router.push("/");
     };
 
   return (

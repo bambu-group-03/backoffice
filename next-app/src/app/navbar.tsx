@@ -11,7 +11,8 @@ import { Fragment } from 'react';
 const navigation = [
   { name: 'Users', href: '/' },
   { name: 'Snaps', href: '/snaps'},
-  { name: 'Playground', href: '/playground' },
+  { name: 'Admin', href: '/admin'},
+  { name: 'Statistics', href: '/playground' } 
 ];
 
 function classNames(...classes: string[]) {
