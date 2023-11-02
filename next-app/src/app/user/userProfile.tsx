@@ -18,7 +18,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Switch } from '@headlessui/react'
 import Image from 'next/image';
 
-import { BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
+import { BASE_REAL_URL, BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
 import { fetch_async } from './commun/fetch_async';
@@ -37,8 +37,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
   const [saving, setSaving] = useState(false);
 
   const [data, setData] = useState({
-    firstName: user.firstName || 'Pepito',
-    lastName: user.lastName || 'Ramirez',
+    firstName: user.first_name || 'Pepito',
+    lastName: user.last_name || 'Ramirez',
     username: user.username || 'soyPepito',
     image: user.image || DEFAULT_IMG_LINK,
     bio: user.bio || 'No Bio provided',
@@ -88,7 +88,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
         const fetchFollowing = async () => {
           //const url = "http://localhost:8000/api/auth/string_1/following"
-          const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
+          const url = BASE_REAL_URL + "api/auth/" + user.id + "/following"; 
           let following_received: [] = await fetch_async(url); 
           setFollowing(following_received);
         };
@@ -101,7 +101,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
         const fetchFollowers = async () => {
           //const url = "http://localhost:8000/api/auth/string_1/followers"
-          const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
+          const url = BASE_REAL_URL + "api/auth/" + user.id + "/followers"; 
           let followers_received: [] = await fetch_async(url); 
           setFollowers(followers_received);
         };

@@ -18,7 +18,7 @@ const ProfilePage = async () => {
 
   //const query = `${pathname}?${searchParams}`
                    
-  const url = BASE_TEST_URL + "users/" + searchParams?.toString().split("=")[1];
+  const url = BASE_REAL_URL + "users/" + searchParams?.toString().split("=")[1];
 
   useEffect(() => {
     const fetchUsers = async () => {

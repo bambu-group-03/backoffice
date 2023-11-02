@@ -52,7 +52,7 @@ async function Page({
   // Load data
   useEffect(() => {
     const fetchData = async () => {
-      const url = BASE_TEST_URL + "users?limit=10&offset=0";
+      const url = BASE_REAL_URL + "users?limit=10&offset=0";
       let data: [] = await fetch_async(url);
       setUsers(data);
     };
@@ -62,18 +62,10 @@ async function Page({
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
-
-      {/* <div className="flex  bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
-        <button onClick={() => router.push( "/signup" )}>Create Admin Account</button>
-      </div> */}
-      
-     
-       {/* <Title>Users</Title> */}
        <Search />
        <Card className="mt-6">
          <UsersTable users={users} />
        </Card>     
-    
     </main>
   );
 }

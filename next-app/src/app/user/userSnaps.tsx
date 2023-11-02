@@ -3,7 +3,6 @@ import { Switch } from '@headlessui/react'
 import { profileWidth } from "./userProfile";
 import Link from "next/link";
 import { useState } from "react";
-import MODERN_BROWSERSLIST_TARGET from "next/dist/shared/lib/modern-browserslist-target";
 
 export interface Snap {
   id: number;

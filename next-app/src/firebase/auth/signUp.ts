@@ -11,7 +11,7 @@ const registerIntoDb = async (name = 'ANONIM_ADMIN', email: string, id: string) 
   let res = null;
 
   // 'http://10.0.2.2:8000/api/auth/create_admin'
-  const url = BASE_TEST_URL + 'create_admin'; // 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/create_admin';
+  const url = BASE_REAL_URL + 'create_admin'; // 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/create_admin';
 
   const datos = {
     id: id,

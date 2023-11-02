@@ -7,7 +7,6 @@ import type { DefaultSession } from 'next-auth';
 import { Fragment, useEffect, useState } from 'react';
 
 import logOut from '@/firebase/auth/signOut';
-import { signOut } from 'firebase/auth';
 
 const navigation = [
   { name: 'Users', href: '/' },
