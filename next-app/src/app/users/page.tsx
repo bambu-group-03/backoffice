@@ -73,10 +73,7 @@ async function Page({
        <Card className="mt-6">
          <UsersTable users={users} />
        </Card>     
-      
-      <div className="flex bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
-        <button onClick={logOutAccount}>LogOut</button>
-      </div>
+    
     </main>
   );
 }
