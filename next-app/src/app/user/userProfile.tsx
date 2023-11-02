@@ -46,16 +46,20 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
     username: '',
     image: "",
     bio: '',
+    user_blocked: false,
+    user_verified: false,
   });
 
   useEffect(() => {
       setData(
         {
-          firstName: user.first_name || 'Pepito',
-          lastName: user.last_name || 'Ramirez',
-          username: user.username || 'soyPepito',
+          firstName: user?.first_name || 'Anonymous',
+          lastName: user?.last_name || '',
+          username: user?.username || 'anon',
           image: user?.profile_photo_id || DEFAULT_IMG_LINK,
-          bio: user.bio_msg || 'No Bio provided',
+          bio: user?.bio_msg || 'No Bio provided',
+          user_blocked: user?.blocked || false,
+          user_verified: user?.verified || false,
         }
       );
     
@@ -158,7 +162,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             )} */}
             <BlurImage
               src={data.image}
-              alt={user.name}
+              alt={data.firstName}
               width={300}
               height={300}
             />
@@ -171,7 +175,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               <h2 className="text-sm font-mono text-gray-400 truncate">
                 @{data.username}
               </h2>
-              {user.verified && (
+              {data.user_verified && (
                 <CheckInCircleIcon className="w-6 h-6 text-[#0070F3]" />
               )}
             </div>
