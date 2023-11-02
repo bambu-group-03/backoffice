@@ -25,6 +25,7 @@ import { fetch_async } from './commun/fetch_async';
 import { url } from 'inspector';
 import { Card, Text, Title } from '@tremor/react';
 import SnapTable from './userSnaps';
+import UsersInteractionTable from './userInteractions';
 
 
 
@@ -302,7 +303,6 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
 
-
             <Card className="mt-6">
             <SnapTable snaps={snaps}></SnapTable>
             </Card> 
@@ -312,7 +312,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
-            { following.length > 0 ? 
+            {/* { following.length > 0 ? 
                 following.map((follow) => (
                 <div className={`${profileWidth} mt-10`}>
                   {follow}
@@ -320,7 +320,13 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               ) ): <div className={`${profileWidth} mt-10`}>
                 {"No following"}
               </div>
-            }
+            } */}
+
+
+            <Card className="mt-6">
+              <UsersInteractionTable users={following} interaction='following'></UsersInteractionTable>
+            </Card> 
+            
           </div>
           
         </Tab.Panel>
@@ -328,7 +334,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         <Tab.Panel>
 
         <div className={`${profileWidth} mt-10`}>
-            
+{/*             
             { followers.length > 0 ? 
               followers.map((follow) => (
                 <div className={`${profileWidth} mt-10`}>
@@ -338,7 +344,10 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             <div className={`${profileWidth} mt-10`}>
               {"No followers"}
               </div>
-              }
+              } */}
+            <Card className="mt-6">
+              <UsersInteractionTable users={followers} interaction='followers'></UsersInteractionTable>
+            </Card>
           </div>
         
         </Tab.Panel>
@@ -390,10 +399,3 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
     </div>
   );
 }
-
-const tabs = [
-  { name: 'Profile' },
-  { name: 'Snaps' },
-  { name: 'Following' },
-  { name: 'Followers' },
-];

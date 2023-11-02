@@ -32,8 +32,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             </div>
           :
 
-          snaps.map((snap:Snap) => (
-            
+          snaps.map((snap:Snap) => (            
 
             <TableRow key={snap.id}>
               
