@@ -1,14 +1,13 @@
 'use client';
 
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import type { DefaultSession } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
 import { Fragment, useEffect, useState } from 'react';
 
 import logOut from '@/firebase/auth/signOut';
+import { signOut } from 'firebase/auth';
 
 const navigation = [
   { name: 'Users', href: '/' },
@@ -30,6 +29,8 @@ async function logOutAccount(event: { preventDefault: () => void }) {
     console.log(error)
     return
   }
+
+  
 }
 
 export default function Navbar({ user }: { user: DefaultSession['user'] }) {
@@ -72,9 +73,14 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 
-                <Menu as="div" className="relative ml-3">
+                <Menu as="div" className="relative ml-3"
+                  
+                >
                   <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                    disabled={user?false:true}
+                    
+                    >
                       <span className="sr-only">Open user menu</span>
 
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
@@ -92,16 +98,20 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
-                      {/* {user ? (
+                      {user ? (
                         <Menu.Item>
-                          {({ active }) => (
+                          {({ active, close }) => (
                             <button
                               type="button"
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'flex w-full px-4 py-2 text-sm text-gray-700',
                               )}
-                              onClick={() => signOut()}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                logOutAccount(e);
+                                close();
+                            }}
                             >
                               Sign out
                             </button>
@@ -116,15 +126,17 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                                 active ? 'bg-gray-100' : '',
                                 'flex w-full px-4 py-2 text-sm text-gray-700',
                               )}
-                              onClick={() => signIn('github')}
+                              onClick={() => console.log(user)}
                             >
                               Sign in
                             </button>
                           )}
                         </Menu.Item>
-                      )} */}
+                      )}
 
-                        <Menu.Item>
+                      
+
+                        {/* <Menu.Item>
                           {({ active }) => (
                             <button
                               type="button"
@@ -137,7 +149,7 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                               Sign out
                             </button>
                           )}
-                        </Menu.Item>
+                        </Menu.Item> */}
 
                     </Menu.Items>
                   </Transition>

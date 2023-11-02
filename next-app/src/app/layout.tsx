@@ -18,10 +18,10 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
-        <Suspense>
-          <Nav />
-        </Suspense>
         <AuthContextProvider>
+          <Suspense>
+            <Nav />
+          </Suspense>
           {children}
         </AuthContextProvider>
         

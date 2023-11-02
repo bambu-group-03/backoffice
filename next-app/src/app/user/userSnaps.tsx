@@ -6,13 +6,13 @@ import { useState } from "react";
 
 export interface Snap {
   id: number;
+  user_id: number;
   author: string;
   content:string;
 }
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
- 
 
   return (
     <Table>
@@ -39,8 +39,11 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             return (     
 
             <TableRow key={snap.id}>
-              
-              <TableCell>{snap.author}</TableCell>
+              <TableCell>
+                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700">
+                  <span className="link"> @{snap.user_id}</span>
+                </Link>
+              </TableCell>
               
               <TableCell>
                 <Text>{snap.content}</Text>
