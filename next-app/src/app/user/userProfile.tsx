@@ -18,7 +18,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Switch } from '@headlessui/react'
 import Image from 'next/image';
 
-import { BASE_TEST_URL } from '../../app/user/commun/urls';
+import { BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
 import { fetch_async } from './commun/fetch_async';
@@ -73,8 +73,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         console.log("user.id: " + user.id);
 
         const fetchSnaps = async () => {
-          const url = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/?user_id=string_1&limit=10&offset=0"
-          //const url = BASE_TWEETS_URL + "?user_id=" + user.id + "&limit=10&offset=0"; // TODO
+          //const url = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/?user_id=string_1&limit=10&offset=0"
+          const url = BASE_TWEET_URL + "?user_id=" + user.id + "&limit=10&offset=0";
           let snaps_received: [] = await fetch_async(url); 
           setSnaps(snaps_received.snaps);
         };
@@ -86,8 +86,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       case 2: // GET user following
 
         const fetchFollowing = async () => {
-          //const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
-          const url = "http://localhost:8000/api/auth/string_1/following"
+          //const url = "http://localhost:8000/api/auth/string_1/following"
+          const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
           let following_received: [] = await fetch_async(url); 
           setFollowing(following_received);
         };
@@ -99,8 +99,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       case 3: // GET user followers
 
         const fetchFollowers = async () => {
-          //const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
-          const url = "http://localhost:8000/api/auth/string_1/followers"
+          //const url = "http://localhost:8000/api/auth/string_1/followers"
+          const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
           let followers_received: [] = await fetch_async(url); 
           setFollowers(followers_received);
         };

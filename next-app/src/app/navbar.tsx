@@ -9,7 +9,8 @@ import { signIn, signOut } from 'next-auth/react';
 import { Fragment } from 'react';
 
 const navigation = [
-  { name: 'Dashboard', href: '/' },
+  { name: 'Users', href: '/' },
+  { name: 'Snaps', href: '/snaps'},
   { name: 'Playground', href: '/playground' },
 ];
 

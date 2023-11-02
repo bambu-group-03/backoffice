@@ -28,13 +28,14 @@ export default function UsersInteractionTable({ users, interaction }: { users: U
       </TableHead>
       <TableBody>
         
-        {users.length === 0 ? 
+
+        {typeof users.length === 'undefined' || users?.length === 0 ? 
             <div className={`${profileWidth} mt-10`}>
             {"No " + interaction}
             </div>
           :
 
-        users.map((user) => (
+        users?.map((user) => (
           <TableRow key={user.id}>
             <TableCell>{user.firstName} {user.lastName}</TableCell>
             <TableCell>
