@@ -12,7 +12,7 @@ export interface Snap {
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
-  const [snapVisible, setSnapVisible] = useState(true);
+ 
 
   return (
     <Table>
@@ -32,7 +32,11 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             </div>
           :
 
-          snaps.map((snap:Snap) => (            
+          snaps.map((snap:Snap) => {
+
+            const [snapVisible, setSnapVisible] = useState(true);
+            
+            return (     
 
             <TableRow key={snap.id}>
               
@@ -66,7 +70,8 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
              
             </TableRow>
 
-            ))}
+            )}
+          )}
       </TableBody>      
     </Table>
   );
