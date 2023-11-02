@@ -84,8 +84,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       case 2: // GET user following
 
         const fetchFollowing = async () => {
-          const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
-          //const url = "http://localhost:8000/api/auth/string/following"
+          //const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
+          const url = "http://localhost:8000/api/auth/string/following"
           let following_received: [] = await fetch_async(url); 
           setFollowing(following_received);
         };
@@ -97,8 +97,8 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       case 3: // GET user followers
 
         const fetchFollowers = async () => {
-          const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
-          //const url = "http://localhost:8000/api/auth/string/following"
+          //const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
+          const url = "http://localhost:8000/api/auth/string/followers"
           let followers_received: [] = await fetch_async(url); 
           setFollowers(followers_received);
         };
