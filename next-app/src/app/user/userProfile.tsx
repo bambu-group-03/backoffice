@@ -33,16 +33,33 @@ export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
 export default function UsersTable({ settings, user }: {  settings?: boolean, user: User }) {
 
+  {
+    console.log("user.profile_photo_id: " + user?.profile_photo_id)
+
+  }
   
   const [saving, setSaving] = useState(false);
 
   const [data, setData] = useState({
-    firstName: user.first_name || 'Pepito',
-    lastName: user.last_name || 'Ramirez',
-    username: user.username || 'soyPepito',
-    image: user.image || DEFAULT_IMG_LINK,
-    bio: user.bio || 'No Bio provided',
+    firstName: '',
+    lastName: '',
+    username: '',
+    image: "",
+    bio: '',
   });
+
+  useEffect(() => {
+      setData(
+        {
+          firstName: user.first_name || 'Pepito',
+          lastName: user.last_name || 'Ramirez',
+          username: user.username || 'soyPepito',
+          image: user?.profile_photo_id || DEFAULT_IMG_LINK,
+          bio: user.bio_msg || 'No Bio provided',
+        }
+      );
+    
+  }, [setData, []]);
 
 
   const searchParams = useSearchParams();

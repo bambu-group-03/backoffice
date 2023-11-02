@@ -11,8 +11,7 @@ export interface Snap {
 }
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
-
-
+  
   return (
     <Table>
       <TableHead>

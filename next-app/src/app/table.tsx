@@ -12,14 +12,15 @@ import {
 
 export interface User {
   id: number;
-  name?: string;
+  email: string;
   first_name: string;
   last_name: string;
   username: string;
-  email: string;
+  phone_number: string;
+  bio_msg: string;
+  profile_photo_id:string;
+  blocked?: boolean;
   verified?: boolean;
-  image:string;
-  bio?: string;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {

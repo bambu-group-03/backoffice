@@ -13,7 +13,6 @@ const ProfilePage = async () => {
 
   let [user, setUser] = useState({});
 
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   //const query = `${pathname}?${searchParams}`
@@ -22,8 +21,8 @@ const ProfilePage = async () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      let data: User = await fetch_async(url); 
-      setUser(data);
+      let user: User = await fetch_async(url); 
+      setUser(user);
     };
     fetchUsers();
   }, []);
