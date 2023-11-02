@@ -23,7 +23,6 @@ export default function UsersInteractionTable({ users, interaction }: { users: U
         <TableRow>
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Username</TableHeaderCell>
-          <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Link</TableHeaderCell>
         </TableRow>
       </TableHead>
@@ -40,9 +39,6 @@ export default function UsersInteractionTable({ users, interaction }: { users: U
             <TableCell>{user.firstName} {user.lastName}</TableCell>
             <TableCell>
               <Text>{user.username}</Text>
-            </TableCell>
-            <TableCell>
-              <Text>{user.email}</Text>
             </TableCell>
             <TableCell>
               <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { User } from '../table';
 import {
   CheckInCircleIcon,
@@ -37,7 +37,9 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
   const [saving, setSaving] = useState(false);
 
   const [data, setData] = useState({
-    username: user.username || 'default',
+    firstName: user.firstName || 'Pepito',
+    lastName: user.lastName || 'Ramirez',
+    username: user.username || 'soyPepito',
     image: user.image || DEFAULT_IMG_LINK,
     bio: user.bio || 'No Bio provided',
   });
@@ -85,7 +87,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
         const fetchFollowing = async () => {
           //const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
-          const url = "http://localhost:8000/api/auth/string/following"
+          const url = "http://localhost:8000/api/auth/string_1/following"
           let following_received: [] = await fetch_async(url); 
           setFollowing(following_received);
         };
@@ -98,7 +100,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
         const fetchFollowers = async () => {
           //const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
-          const url = "http://localhost:8000/api/auth/string/followers"
+          const url = "http://localhost:8000/api/auth/string_1/followers"
           let followers_received: [] = await fetch_async(url); 
           setFollowers(followers_received);
         };
@@ -115,20 +117,11 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
     <div className="min-h-screen pb-20">
       <div>
+
         <div
           className={`h-48 w-full lg:h-20 
           ${getGradient(data.username)}`}
         >
-          {/* {user.coverPhoto}
-          <Image
-            src="/hero-image.webp"
-            alt="Hero Image"
-            priority={true}	
-            loading='eager'
-            fill
-            style={{objectFit:"cover"}}
-            quality={100}
-          /> */}
         </div>
 
         <div
@@ -155,7 +148,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
           <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div className="flex min-w-0 flex-1 items-center space-x-2">
               <h1 className="text-2xl font-semibold text-black truncate">
-                {user.firstName} {user.lastName}
+                {data.firstName} {data.lastName}
               </h1>
               <h2 className="text-sm font-mono text-gray-400 truncate">
                 @{data.username}
@@ -196,6 +189,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               setUserVisible(visibility);
               
               // Pegarle al backend para cambiar la visibilidad del usuario
+
               
             }}
             className={`${
@@ -221,46 +215,65 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         <div className="border-b border-gray-800">
           <div className={`${profileWidth} mt-10`}>
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-              {/* {tabs.map((tab) => (
-                
-                <button
-                  key={tab.name}
-                  //disabled={tab.name !== 'Profile'}
-                  className={`${
-                    tab.name === 'Profile'
-                      ? 'border-white text-black'
-                      : 'border-transparent text-gray-400 '
-                  }
-                    whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm font-mono`}
-                    //onClick={cambiar_data}
-                >
-                  {tab.name}
-                </button>
-              ))} */}
-
           
           <Tab.List>
-            <Tab key={"profile_tab"} 
-              className={
-              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
-              data-headlessui-state="selected"
-              
-              >Profile</Tab>
-            <Tab key={"snaps_tab"} 
-              className={
-              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
-              data-headlessui-state="selected"
-              >Snaps</Tab>
-            <Tab key={"following_tab"}
-              className={
-              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
-              data-headlessui-state="selected"
-              >Following</Tab>
-            <Tab key={"followers_tab"} className={
-              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
-              data-headlessui-state="selected"
-              >Followers</Tab>
-          </Tab.List>
+
+          <Tab  key={"profile_tab"} >
+            {({ selected }) => (
+              <div
+                className={
+                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                   : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                }
+                data-headlessui-state="selected"
+                >
+                Profile
+              </div>
+            )}
+          </Tab>
+
+          <Tab  key={"snaps_tab"} >
+            {({ selected }) => (
+              <div
+                className={
+                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                   : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                }
+                data-headlessui-state="selected"
+                >
+                Snaps
+              </div>
+            )}
+          </Tab>
+
+          <Tab  key={"following_tab"} >
+            {({ selected }) => (
+              <div
+                className={
+                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                   : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                }
+                data-headlessui-state="selected"
+                >
+                Following
+              </div>
+            )}
+          </Tab>
+
+          <Tab  key={"followers_tab"} >
+            {({ selected }) => (
+              <div
+                className={
+                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                   : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                }
+                data-headlessui-state="selected"
+                >
+                Followers
+              </div>
+            )}
+          </Tab>
+        </Tab.List>
             </nav>
           </div>
         </div>
@@ -302,7 +315,6 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
-
             <Card className="mt-6">
             <SnapTable snaps={snaps}></SnapTable>
             </Card> 
@@ -312,47 +324,24 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
       
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
-            {/* { following.length > 0 ? 
-                following.map((follow) => (
-                <div className={`${profileWidth} mt-10`}>
-                  {follow}
-                </div>
-              ) ): <div className={`${profileWidth} mt-10`}>
-                {"No following"}
-              </div>
-            } */}
-
-
             <Card className="mt-6">
               <UsersInteractionTable users={following} interaction='following'></UsersInteractionTable>
             </Card> 
-            
           </div>
           
         </Tab.Panel>
         
         <Tab.Panel>
 
-        <div className={`${profileWidth} mt-10`}>
-{/*             
-            { followers.length > 0 ? 
-              followers.map((follow) => (
-                <div className={`${profileWidth} mt-10`}>
-                {follow}
-                </div>
-                )): 
-            <div className={`${profileWidth} mt-10`}>
-              {"No followers"}
-              </div>
-              } */}
+          <div className={`${profileWidth} mt-10`}>
             <Card className="mt-6">
               <UsersInteractionTable users={followers} interaction='followers'></UsersInteractionTable>
             </Card>
           </div>
-        
-        </Tab.Panel>
-      </Tab.Panels>
 
+        </Tab.Panel>
+
+      </Tab.Panels>
       </div>    
     </Tab.Group>
 
