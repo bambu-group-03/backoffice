@@ -222,7 +222,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             {({ selected }) => (
               <div
                 className={
-                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                  selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                    : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                 }
                 data-headlessui-state="selected"
@@ -236,7 +236,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             {({ selected }) => (
               <div
                 className={
-                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                  selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                    : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                 }
                 data-headlessui-state="selected"
@@ -250,7 +250,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             {({ selected }) => (
               <div
                 className={
-                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                  selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                    : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                 }
                 data-headlessui-state="selected"
@@ -264,7 +264,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             {({ selected }) => (
               <div
                 className={
-                  selected ?  `text-blue-500 bg-black whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                  selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                    : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
                 }
                 data-headlessui-state="selected"
