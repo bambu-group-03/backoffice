@@ -1,7 +1,6 @@
 "use client";
 import { useAuthContext } from "@/context/AuthContext";
 import signUp, { register_in_db } from "@/firebase/auth/signUp";
-import error from "next/error";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

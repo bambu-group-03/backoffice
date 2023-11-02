@@ -11,11 +11,17 @@ import {
   BlurImage
 } from '@/components/icons';
 //import { MDXRemote } from 'next-mdx-remote';
+import { Tab } from '@headlessui/react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { getGradient } from '@/components/lib/gradient';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Switch } from '@headlessui/react'
+import Image from 'next/image';
+
+import { BASE_TEST_URL, BASE_TWEETS_URL } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
+import { fetch_async } from './commun/fetch_async';
 
 
 
@@ -43,7 +49,54 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
   const settingsPage =
     settings ||
     (searchParams.get('settings') === 'true' && pathname === '/settings');
+    
+  const [userVisible, setUserVisible] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [tweets, setTweets] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
+  useEffect(() => {
+
+    switch (selectedIndex) {
+      case 0:
+        // display bio
+        break;
+      case 1:
+
+        const fetchTweets = async () => {
+          const url = BASE_TWEETS_URL + "user/" + user.id; 
+          let tweets: [] = await fetch_async(url); 
+          //setTweets(tweets);
+        };
+        
+        fetchTweets();
+       
+        setTweets( ["Tweet 1", "Tweet 2", "Tweet 3", "Tweet 4"]);
+        break;
+      case 2:
+        // GET user following
+
+        const fetchFollowing = async () => {
+          const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
+          let following: [] = await fetch_async(url); 
+          setFollowing(following);
+        };
+        
+        fetchFollowing();
+
+
+        //setFollowing(["Luis", "Edu", "Dani", "Mafer"]);
+        break;
+      case 3:
+        // GET user following
+        setFollowers(["Luis", "Edu", "Dani", "Mafer"].reverse());
+        break;
+      default:
+        break;
+    }
+
+  }, [selectedIndex, user.id]);
 
   return (
 
@@ -52,7 +105,19 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         <div
           className={`h-48 w-full lg:h-64 
           ${getGradient(data.username)}`}
-        />
+        >
+          {/* {user.coverPhoto}
+          <Image
+            src="/hero-image.webp"
+            alt="Hero Image"
+            priority={true}	
+            loading='eager'
+            fill
+            style={{objectFit:"cover"}}
+            quality={100}
+          /> */}
+        </div>
+
         <div
           className={`${profileWidth} -mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5`}
         >
@@ -111,16 +176,40 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                 </a>
               </div>
             )} */}
+
+        <Switch
+            checked={userVisible}
+            onChange={(visibility) => {
+              setUserVisible(visibility);
+              
+              // Pegarle al backend para cambiar la visibilidad del usuario
+              
+            }}
+            className={`${
+              userVisible ? 'bg-blue-600' : 'bg-gray-200'
+            } relative inline-flex h-6 w-11 items-center rounded-full`}
+          >
+            <span className="sr-only">Enable notifications</span>
+            <span
+              className={`${
+                userVisible ? 'translate-x-6' : 'translate-x-1'
+              } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+            />
+          </Switch>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
+      <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} 
+        onChange={setSelectedIndex}
+      >
       <div className="mt-6 sm:mt-2 2xl:mt-5">
         <div className="border-b border-gray-800">
           <div className={`${profileWidth} mt-10`}>
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-              {tabs.map((tab) => (
+              {/* {tabs.map((tab) => (
+                
                 <button
                   key={tab.name}
                   //disabled={tab.name !== 'Profile'}
@@ -130,44 +219,130 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                       : 'border-transparent text-gray-400 '
                   }
                     whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm font-mono`}
+                    //onClick={cambiar_data}
                 >
                   {tab.name}
                 </button>
-              ))}
+              ))} */}
+
+          
+          <Tab.List>
+            <Tab key={"profile_tab"} 
+              className={
+              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
+              data-headlessui-state="selected"
+              
+              >Profile</Tab>
+            <Tab key={"tweets_tab"} 
+              className={
+              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
+              data-headlessui-state="selected"
+              >Tweets</Tab>
+            <Tab key={"following_tab"}
+              className={
+              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
+              data-headlessui-state="selected"
+              >Following</Tab>
+            <Tab key={"followers_tab"} className={
+              `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
+              data-headlessui-state="selected"
+              >Followers</Tab>
+          </Tab.List>
             </nav>
           </div>
         </div>
-      </div>
 
-      {/* Bio */}
-      <div className={`${profileWidth} mt-16`}>
-        <h2 className="font-semibold font-mono text-2xl text-black">Bio</h2>
-        {settingsPage ? (
-          <>
-            <TextareaAutosize
-              name="description"
-              onInput={(e:any) => {
-                setData({
-                  ...data,
-                  bio: (e.target as HTMLTextAreaElement).value
-                });
-              }}
-              className="mt-1 w-full max-w-2xl px-0 text-sm tracking-wider leading-6 text-black bg-black font-mono border-0 border-b border-gray-800 focus:border-white resize-none focus:outline-none focus:ring-0"
-              placeholder="Enter a short bio about yourself... (Markdown supported)"
-              value={data.bio}
-            />
-            <div className="flex justify-end w-full max-w-2xl">
-              <p className="text-gray-400 font-mono text-sm">
-                {data.bio.length}/256
-              </p>
+      <Tab.Panels>
+        <Tab.Panel>
+            
+               {/* Bio */}
+          <div className={`${profileWidth} mt-10`}>
+            <h2 className="font-semibold font-mono text-2xl text-black">Bio</h2>
+            {settingsPage ? (
+              <>
+                <TextareaAutosize
+                  name="description"
+                  onInput={(e:any) => {
+                    setData({
+                      ...data,
+                      bio: (e.target as HTMLTextAreaElement).value
+                    });
+                  }}
+                  className="mt-1 w-full max-w-2xl px-0 text-sm tracking-wider leading-6 text-black bg-black font-mono border-0 border-b border-gray-800 focus:border-white resize-none focus:outline-none focus:ring-0"
+                  placeholder="Enter a short bio about yourself... (Markdown supported)"
+                  value={data.bio}
+                />
+                <div className="flex justify-end w-full max-w-2xl">
+                  <p className="text-gray-400 font-mono text-sm">
+                    {data.bio.length}/256
+                  </p>
+                </div>
+              </>
+            ) : (
+              <article className="mt-3 max-w-2xl text-sm tracking-wider leading-6 text-black font-mono prose prose-headings:text-black prose-a:text-black">
+                <p className="text-gray-400">{data.bio}</p>
+              </article>
+            )}
+          </div>
+
+        </Tab.Panel>
+        
+        <Tab.Panel>
+          <div className={`${profileWidth} mt-10`}>
+            
+            {tweets.length ? 
+            
+              tweets.map((tweet) => (
+                <div className={`${profileWidth} mt-10`}>
+                {tweet}
+                </div>
+              )):
+              <div className={`${profileWidth} mt-10`}>
+              {"No tweets"}
+              </div>
+            }
+
+          </div>
+        </Tab.Panel>
+      
+        <Tab.Panel>
+         
+          <div className={`${profileWidth} mt-10`}>
+            
+            { followers.length > 0 ? 
+              followers.map((followers) => (
+                <div className={`${profileWidth} mt-10`}>
+                {followers}
+                </div>
+                )): 
+            <div className={`${profileWidth} mt-10`}>
+              {"No followers"}
+              </div>
+              }
+          </div>
+        </Tab.Panel>
+        
+        <Tab.Panel>
+        <div className={`${profileWidth} mt-10`}>
+          { following.length > 0 ? 
+              following.map((follow) => (
+              <div className={`${profileWidth} mt-10`}>
+                {follow}
+              </div>
+            ) ): <div className={`${profileWidth} mt-10`}>
+              {"No following"}
             </div>
-          </>
-        ) : (
-          <article className="mt-3 max-w-2xl text-sm tracking-wider leading-6 text-black font-mono prose prose-headings:text-black prose-a:text-black">
-            <p className="text-gray-400">{data.bio}</p>
-          </article>
-        )}
-      </div>
+          }
+        </div>
+        </Tab.Panel>
+      </Tab.Panels>
+
+      </div>    
+    </Tab.Group>
+
+      {/* // Hacer switch para mostrar los datos de cada tab */}
+
+     
 
       {/* Edit buttons */}
       {/* {settingsPage ? (

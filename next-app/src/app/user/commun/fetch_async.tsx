@@ -13,4 +13,4 @@ export async function fetch_async(url:string){
   }
 
   return data;
-} 
+}
