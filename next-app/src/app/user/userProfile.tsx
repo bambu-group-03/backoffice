@@ -18,10 +18,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Switch } from '@headlessui/react'
 import Image from 'next/image';
 
-import { BASE_TEST_URL, BASE_TWEETS_URL } from '../../app/user/commun/urls';
+import { BASE_TEST_URL } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
 import { fetch_async } from './commun/fetch_async';
+import { url } from 'inspector';
+import { Card, Text, Title } from '@tremor/react';
+import SnapTable from './userSnaps';
 
 
 
@@ -52,49 +55,51 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
     
   const [userVisible, setUserVisible] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [tweets, setTweets] = useState([]);
+  const [snaps, setSnaps] = useState([]);
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
 
     switch (selectedIndex) {
-      case 0:
-        // display bio
+      case 0: // display bio
         break;
-      case 1:
+      
+      case 1: // Display Snaps
 
-        const fetchTweets = async () => {
-          const url = BASE_TWEETS_URL + "user/" + user.id; 
-          let tweets: [] = await fetch_async(url); 
-          setTweets(tweets);
+        console.log("user.id: " + user.id);
+
+        const fetchSnaps = async () => {
+          const url = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/?user_id=string_1&limit=10&offset=0"
+          //const url = BASE_TWEETS_URL + "?user_id=" + user.id + "&limit=10&offset=0"; // TODO
+          let snaps_received: [] = await fetch_async(url); 
+          setSnaps(snaps_received.snaps);
         };
-        
-        fetchTweets();
+        fetchSnaps();
        
         //setTweets( ["Tweet 1", "Tweet 2", "Tweet 3", "Tweet 4"]);
         break;
-      case 2:
-        // GET user following
+
+      case 2: // GET user following
 
         const fetchFollowing = async () => {
           const url = BASE_TEST_URL + "api/auth/" + user.id + "/following"; 
-          let following: [] = await fetch_async(url); 
-          setFollowing(following);
+          //const url = "http://localhost:8000/api/auth/string/following"
+          let following_received: [] = await fetch_async(url); 
+          setFollowing(following_received);
         };
-        
         fetchFollowing();
 
 
         //setFollowing(["Luis", "Edu", "Dani", "Mafer"]);
         break;
-      case 3:
-        // GET user following
+      case 3: // GET user followers
 
         const fetchFollowers = async () => {
           const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
-          let following: [] = await fetch_async(url); 
-          setFollowers(following);
+          //const url = "http://localhost:8000/api/auth/string/following"
+          let followers_received: [] = await fetch_async(url); 
+          setFollowers(followers_received);
         };
         fetchFollowers();
         break;
@@ -103,14 +108,14 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         break;
     }
 
-  }, [selectedIndex, user.id]);
+  }, [selectedIndex, []]);
 
   return (
 
     <div className="min-h-screen pb-20">
       <div>
         <div
-          className={`h-48 w-full lg:h-64 
+          className={`h-48 w-full lg:h-20 
           ${getGradient(data.username)}`}
         >
           {/* {user.coverPhoto}
@@ -240,11 +245,11 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               data-headlessui-state="selected"
               
               >Profile</Tab>
-            <Tab key={"tweets_tab"} 
+            <Tab key={"snaps_tab"} 
               className={
               `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
               data-headlessui-state="selected"
-              >Tweets</Tab>
+              >Snaps</Tab>
             <Tab key={"following_tab"}
               className={
               `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`}
@@ -296,30 +301,38 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
-            
-            {tweets.length ? 
-            
-              tweets.map((tweet) => (
-                <div className={`${profileWidth} mt-10`}>
-                {tweet}
-                </div>
-              )):
-              <div className={`${profileWidth} mt-10`}>
-              {"No tweets"}
-              </div>
-            }
+
+
+            <Card className="mt-6">
+            <SnapTable snaps={snaps}></SnapTable>
+            </Card> 
 
           </div>
         </Tab.Panel>
       
         <Tab.Panel>
-         
           <div className={`${profileWidth} mt-10`}>
+            { following.length > 0 ? 
+                following.map((follow) => (
+                <div className={`${profileWidth} mt-10`}>
+                  {follow}
+                </div>
+              ) ): <div className={`${profileWidth} mt-10`}>
+                {"No following"}
+              </div>
+            }
+          </div>
+          
+        </Tab.Panel>
+        
+        <Tab.Panel>
+
+        <div className={`${profileWidth} mt-10`}>
             
             { followers.length > 0 ? 
-              followers.map((followers) => (
+              followers.map((follow) => (
                 <div className={`${profileWidth} mt-10`}>
-                {followers}
+                {follow}
                 </div>
                 )): 
             <div className={`${profileWidth} mt-10`}>
@@ -327,20 +340,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
               </div>
               }
           </div>
-        </Tab.Panel>
         
-        <Tab.Panel>
-        <div className={`${profileWidth} mt-10`}>
-          { following.length > 0 ? 
-              following.map((follow) => (
-              <div className={`${profileWidth} mt-10`}>
-                {follow}
-              </div>
-            ) ): <div className={`${profileWidth} mt-10`}>
-              {"No following"}
-            </div>
-          }
-        </div>
         </Tab.Panel>
       </Tab.Panels>
 
@@ -393,7 +393,7 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
 
 const tabs = [
   { name: 'Profile' },
-  { name: 'Tweets' },
+  { name: 'Snaps' },
   { name: 'Following' },
   { name: 'Followers' },
 ];

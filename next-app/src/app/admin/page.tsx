@@ -50,12 +50,12 @@ async function Page({
 
   // Load data
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchData = async () => {
       const url = BASE_TEST_URL + "users?limit=10&offset=0";
       let data: [] = await fetch_async(url);
       setUsers(data);
     };
-    fetchPost();
+    fetchData();
   }, []);
 
 

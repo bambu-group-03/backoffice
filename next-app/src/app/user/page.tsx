@@ -21,11 +21,11 @@ const ProfilePage = async () => {
   const url = BASE_TEST_URL + "users/" + searchParams?.toString().split("=")[1];
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchUsers = async () => {
       let data: User = await fetch_async(url); 
       setUser(data);
     };
-    fetchPost();
+    fetchUsers();
   }, []);
 
   
