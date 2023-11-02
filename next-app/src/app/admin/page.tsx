@@ -1,83 +1,45 @@
-'use client'
-import { useAuthContext } from "@/context/AuthContext";
-import logOut from "@/firebase/auth/signOut";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+// 'use client'
 
-import { Card, Text, Title } from '@tremor/react';
+// import { useAuthContext } from "@/context/AuthContext";
+// import router, { useRouter } from "next/router";
+// import result from "postcss/lib/result";
+// import { useEffect } from "react";
 
-import { BASE_TEST_URL, BASE_REAL_URL } from '../../app/user/commun/urls';
-
-import Search from '../../app/search';
-import UsersTable from '../../app/table';
-import { fetch_async } from "../user/commun/fetch_async";
-
-export const dynamic = 'force-dynamic';
+// const handleSingUp = async ( event: { preventDefault: () => void } ) => {
+//   event.preventDefault();
 
 
-async function logOutAccount(event: { preventDefault: () => void }) {
+
+//   router.push( "/" );
+// }
+
+
+// export default async function AdminPage(){
   
-    event.preventDefault();
+
+//   const { user } = useAuthContext() as { user: any };
+//   const router = useRouter();
+
+//   useEffect( () => {
     
-    const { result, error } = await logOut();
-    if (error) {
-      console.log(error)
-      return
-    }
-}
-
-async function Page({
-  searchParams,
-  }: {
-    searchParams: { q: string };
-  }   ) {
-
-  const search = searchParams.q ?? '';
-  console.log('search', search);
+//     // Redirect to the logIn page if the user is not logged in
+//     if ( user == null ) {
+//       router.push( "/signin" );
+//     }
+//   }, [ user, router ] );
   
-  const { user } = useAuthContext() as { user: any };
-  const router = useRouter();
-  let [users, setUsers] = useState([]);
+//   return (
 
-  useEffect( () => {
-    
-    // Redirect to the logIn page if the user is not logged in
-    if ( user == null ) {
-      router.push( "/signin" );
-    }
-  }, [ user, router ] );
+//     <main className="mx-auto max-w-7xl p-4 md:p-10">
+//       <div className="flex  bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
+//         <button onClick={() => router.push( "/signup" )}>Create Admin Account</button>
+//       </div>
+//     </main>
+//   );
+// }
 
+import { redirect } from 'next/navigation';
 
-  // Load data
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = BASE_TEST_URL + "users?limit=10&offset=0";
-      let data: [] = await fetch_async(url);
-      setUsers(data);
-    };
-    fetchData();
-  }, []);
-
-
-  return (
-    <main className="mx-auto max-w-7xl p-4 md:p-10">
-
-      <div className="flex  bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
-        <button onClick={() => router.push( "/signup" )}>Create Admin Account</button>
-      </div>
-      
-     
-       <Title>Users</Title>
-       <Search />
-       <Card className="mt-6">
-         <UsersTable users={users} />
-       </Card>     
-      
-      <div className="flex bg-gradient-to-b from-zinc-200 pb-6 pt-8  lg:static lg:w-auto  lg:rounded-xl lg:border ">
-        <button onClick={logOutAccount}>LogOut</button>
-      </div>
-    </main>
-  );
+export default async function SnapsPage(){
+  redirect('/');
 }
-
-export default Page;
