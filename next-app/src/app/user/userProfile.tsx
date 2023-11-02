@@ -67,12 +67,12 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         const fetchTweets = async () => {
           const url = BASE_TWEETS_URL + "user/" + user.id; 
           let tweets: [] = await fetch_async(url); 
-          //setTweets(tweets);
+          setTweets(tweets);
         };
         
         fetchTweets();
        
-        setTweets( ["Tweet 1", "Tweet 2", "Tweet 3", "Tweet 4"]);
+        //setTweets( ["Tweet 1", "Tweet 2", "Tweet 3", "Tweet 4"]);
         break;
       case 2:
         // GET user following
@@ -90,8 +90,15 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
         break;
       case 3:
         // GET user following
-        setFollowers(["Luis", "Edu", "Dani", "Mafer"].reverse());
+
+        const fetchFollowers = async () => {
+          const url = BASE_TEST_URL + "api/auth/" + user.id + "/followers"; 
+          let following: [] = await fetch_async(url); 
+          setFollowers(following);
+        };
+        fetchFollowers();
         break;
+
       default:
         break;
     }
