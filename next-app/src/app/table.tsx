@@ -13,8 +13,8 @@ import {
 export interface User {
   id: number;
   name?: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   username: string;
   email: string;
   verified?: boolean;
@@ -36,7 +36,7 @@ export default function UsersTable({ users }: { users: User[] }) {
       <TableBody>
         {users.map((user) => (
           <TableRow key={user.id}>
-            <TableCell>{user.firstName} {user.lastName}</TableCell>
+            <TableCell>{user.first_name} {user.last_name}</TableCell>
             <TableCell>
               <Text>{user.username}</Text>
             </TableCell>
