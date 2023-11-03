@@ -11,7 +11,7 @@ import {
 } from '@tremor/react';
 
 export interface User {
-  id: number;
+  id: string;
   email: string;
   first_name: string;
   last_name: string;
@@ -19,11 +19,12 @@ export interface User {
   phone_number: string;
   bio_msg: string;
   profile_photo_id:string;
-  blocked?: boolean;
+  blocked: boolean;
   verified?: boolean;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {
+
   return (
     <Table>
       <TableHead>
@@ -46,7 +47,8 @@ export default function UsersTable({ users }: { users: User[] }) {
             </TableCell>
             <TableCell>
               <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
-                <span className="link">View</span>
+                <span className="link"
+                >View</span>
               </Link>
             </TableCell>
           </TableRow>

@@ -21,67 +21,53 @@ import Image from 'next/image';
 import { BASE_REAL_URL, BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
-import { fetch_async } from './commun/fetch_async';
-import { url } from 'inspector';
+import { fetch_async, put_async } from './commun/fetch_async';
 import { Card, Text, Title } from '@tremor/react';
 import SnapTable from './userSnaps';
 import UsersInteractionTable from './userInteractions';
 
 
-
 export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
-export default function UsersTable({ settings, user }: {  settings?: boolean, user: User }) {
+export default function UsersTable({ user }: {  user: User }) {
 
-  {
-    console.log("user.profile_photo_id: " + user?.profile_photo_id)
 
-  }
+  const [data, setData] = useState(
+    {
+      id: user?.id || "-1",
+      firstName: user?.first_name || 'Anonymous',
+      lastName: user?.last_name || '',
+      username: user?.username || 'anon',
+      image: user?.profile_photo_id || DEFAULT_IMG_LINK,
+      bio: user?.bio_msg || 'No Bio provided',
+      user_verified: user?.verified || false,
+      user_blocked: user?.blocked || false ,
+    }
+  );
+
   
-  const [saving, setSaving] = useState(false);
-
-  const [data, setData] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    image: "",
-    bio: '',
-    user_blocked: false,
-    user_verified: false,
-  });
-
-  useEffect(() => {
-      setData(
-        {
-          firstName: user?.first_name || 'Anonymous',
-          lastName: user?.last_name || '',
-          username: user?.username || 'anon',
-          image: user?.profile_photo_id || DEFAULT_IMG_LINK,
-          bio: user?.bio_msg || 'No Bio provided',
-          user_blocked: user?.blocked || false,
-          user_verified: user?.verified || false,
-        }
-      );
-    
-  }, [setData, []]);
-
-
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
-  const [error, setError] = useState('');
-
- 
-
-  const settingsPage =
-    settings ||
-    (searchParams.get('settings') === 'true' && pathname === '/settings');
-    
-  const [userVisible, setUserVisible] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [snaps, setSnaps] = useState([]);
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
+
+  useEffect(() => {
+    setData(
+      {
+        id: user?.id || "-1",
+        firstName: user?.first_name || 'Anonymous',
+        lastName: user?.last_name || '',
+        username: user?.username || 'anon',
+        image: user?.profile_photo_id || DEFAULT_IMG_LINK,
+        bio: user?.bio_msg || 'No Bio provided',
+        user_verified: user?.verified || false,
+        user_blocked: user?.blocked || false ,
+      }
+    );
+    console.log("user: " + user);
+  }, [user]);
+
+
 
   useEffect(() => {
 
@@ -206,26 +192,45 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
             )} */}
 
         <Switch
-            checked={userVisible}
-            onChange={(visibility) => {
-              setUserVisible(visibility);
-              
-              // Pegarle al backend para cambiar la visibilidad del usuario
+            checked={!data.user_blocked}
+            onChange={async () => {
 
-              
-            }}
+              let url = "";
+
+              if (data.user_blocked) {
+                // Pegarle a 
+                url = BASE_REAL_URL + "block_user/" + data.id;
+                const res = await put_async(url, data.id);
+
+              }else{
+                // Pegarle a 
+                url = BASE_REAL_URL + "unblock_user/" + data.id;
+                const res = await put_async(url, data.id);
+              }
+
+              console.log("url: " + url);
+
+
+              setData({
+                ...data,
+                user_blocked: !data.user_blocked
+              });
+               
+              }
+            }
             className={`${
-              userVisible ? 'bg-blue-600' : 'bg-gray-200'
+              !data.user_blocked ? 'bg-blue-600' : 'bg-gray-200'
             } relative inline-flex h-6 w-11 items-center rounded-full`}
           >
             <span className="sr-only">Enable notifications</span>
             <span
               className={`${
-                userVisible ? 'translate-x-6' : 'translate-x-1'
+                !data.user_blocked ? 'translate-x-6' : 'translate-x-1'
               } inline-block h-4 w-4 transform rounded-full bg-white transition`}
             />
           </Switch>
           </div>
+          
         </div>
       </div>
 
@@ -306,31 +311,9 @@ export default function UsersTable({ settings, user }: {  settings?: boolean, us
                {/* Bio */}
           <div className={`${profileWidth} mt-10`}>
             <h2 className="font-semibold font-mono text-2xl text-black">Bio</h2>
-            {settingsPage ? (
-              <>
-                <TextareaAutosize
-                  name="description"
-                  onInput={(e:any) => {
-                    setData({
-                      ...data,
-                      bio: (e.target as HTMLTextAreaElement).value
-                    });
-                  }}
-                  className="mt-1 w-full max-w-2xl px-0 text-sm tracking-wider leading-6 text-black bg-black font-mono border-0 border-b border-gray-800 focus:border-white resize-none focus:outline-none focus:ring-0"
-                  placeholder="Enter a short bio about yourself... (Markdown supported)"
-                  value={data.bio}
-                />
-                <div className="flex justify-end w-full max-w-2xl">
-                  <p className="text-gray-400 font-mono text-sm">
-                    {data.bio.length}/256
-                  </p>
-                </div>
-              </>
-            ) : (
               <article className="mt-3 max-w-2xl text-sm tracking-wider leading-6 text-black font-mono prose prose-headings:text-black prose-a:text-black">
                 <p className="text-gray-400">{data.bio}</p>
               </article>
-            )}
           </div>
 
         </Tab.Panel>

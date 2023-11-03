@@ -1,3 +1,6 @@
+import { url } from "inspector";
+import { string, any } from "zod";
+
 const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 
 export async function fetch_async(url:string){
@@ -14,3 +17,24 @@ export async function fetch_async(url:string){
 
   return data;
 }
+
+export async function put_async(url:string, user_id:string){
+
+  let resp:any = null;
+  
+  try{
+    const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user_id })
+    });
+    resp = await response.json();
+  }catch(error){
+      throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
+  }
+
+  return resp;
+
+} 

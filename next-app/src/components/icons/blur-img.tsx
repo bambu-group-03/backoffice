@@ -6,7 +6,6 @@ export default function BlurImage(props: ImageProps) {
   const [src, setSrc] = useState(props.src);
   useEffect(() => setSrc(props.src), [props.src]); // update the `src` value when the `prop.src` value changes
 
-  console.log('src', src);
   return (
     <Image
       {...props}

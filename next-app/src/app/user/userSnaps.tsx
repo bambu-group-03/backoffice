@@ -3,6 +3,7 @@ import { Switch } from '@headlessui/react'
 import { profileWidth } from "./userProfile";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export interface Snap {
   id: number;
@@ -12,6 +13,8 @@ export interface Snap {
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
   
+  const router = useRouter();
+
   return (
     <Table>
       <TableHead>
@@ -38,7 +41,8 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
             <TableRow key={snap.id}>
               <TableCell>
-                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700">
+                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700"
+                  onClick={()=> router.push( `/user?id=${snap.user_id}` )}>
                   <span className="link"> @{snap.user_id}</span>
                 </Link>
               </TableCell>
