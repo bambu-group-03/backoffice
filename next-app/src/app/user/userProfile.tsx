@@ -196,20 +196,15 @@ export default function UsersTable({ user }: {  user: User }) {
             onChange={async () => {
 
               let url = "";
+              let res = null;
 
               if (data.user_blocked) {
-                // Pegarle a 
-                url = BASE_REAL_URL + "block_user/" + data.id;
-                const res = await put_async(url, data.id);
-
-              }else{
-                // Pegarle a 
                 url = BASE_REAL_URL + "unblock_user/" + data.id;
-                const res = await put_async(url, data.id);
+                res = await put_async(url);
+              }else{
+                url = BASE_REAL_URL + "block_user/" + data.id;
+                res = await put_async(url);
               }
-
-              console.log("url: " + url);
-
 
               setData({
                 ...data,

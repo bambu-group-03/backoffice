@@ -4,11 +4,14 @@ import { profileWidth } from "./userProfile";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { put_async } from "./commun/fetch_async";
+import { BASE_TWEET_URL } from "./commun/urls";
 
 export interface Snap {
-  id: number;
+  id: string;
   user_id: number;
   content:string;
+  visible:boolean;
 }
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
@@ -54,11 +57,21 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
               <TableCell>
                 <Switch
                     checked={snapVisible}
-                    onChange={(visibility) => {
+                    onChange={async (visibility) => {
+                        
+                      let url = "";
+                      let res = null;
+
+                      if (visibility.valueOf() === true) {
+                        url = BASE_TWEET_URL + "block_snap/" + snap.id;
+                        res = await put_async(url);
+                      }else{
+                        url = BASE_TWEET_URL + "unblock_snap/" + snap.id;
+                        res = await put_async(url);
+                      }
+
+                      console.log("response: " + res.status);
                       setSnapVisible(visibility);
-                      
-                      // Pegarle al backend para cambiar la visibilidad del snap
-                      
                     }}
                     className={`${
                       snapVisible ? 'bg-blue-600' : 'bg-gray-200'

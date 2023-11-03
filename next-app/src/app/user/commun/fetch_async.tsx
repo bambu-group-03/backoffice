@@ -18,7 +18,7 @@ export async function fetch_async(url:string){
   return data;
 }
 
-export async function put_async(url:string, user_id:string){
+export async function put_async(url:string){
 
   let resp:any = null;
   
@@ -27,8 +27,8 @@ export async function put_async(url:string, user_id:string){
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ user_id })
+    }
+    //,body: JSON.stringify({ user_id })
     });
     resp = await response.json();
   }catch(error){
