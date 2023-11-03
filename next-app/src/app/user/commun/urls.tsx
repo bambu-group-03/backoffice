@@ -2,6 +2,8 @@ export const BASE_TEST_URL = "http://localhost:8000/api/auth/";
 
 export const BASE_REAL_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/';
 
+export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/";
+
 export const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
 
 // Other userfull URL

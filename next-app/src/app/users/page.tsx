@@ -62,7 +62,7 @@ async function Page({
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
-       <Search />
+       <Search setUsers={setUsers}/>
        <Card className="mt-6">
          <UsersTable users={users} />
        </Card>     
