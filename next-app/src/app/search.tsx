@@ -5,9 +5,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { fetch_async } from './user/commun/fetch_async';
 import { BASE_REAL_URL, IDENTITY_FILTER } from './user/commun/urls';
-import { type } from 'os';
 
-export default function Search({ disabled, setUsers }: { disabled?: boolean , setUsers: any}) {
+export default function Search({ disabled, set }: { disabled?: boolean , set: any}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -32,7 +31,7 @@ export default function Search({ disabled, setUsers }: { disabled?: boolean , se
     
     const res:[] = await fetch_async(url);
 
-    setUsers(res);
+    set(res);
     
     startTransition(() => {
       replace(`${pathname}?${params.toString()}`);
