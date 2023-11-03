@@ -80,9 +80,7 @@ export default function UsersTable({ user }: {  user: User }) {
         console.log("user.id: " + user.id);
 
         const fetchSnaps = async () => {
-          //const url = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/?user_id=string_1&limit=10&offset=0"
-          const url = BASE_TWEET_URL + "?user_id=" + user.id + "&limit=10&offset=0";
-          //const url = BASE_TWEET_URL + user.id + "/snaps" ; // https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/(user_id)/snaps
+          const url = BASE_TWEET_URL +  user.id + "/snaps?limit=10&offset=0";
           let snaps_received: [] = await fetch_async(url); 
           setSnaps(snaps_received.snaps);
         };

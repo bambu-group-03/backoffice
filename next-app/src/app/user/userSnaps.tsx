@@ -9,7 +9,8 @@ import { BASE_TWEET_URL } from "./commun/urls";
 
 export interface Snap {
   id: string;
-  user_id: number;
+  user_id: string;
+  author: string;
   content:string;
   visible:boolean;
 }
@@ -22,7 +23,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell>Username</TableHeaderCell>
+          <TableHeaderCell>User ID</TableHeaderCell>
           <TableHeaderCell>Content</TableHeaderCell>
           <TableHeaderCell>Visibility</TableHeaderCell>
         </TableRow>
@@ -39,14 +40,16 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
           snaps.map((snap:Snap) => {
 
             const [snapVisible, setSnapVisible] = useState(true);
+
+            const user_id = snap.author? snap.author : snap.user_id
             
             return (     
 
             <TableRow key={snap.id}>
               <TableCell>
-                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700"
-                  onClick={()=> router.push( `/user?id=${snap.user_id}` )}>
-                  <span className="link"> @{snap.user_id}</span>
+                <Link href={`/user?id=${user_id}`} className="text-blue-500 hover:text-blue-700"
+                  onClick={()=> router.push( `/user?id=${user_id}` )}>
+                  <span className="link"> @{user_id}</span>
                 </Link>
               </TableCell>
               
