@@ -24,11 +24,14 @@ export default async function SnapsPage(){
     }
   }, [ user, router ] );
 
+  const limit = 1000;
+  const offset = 0;
+
 
   // Load data
   useEffect(() => {
     const fetchData = async () => {
-      const url = BASE_TWEET_URL + "get_all_snaps?limit=10&offset=0"
+      const url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset;
       let snaps: [] = await fetch_async(url);
       setSnaps(snaps);
     };
