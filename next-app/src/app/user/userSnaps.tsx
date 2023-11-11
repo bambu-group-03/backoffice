@@ -5,15 +5,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { put_async } from "./commun/fetch_async";
-import { BASE_TWEET_URL } from "./commun/urls";
+import { BASE_TWEET_URL, BASE_TWEET_VISIBILITY } from "./commun/urls";
 
 export interface Snap {
   id: string;
   user_id: string;
   author: string;
   content:string;
-  visible:boolean;
+  visibility: number;
 }
+
+const SNAP_VISIBLE = 1;
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
   
@@ -39,7 +41,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
           snaps.map((snap:Snap) => {
 
-            const [snapVisible, setSnapVisible] = useState(true);
+            const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
 
             const user_id = snap.author? snap.author : snap.user_id
             
@@ -66,13 +68,16 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                       let res = null;
 
                       if (visibility.valueOf() === true) {
-                        url = BASE_TWEET_URL + "block_snap/" + snap.id;
+
+                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_public/" + snap.id;
+                        console.log("url: " + url);
                         res = await put_async(url);
                       }else{
-                        url = BASE_TWEET_URL + "unblock_snap/" + snap.id;
+                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_private/" + snap.id;
+                        console.log("url: " + url);
                         res = await put_async(url);
                       }
-
+                      
                       console.log("response: " + res.status);
                       setSnapVisible(visibility);
                     }}
