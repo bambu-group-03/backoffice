@@ -29,6 +29,13 @@ import UsersInteractionTable from './userInteractions';
 
 export const profileWidth = 'max-w-5xl mx-auto px-4 sm:px-6 lg:px-8';
 
+function validImgUrl(url: string) {
+  if(url.startsWith('http://') || url.startsWith('https://')){
+    return url;
+  }
+  return DEFAULT_IMG_LINK
+}
+
 export default function UsersTable({ user }: {  user: User }) {
 
 
@@ -151,7 +158,7 @@ export default function UsersTable({ user }: {  user: User }) {
               </button>
             )} */}
             <BlurImage
-              src={data.image}
+              src={validImgUrl(data.image)}
               alt={data.firstName}
               width={300}
               height={300}
