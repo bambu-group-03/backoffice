@@ -9,6 +9,7 @@ import { BASE_TWEET_URL, BASE_TWEET_VISIBILITY } from "./commun/urls";
 
 export interface Snap {
   id: string;
+  username:string,
   user_id: string;
   author: string;
   content:string;
@@ -43,7 +44,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
             const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
 
-            const user_id = snap.author? snap.author : snap.user_id
+            const user_id = snap.username ? snap.username : snap.user_id;
             
             return (     
 
