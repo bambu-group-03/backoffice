@@ -15,8 +15,11 @@ function Page(): JSX.Element {
     // Attempt to sign in with provided email and password
     const { result, error } = await signIn( email, password );
 
-    if ( error ) {
-      console.log( error );
+    if ( error ) { 
+      console.log( error.code );
+      if (error.code === 'auth/invalid-login-credentials'){
+        alert( 'Invalid Login Credentials' );
+      }
       return;
     }
     
