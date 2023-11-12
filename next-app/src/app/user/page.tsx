@@ -1,32 +1,36 @@
-'use client';
+'use client'
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { User } from '../table';
+import UserProfile from './userProfile';
+import { fetch_async } from './commun/fetch_async';
 import { useEffect, useState } from 'react';
 
-import type { User } from '../table';
-import { fetchAsync } from './commun/fetch_async';
-import { BASE_TEST_URL } from './commun/urls';
-import UserProfile from './userProfile';
+import { BASE_REAL_URL, BASE_TEST_URL } from './commun/urls';
+
 
 const ProfilePage = async () => {
-  const [user, setUser] = useState({});
+
+  let [user, setUser] = useState({});
 
   const searchParams = useSearchParams();
 
-  // const query = `${pathname}?${searchParams}`
+  //const query = `${pathname}?${searchParams}`
+                   
+  const url = BASE_REAL_URL + "users/" + searchParams?.toString().split("=")[1];
 
   useEffect(() => {
-    const url = `${BASE_TEST_URL}users/${searchParams
-      ?.toString()
-      .split('=')[1]}`;
-    const fetchPost = async () => {
-      const data: User = await fetchAsync(url);
-      setUser(data);
+    const fetchUsers = async () => {
+      let user: User = await fetch_async(url); 
+      setUser(user);
     };
-    fetchPost();
-  }, [searchParams]);
+    fetchUsers();
+  }, []);
 
-  return <UserProfile settings={false} user={user} />;
+  
+  return (
+    <UserProfile settings={false} user={user} />
+  );
 };
 
 export default ProfilePage;

@@ -1,20 +1,35 @@
 'use client';
 
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import type { DefaultSession } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+
+import logOut from '@/firebase/auth/signOut';
 
 const navigation = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Playground', href: '/playground' },
+  { name: 'Users', href: '/' },
+  { name: 'Snaps', href: '/snaps'},
+  { name: 'Admin', href: '/admin'},
+  { name: 'Statistics', href: '/playground' } 
 ];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
+}
+
+async function logOutAccount(event: { preventDefault: () => void }) {
+  
+  event.preventDefault();
+  
+  const { result, error } = await logOut();
+  if (error) {
+    console.log(error)
+    return
+  }
+
+  
 }
 
 export default function Navbar({ user }: { user: DefaultSession['user'] }) {
@@ -28,27 +43,14 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex shrink-0 items-center">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    className="text-gray-100"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      width="100%"
-                      height="100%"
-                      rx="16"
-                      fill="currentColor"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-                      fill="black"
-                    />
-                  </svg>
+                  
+                  <Image
+                        className="h-18 w-18 rounded-full"
+                        src={user?.image || 'https://avatars.githubusercontent.com/t/8529037?s=116&v=4'}
+                        height={50}
+                        width={50}
+                        alt={`${user?.name || 'placeholder'} avatar`}
+                      />
                 </div>
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   {navigation.map((item) => (
@@ -69,17 +71,20 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                <Menu as="div" className="relative ml-3">
+                
+                <Menu as="div" className="relative ml-3"
+                  
+                >
                   <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                    disabled={user?false:true}
+                    
+                    >
                       <span className="sr-only">Open user menu</span>
-                      <Image
-                        className="h-8 w-8 rounded-full"
-                        src={user?.image || 'https://avatar.vercel.sh/leerob'}
-                        height={32}
-                        width={32}
-                        alt={`${user?.name || 'placeholder'} avatar`}
-                      />
+
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                      </svg>
                     </Menu.Button>
                   </div>
                   <Transition
@@ -94,14 +99,18 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
                       {user ? (
                         <Menu.Item>
-                          {({ active }) => (
+                          {({ active, close }) => (
                             <button
                               type="button"
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'flex w-full px-4 py-2 text-sm text-gray-700',
                               )}
-                              onClick={() => signOut()}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                logOutAccount(e);
+                                close();
+                            }}
                             >
                               Sign out
                             </button>
@@ -116,18 +125,36 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                                 active ? 'bg-gray-100' : '',
                                 'flex w-full px-4 py-2 text-sm text-gray-700',
                               )}
-                              onClick={() => signIn('github')}
+                              onClick={() => console.log(user)}
                             >
                               Sign in
                             </button>
                           )}
                         </Menu.Item>
                       )}
+
+                      
+
+                        {/* <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              type="button"
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'flex w-full px-4 py-2 text-sm text-gray-700',
+                              )}
+                              onClick={logOutAccount}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </Menu.Item> */}
+
                     </Menu.Items>
                   </Transition>
                 </Menu>
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
+              {/* <div className="-mr-2 flex items-center sm:hidden">
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -136,10 +163,10 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                     <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
-              </div>
+              </div> */}
             </div>
           </div>
-
+{/* 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pb-3 pt-2">
               {navigation.map((item) => (
@@ -203,7 +230,7 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                 </div>
               )}
             </div>
-          </Disclosure.Panel>
+          </Disclosure.Panel> */}
         </>
       )}
     </Disclosure>

@@ -1,4 +1,5 @@
-import Link from "next/link";
+// Following and Followers table
+
 
 import {
   Table,
@@ -9,46 +10,40 @@ import {
   TableRow,
   Text,
 } from '@tremor/react';
+import { User } from '../table';
+import Link from 'next/link';
+import { profileWidth } from './userProfile';
 
-export interface User {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  username: string;
-  phone_number: string;
-  bio_msg: string;
-  profile_photo_id:string;
-  blocked: boolean;
-  verified?: boolean;
-}
-
-export default function UsersTable({ users }: { users: User[] }) {
-
+export default function UsersInteractionTable({ users, interaction }: { users: User[], interaction: string }) {
   return (
+
+    
     <Table>
       <TableHead>
         <TableRow>
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell>Username</TableHeaderCell>
-          <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Link</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {users.map((user) => (
+        
+
+        {typeof users.length === 'undefined' || users?.length === 0 ? 
+            <div className={`${profileWidth} mt-10`}>
+            {"No " + interaction}
+            </div>
+          :
+
+        users?.map((user) => (
           <TableRow key={user.id}>
-            <TableCell>{user.first_name} {user.last_name}</TableCell>
+            <TableCell>{user.firstName} {user.lastName}</TableCell>
             <TableCell>
               <Text>{user.username}</Text>
             </TableCell>
             <TableCell>
-              <Text>{user.email}</Text>
-            </TableCell>
-            <TableCell>
               <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
-                <span className="link"
-                >View</span>
+                <span className="link">View</span>
               </Link>
             </TableCell>
           </TableRow>

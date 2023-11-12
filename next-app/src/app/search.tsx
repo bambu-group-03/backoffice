@@ -3,13 +3,15 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+import { fetch_async } from './user/commun/fetch_async';
+import { BASE_REAL_URL, IDENTITY_FILTER } from './user/commun/urls';
 
-export default function Search({ disabled }: { disabled?: boolean }) {
+export default function Search({ disabled, set }: { disabled?: boolean , set: any}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
-  function handleSearch(term: string) {
+  async function handleSearch(term: string) {
     const params = new URLSearchParams(window.location.search);
     if (term) {
       params.set('q', term);
@@ -17,6 +19,20 @@ export default function Search({ disabled }: { disabled?: boolean }) {
       params.delete('q');
     }
 
+    let url = "";
+
+    let username_searched = params.toString().split("=")[1]
+
+    if (username_searched){
+      url = IDENTITY_FILTER + username_searched;
+    }else{
+      url = BASE_REAL_URL + "users?limit=10&offset=0"
+    }
+    
+    const res:[] = await fetch_async(url);
+
+    set(res);
+    
     startTransition(() => {
       replace(`${pathname}?${params.toString()}`);
     });
