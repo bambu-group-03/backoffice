@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function CheckInCircleIcon({
-  className
+  className,
 }: {
   className?: string;
 }) {
