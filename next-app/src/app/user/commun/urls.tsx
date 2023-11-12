@@ -5,6 +5,7 @@ export const BASE_REAL_URL = 'https://api-identity-socializer-luiscusihuaman.clo
 export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/";
 
 export const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
+export const DEFAULT_NEW_ADMIN_IMG_LINK = "https://www.wallpaperup.com/uploads/wallpapers/2014/06/05/364432/39372972d5deb4cdbab6ef65380cb54f.jpg"
 
 // Other userfull URL
 //const url =  'https://jsonplaceholder.typicode.com/users';

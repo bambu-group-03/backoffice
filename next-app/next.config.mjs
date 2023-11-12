@@ -27,8 +27,9 @@ export default bundleAnalyzer({
 
     return config;
   },
-  images: {
-    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh', 'robohash.org' ],
-  },
+
   output: 'standalone',
+  images: {
+    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh', 'robohash.org', 'www.wallpaperup.com' ],
+  }
 });
