@@ -1,3 +1,5 @@
+"use client";
+
 import { BarList, Card, Flex, Grid, Metric, Text, Title } from "@tremor/react";
 
 import Chart from "./chart";
@@ -43,7 +45,24 @@ const data = [
   },
 ];
 
+import { useAuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function StatisticsPage() {
+
+  const router = useRouter();
+
+  // Admin must be logged in to create a new user 
+  const { user } = useAuthContext() as { user: any };
+
+  useEffect( () => {
+    // Redirect to the logIn page if the user is not logged in
+    if ( user == null ) {
+      router.push( "/signin" );
+    }
+  }, [ user, router ] );
+
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
