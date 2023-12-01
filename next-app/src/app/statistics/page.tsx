@@ -1,16 +1,15 @@
 "use client";
 
-import { BarList, Card, Flex, Grid, Metric, Text, Title } from "@tremor/react";
 import { Tab } from '@headlessui/react'
-
-import Chart from "./chart";
+import Chart from "./growth-chart";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
-import SnapStats from "./snapStats";
 import UserStats from "./userStats";
+import { MyStats } from "./types";
+import SnapStats from './snapStats';
 
 
 // Formato de fecha 2024-01-01T00:00:00
@@ -38,11 +37,7 @@ const app = [
   { name: "/downloads", value: 191 },
 ];
 
-export interface MyStats {
-  category: string;
-  stat: string;
-  data: { name: string; value: number }[];
-};
+
 
 const data : MyStats[] = [
   {
@@ -117,6 +112,20 @@ export default function StatisticsPage() {
                     </div>
                   )}
                 </Tab>
+
+                <Tab  key={"growth_stats_tab"} >
+                  {({ selected }) => (
+                    <div
+                      className={
+                        selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                        : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                      }
+                      data-headlessui-state="selected"
+                      >
+                      Growth
+                    </div>
+                  )}
+                </Tab>
               
               </Tab.List>
             </nav>
@@ -129,7 +138,11 @@ export default function StatisticsPage() {
             </Tab.Panel>
         
           <Tab.Panel>
-            <SnapStats />
+            <SnapStats data={data} />
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <Chart />
           </Tab.Panel>
       </Tab.Panels>
 

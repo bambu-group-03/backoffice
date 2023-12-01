@@ -1,12 +1,11 @@
 import { Grid, Card, Title, Flex, Metric, BarList, Text } from "@tremor/react";
-import Chart from "./chart";
-import UsersPerMonth from "./usersMonth";
-import { MyStats } from "./page";
+import UsersPerMonth from "./bar-chart-per-month";
+import { MyStats } from "./types";
 
 
 export default function UserStats({data}:{data:MyStats[]}) {
   return (
-    <div className="mx-auto max-w-7xl p-4 md:p-10">
+    <div className="mx-auto max-w-7xl p-4 md:p-5">
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         {data.map((item) => (
           <Card key={item.category}>
@@ -33,7 +32,6 @@ export default function UserStats({data}:{data:MyStats[]}) {
           </Card>
         ))}
       </Grid>
-      <Chart />
       <UsersPerMonth />
     </div>
     
