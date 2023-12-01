@@ -1,8 +1,7 @@
 "use client";
 
 import { Tab } from '@headlessui/react'
-import Chart from "./growth-chart";
-
+import GrowthStats from "./growth-chart";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -94,7 +93,7 @@ export default function StatisticsPage() {
                       }
                       data-headlessui-state="selected"
                       >
-                      User Stats
+                      Users
                     </div>
                   )}
                 </Tab>
@@ -108,7 +107,7 @@ export default function StatisticsPage() {
                       }
                       data-headlessui-state="selected"
                       >
-                      Snaps Stats
+                      Snaps
                     </div>
                   )}
                 </Tab>
@@ -142,7 +141,7 @@ export default function StatisticsPage() {
           </Tab.Panel>
 
           <Tab.Panel>
-            <Chart />
+            <GrowthStats />
           </Tab.Panel>
       </Tab.Panels>
 

@@ -5,7 +5,7 @@ import { BASE_SNAP_STATS } from '../user/commun/urls';
 
 const cant_dias:string = "25";
 
-export default function UsersPerMonth() {
+export default function GrowthStats() {
 
   const [userData, setUserData] = useState([]); 
   const [snapData, setSnapData] = useState([]);
