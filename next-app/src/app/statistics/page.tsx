@@ -1,8 +1,19 @@
 "use client";
 
 import { BarList, Card, Flex, Grid, Metric, Text, Title } from "@tremor/react";
+import { Tab } from '@headlessui/react'
 
 import Chart from "./chart";
+
+import { useAuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { profileWidth } from "../user/userProfile";
+import SnapStats from "./snapStats";
+import UserStats from "./userStats";
+
+
+// Formato de fecha 2024-01-01T00:00:00
 
 const website = [
   { name: "/home", value: 1230 },
@@ -27,7 +38,13 @@ const app = [
   { name: "/downloads", value: 191 },
 ];
 
-const data = [
+export interface MyStats {
+  category: string;
+  stat: string;
+  data: { name: string; value: number }[];
+};
+
+const data : MyStats[] = [
   {
     category: "Website",
     stat: "10,234",
@@ -45,10 +62,6 @@ const data = [
   },
 ];
 
-import { useAuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
 export default function StatisticsPage() {
 
   const router = useRouter();
@@ -63,35 +76,66 @@ export default function StatisticsPage() {
     }
   }, [ user, router ] );
 
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
-    <main className="mx-auto max-w-7xl p-4 md:p-10">
-      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
-        {data.map((item) => (
-          <Card key={item.category}>
-            <Title>{item.category}</Title>
-            <Flex
-              justifyContent="start"
-              alignItems="baseline"
-              className="space-x-2"
-            >
-              <Metric>{item.stat}</Metric>
-              <Text>Total views</Text>
-            </Flex>
-            <Flex className="mt-6">
-              <Text>Pages</Text>
-              <Text className="text-right">Views</Text>
-            </Flex>
-            <BarList
-              data={item.data}
-              valueFormatter={(number: number) =>
-                Intl.NumberFormat("us").format(number).toString()
-              }
-              className="mt-2"
-            />
-          </Card>
-        ))}
-      </Grid>
-      <Chart />
-    </main>
+<main className="mx-auto max-w-7xl p-2  ">
+  <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} 
+        onChange={setSelectedIndex}
+      >
+      <div className="mt-6 sm:mt-2 2xl:mt-5">
+        <div className="border-b border-gray-800">
+          <div className={`${profileWidth} mt-10`}>
+            <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+          
+              <Tab.List>
+
+                <Tab  key={"user_stats_tab"} >
+                  {({ selected }) => (
+                    <div
+                      className={
+                        selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                        : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono `
+                      }
+                      data-headlessui-state="selected"
+                      >
+                      User Stats
+                    </div>
+                  )}
+                </Tab>
+
+                <Tab  key={"snap_stats_tab"} >
+                  {({ selected }) => (
+                    <div
+                      className={
+                        selected ?  `text-black-500 bg-slate-300 whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                        : `whitespace-nowrap py-3 px-5 border-b-2 font-medium text-sm font-mono`
+                      }
+                      data-headlessui-state="selected"
+                      >
+                      Snaps Stats
+                    </div>
+                  )}
+                </Tab>
+              
+              </Tab.List>
+            </nav>
+          </div>
+        </div>
+
+      <Tab.Panels>
+            <Tab.Panel>
+            <UserStats data={data}/> 
+            </Tab.Panel>
+        
+          <Tab.Panel>
+            <SnapStats />
+          </Tab.Panel>
+      </Tab.Panels>
+
+    </div>    
+  </Tab.Group>
+</main>    
   );
+  
 }

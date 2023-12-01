@@ -15,3 +15,6 @@ export const BASE_TESTS_TWEETS_URL = "http://localhost:8000/api/tweets/";
 
 export const BASE_TWEET_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/"
 export const BASE_TWEET_VISIBILITY = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/interactions/"
+
+// Statistics
+export const BASE_SNAP_STATS = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/snaps/stats/"
