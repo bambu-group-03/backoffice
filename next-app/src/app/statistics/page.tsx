@@ -10,6 +10,7 @@ import UserStats from "./userStats";
 import { MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
+import { stat } from 'fs';
 
 const url_user_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_user_rates" ;
 const url_locality_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_ubication_count" ;
@@ -98,7 +99,7 @@ export default function StatisticsPage() {
   useEffect(() => {
     if (locations.length > 0) {
       const mappedLocations = locations.map((loc: any) => ({
-        name: loc,
+        name: loc.name,
         value: loc.value
       }));
       setLocation(mappedLocations);
@@ -109,12 +110,12 @@ export default function StatisticsPage() {
   const data : MyStats[] = [
     {
       category: "Users",
-      stat: "10,234",
+      stat: totalUsers,
       data: users,
     },
     {
-      category: "Location",
-      stat: "2",
+      category: "Locations",
+      stat: locations.length.toString(),
       data: location,
     },
     {
