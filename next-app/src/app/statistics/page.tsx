@@ -110,7 +110,7 @@ export default function StatisticsPage() {
   const data : MyStats[] = [
     {
       category: "Users",
-      stat: totalUsers,
+      stat: totalUsers.toString(),
       data: users,
     },
     {
