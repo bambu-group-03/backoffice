@@ -31,7 +31,9 @@ export default function SnapStats({data}:{data:MyStats[]}) {
           </Card>
         ))}
       </Grid>
-      <UsersPerMonth />
+      <div className="mx-auto max-w-7xl py-4">
+        <UsersPerMonth />
+      </div>
     </div>
     
 );}

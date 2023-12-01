@@ -16,11 +16,11 @@ export default function UserStats({data}:{data:MyStats[]}) {
               className="space-x-2"
             >
               <Metric>{item.stat}</Metric>
-              <Text>Total views</Text>
+              <Text>Total</Text>
             </Flex>
             <Flex className="mt-6">
-              <Text>Pages</Text>
-              <Text className="text-right">Views</Text>
+              <Text>Stat</Text>
+              <Text className="text-right">Total</Text>
             </Flex>
             <BarList
               data={item.data}
@@ -32,7 +32,9 @@ export default function UserStats({data}:{data:MyStats[]}) {
           </Card>
         ))}
       </Grid>
-      <UsersPerMonth />
+      <div className="mx-auto max-w-7xl py-4">
+        <UsersPerMonth />
+      </div>
     </div>
     
 );}

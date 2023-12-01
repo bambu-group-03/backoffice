@@ -9,24 +9,26 @@ import { profileWidth } from "../user/userProfile";
 import UserStats from "./userStats";
 import { MyStats } from "./types";
 import SnapStats from './snapStats';
+import { fetch_async } from '../user/commun/fetch_async';
 
+const url_user_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_user_rates" ;
+const url_locality_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_ubication_count" ;
 
 // Formato de fecha 2024-01-01T00:00:00
 
-const website = [
-  { name: "/home", value: 1230 },
-  { name: "/contact", value: 751 },
-  { name: "/gallery", value: 471 },
-  { name: "/august-discount-offer", value: 280 },
-  { name: "/case-studies", value: 78 },
-];
+// const users = [
+//   { name: "total users", value: 1230 },
+//   { name: "blocked_user", value: 751 },
+//   { name: "non blocked users", value: 471 },
+//   { name: "blocked users rate", value: 280 },
+// ];
 
-const shop = [
-  { name: "/home", value: 453 },
-  { name: "/imprint", value: 351 },
-  { name: "/shop", value: 271 },
-  { name: "/pricing", value: 191 },
-];
+// const shop = [
+//   { name: "/home", value: 453 },
+//   { name: "/imprint", value: 351 },
+//   { name: "/shop", value: 271 },
+//   { name: "/pricing", value: 191 },
+// ];
 
 const app = [
   { name: "/shop", value: 789 },
@@ -36,25 +38,6 @@ const app = [
   { name: "/downloads", value: 191 },
 ];
 
-
-
-const data : MyStats[] = [
-  {
-    category: "Website",
-    stat: "10,234",
-    data: website,
-  },
-  {
-    category: "Online Shop",
-    stat: "12,543",
-    data: shop,
-  },
-  {
-    category: "Mobile App",
-    stat: "2,543",
-    data: app,
-  },
-];
 
 export default function StatisticsPage() {
 
@@ -69,6 +52,77 @@ export default function StatisticsPage() {
       router.push( "/signin" );
     }
   }, [ user, router ] );
+
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [blockedUsers, setBlockedUsers] = useState(0);
+  const [nonBlockedUsers, setNonBlockedUsers] = useState(0);
+  const [blockedUsersRate, setBlockedUsersRate] = useState(0);
+  const [nonBlockedUsersRate, setNonBlockedUsersRate] = useState(0);
+
+
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      let user_stats = await fetch_async(url_user_stats);
+      setTotalUsers(user_stats.total_users);
+      setBlockedUsers(user_stats.blocked_users);
+      setNonBlockedUsers(user_stats.non_blocked_users);
+      setBlockedUsersRate(user_stats.blocked_users_rate);
+      setNonBlockedUsersRate(user_stats.non_blocked_users_rate);
+      console.log(user_stats);
+    };
+    fetchUserStats();
+  }, []);
+
+  const users = [
+    { name: "total users", value: totalUsers },
+    { name: "blocked_user", value: blockedUsers },
+    { name: "non blocked users", value: nonBlockedUsers },
+    { name: "blocked users rate", value: blockedUsersRate },
+    { name: "non blocked users rate", value: nonBlockedUsersRate },
+  ];
+
+  const [locations, setLocations] = useState<any[]>([]); 
+
+  const [location, setLocation] = useState<{ name: string; value: number }[]>([]);
+
+  useEffect(() => {
+    const fetchLocationStats = async () => {
+      let locations_stats = await fetch_async(url_locality_stats);
+      console.log(locations_stats);
+      console.log("Entre aca");
+      setLocations(locations_stats);
+    };
+    fetchLocationStats();
+  }, []);
+  
+  useEffect(() => {
+    if (locations.length > 0) {
+      const mappedLocations = locations.map((loc: any) => ({
+        name: loc,
+        value: loc.value
+      }));
+      setLocation(mappedLocations);
+    }
+  }, [locations]);
+
+
+  const data : MyStats[] = [
+    {
+      category: "Users",
+      stat: "10,234",
+      data: users,
+    },
+    {
+      category: "Location",
+      stat: "2",
+      data: location,
+    },
+    {
+      category: "Mobile App",
+      stat: "2,543",
+      data: app,
+    },
+  ];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -144,7 +198,6 @@ export default function StatisticsPage() {
             <GrowthStats />
           </Tab.Panel>
       </Tab.Panels>
-
     </div>    
   </Tab.Group>
 </main>    
