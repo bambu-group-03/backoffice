@@ -14,6 +14,8 @@ import { stat } from 'fs';
 
 const url_user_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_user_rates" ;
 const url_locality_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_ubication_count" ;
+const url_logIn_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_log_in_rates";
+const url_signUp_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_sign_up_rates";
 
 // Formato de fecha 2024-01-01T00:00:00
 
@@ -54,6 +56,8 @@ export default function StatisticsPage() {
     }
   }, [ user, router ] );
 
+  // User Stats
+
   const [totalUsers, setTotalUsers] = useState(0);
   const [blockedUsers, setBlockedUsers] = useState(0);
   const [nonBlockedUsers, setNonBlockedUsers] = useState(0);
@@ -69,7 +73,6 @@ export default function StatisticsPage() {
       setNonBlockedUsers(user_stats.non_blocked_users);
       setBlockedUsersRate(user_stats.blocked_users_rate);
       setNonBlockedUsersRate(user_stats.non_blocked_users_rate);
-      console.log(user_stats);
     };
     fetchUserStats();
   }, []);
@@ -81,6 +84,8 @@ export default function StatisticsPage() {
     { name: "blocked users rate", value: blockedUsersRate },
     { name: "non blocked users rate", value: nonBlockedUsersRate },
   ];
+
+  // Location Stats
 
   const [locations, setLocations] = useState<any[]>([]); 
 
@@ -106,6 +111,86 @@ export default function StatisticsPage() {
     }
   }, [locations]);
 
+  // LogIn Stats
+
+  const [totalLogIns, setTotalLogIns] = useState(0);
+  const [totalLogInSuccssful, setTotalLogInSuccssful] = useState(0);
+  const [totalLogInGoogle, setTotalLogInGoogle] = useState(0);
+  const [totalLogInError, setTotalLogInError] = useState(0);
+  const [logInSuccessfulRate, setLogInSuccessfulRate] = useState(0);
+  const [logInErrorRate, setLogInErrorRate] = useState(0);
+  const [resetPassword, setResetPassword] = useState(0);
+ 
+
+  useEffect(() => {
+    const fetchLogInStats = async () => {
+      let logInStats = await fetch_async(url_logIn_stats);
+      setTotalLogIns(logInStats.total_log_ins);
+      setTotalLogInSuccssful(logInStats.log_in_successful);
+      setTotalLogInGoogle(logInStats.log_in_google);
+      setTotalLogInError(logInStats.log_in_error);
+      setLogInSuccessfulRate(logInStats.log_in_successful_rate);
+      setLogInErrorRate(logInStats.log_in_error_rate);
+      setResetPassword(logInStats.reset_password);
+    };
+    fetchLogInStats();
+  }, []);
+
+  const logIn = [
+    { name: "Total Log Ins", value: totalLogIns },
+    { name: "Total LogIn Successful", value: totalLogInSuccssful },
+    { name: "Total LogIn Google", value: totalLogInGoogle },
+    { name: "Total LogIn Error", value: totalLogInError },
+    { name: "Total LogIn Successful Rate", value: logInSuccessfulRate },
+    { name: "Total LogIn Error Rate", value: logInErrorRate },
+    { name: "Total Reset Password", value: resetPassword },
+  ];
+
+  // Sign Up Stats
+  const [totalSignUps, setTotalSignUps] = useState(0);
+  const [signUpSuccessful, setSignUpSuccessful] = useState(0);
+  const [signUpGoogle, setSignUpGoogle] = useState(0);
+  const [signUpError, setSignUpError] = useState(0);
+  const [signUpSuccessfulRate, setSignUpSuccessfulRate] = useState(0);
+  const [signUpErrorRate, setSignUpErrorRate] = useState(0);
+  const [totalCompleteSignUp, setTotalCompleteSignUp] = useState(0);
+  const [completeSignUpSuccessful, setCompleteSignUpSuccessful] = useState(0);
+  const [completeSignUpError, setCompleteSignUpError] = useState(0);
+  const [completeSignUpSuccessfulRate, setCompleteSignUpSuccessfulRate] = useState(0);
+  const [completeSignUpErrorRate, setCompleteSignUpErrorRate] = useState(0);
+
+  useEffect(() => {
+    const fetchSignUpStats = async () => {
+      let signUpStats = await fetch_async(url_signUp_stats);
+      setTotalSignUps(signUpStats.total_sign_ups);
+      setSignUpSuccessful(signUpStats.sign_up_successful);
+      setSignUpGoogle(signUpStats.sign_up_google);
+      setSignUpError(signUpStats.sign_up_error);
+      setSignUpSuccessfulRate(signUpStats.sign_up_successful_rate);
+      setSignUpErrorRate(signUpStats.sign_up_error_rate);
+      setTotalCompleteSignUp(signUpStats.total_complete_sign_up);
+      setCompleteSignUpSuccessful(signUpStats.complete_sign_up_successful);
+      setCompleteSignUpError(signUpStats.complete_sign_up_error);
+      setCompleteSignUpSuccessfulRate(signUpStats.complete_sign_up_successful_rate);
+      setCompleteSignUpErrorRate(signUpStats.complete_sign_up_error_rate);
+    };
+    fetchSignUpStats();
+  }, []);
+
+  const signUp = [
+    { name: "Total Sign Ups", value: totalSignUps },
+    { name: "Sign Up Successful", value: signUpSuccessful },
+    { name: "Sign Up Google", value: signUpGoogle },
+    { name: "Sign Up Error", value: signUpError },
+    { name: "Sign Up Successful Rate", value: signUpSuccessfulRate },
+    { name: "Sign Up Error Rate", value: signUpErrorRate },
+    { name: "Total Complete Sign Up", value: totalCompleteSignUp },
+    { name: "Complete Sign Up Successful", value: completeSignUpSuccessful },
+    { name: "Complete Sign Up Error", value: completeSignUpError },
+    { name: "Complete Sign Up Successful Rate", value: completeSignUpSuccessfulRate },
+    { name: "Complete Sign Up Error Rate", value: completeSignUpErrorRate },
+  ];
+
 
   const data : MyStats[] = [
     {
@@ -119,10 +204,17 @@ export default function StatisticsPage() {
       data: location,
     },
     {
-      category: "Mobile App",
-      stat: "2,543",
-      data: app,
+      category: "Log In Rates",
+      stat: totalLogIns.toString(),
+      data: logIn,
     },
+
+    {
+      category: "Sing Up Rates",
+      stat: signUpSuccessful.toString(),
+      data: signUp,
+    }
+    
   ];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
