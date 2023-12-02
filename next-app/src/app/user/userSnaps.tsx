@@ -4,7 +4,7 @@ import { profileWidth } from "./userProfile";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { put_async } from "./commun/fetch_async";
+import { post_async } from "./commun/fetch_async";
 import { BASE_TWEET_VISIBILITY } from "./commun/urls";
 
 
@@ -32,7 +32,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell className="text-justify">User ID</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Username</TableHeaderCell>
           <TableHeaderCell className="text-justify">Content</TableHeaderCell>
           <TableHeaderCell className="text-center">Shares</TableHeaderCell>
           <TableHeaderCell className="text-center">Likes</TableHeaderCell>
@@ -63,9 +63,9 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
             <TableRow key={snap.id}>
               <TableCell>
-                <Link href={`/user?id=${user_id}`} className="text-blue-500 hover:text-blue-700"
-                  onClick={()=> router.push( `/user?id=${user_id}` )}>
-                  <span className="link"> @{user_id}</span>
+                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700"
+                  onClick={()=> router.push( `/user?id=${snap.user_id}` )}>
+                  <span className="link"> @{ snap.username }</span>
                 </Link>
               </TableCell>
 
@@ -102,13 +102,12 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                       if (visibility.valueOf() === true) {
 
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
-                        res = await put_async(url);
+                        res = await post_async(url);
                       }else{
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
-                        res = await put_async(url);
+                        res = await post_async(url);
                       }
                       
-                      console.log("response: " + res.status);
                       setSnapVisible(visibility);
                     }}
                     className={`${

@@ -38,3 +38,26 @@ export async function put_async(url:string){
   return resp;
 
 } 
+
+export async function post_async(url:string){
+
+  let resp:any = null;
+  
+  try{
+    const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+    }).then((response) => {
+      return response;
+    }
+    );
+    resp = await response.json();
+  }catch(error){
+      throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
+  }
+
+  return resp;
+
+} 

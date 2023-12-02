@@ -11,7 +11,7 @@ import { DataPerMonth, MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
 
-import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH } from '../user/commun/urls';
+import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH, URL_USERS_PER_MONTH } from '../user/commun/urls';
 
 
 // Formato de fecha 2024-01-01T00:00:00
@@ -248,19 +248,23 @@ export default function StatisticsPage() {
 
   const total_snaps_per_month  = [{
     month: 'August-2023',
-    value: 2890,
+    value: 0,
   },
   {
     month: 'September-2023',
-    value: 5890,
+    value: 0,
   },
   {
     month: 'October-2023',
-    value: 6890,
+    value: 200,
   },
   {
     month: 'November-2023',
-    value: 5890,
+    value: 500,
+  },
+  {
+    month: 'December-2023',
+    value: 500,
   }];
 
   const snaps_per_month: DataPerMonth = {
@@ -270,50 +274,50 @@ export default function StatisticsPage() {
     data: total_snaps_per_month,
   };
 
-  // const [newUsers, setNewUsers] = useState<any[]>([]); 
-  // const [totalUsersPerMonth, setTotalUsersPerMonth] = useState<{ month: string; value: number }[]>([]);
+  const [newUsers, setNewUsers] = useState<any[]>([]); 
+  const [totalUsersPerMonth, setTotalUsersPerMonth] = useState<{ month: string; value: number }[]>([]);
 
-  // useEffect(() => {
-  //   const fetchNewUsersStats = async () => {
-  //     let new_users_per_month_stats = await fetch_async(URL_USERS_PER_MONTH);
-  //     setNewUsers(new_users_per_month_stats);
-  //   };
-  //   fetchNewUsersStats();
-  // }, []);
+  useEffect(() => {
+    const fetchNewUsersStats = async () => {
+      let new_users_per_month_stats = await fetch_async(URL_USERS_PER_MONTH);
+      setNewUsers(new_users_per_month_stats);
+    };
+    fetchNewUsersStats();
+  }, []);
   
-  // useEffect(() => {
-  //   if (newUsers.length > 0) {
-  //     const mappedNewUsers = newUsers.map((newUser: any) => ({
-  //       month: newUser.month,
-  //       value: newUser.value
-  //     }));
-  //     setTotalUsersPerMonth(mappedNewUsers);
-  //   }
-  // }, [newUsers]);
+  useEffect(() => {
+    if (newUsers.length > 0) {
+      const mappedNewUsers = newUsers.map((newUser: any) => ({
+        month: newUser.month,
+        value: newUser.value
+      }));
+      setTotalUsersPerMonth(mappedNewUsers);
+    }
+  }, [newUsers]);
 
 
-  const total_users_per_month  = [{
-    month: 'August-2023',
-    value: 1234,
-  },
-  {
-    month: 'September-2023',
-    value: 5432,
-  },
-  {
-    month: 'October-2023',
-    value: 1124,
-  },
-  {
-    month: 'November-2023',
-    value: 3421,
-  }];
+  // const total_users_per_month  = [{
+  //   month: 'August-2023',
+  //   value: 1234,
+  // },
+  // {
+  //   month: 'September-2023',
+  //   value: 5432,
+  // },
+  // {
+  //   month: 'October-2023',
+  //   value: 1124,
+  // },
+  // {
+  //   month: 'November-2023',
+  //   value: 3421,
+  // }];
 
   const users_per_month: DataPerMonth = {
     name: "Users",
     description: "Total users since lauch",
     color: "indigo",
-    data: total_users_per_month,
+    data: totalUsersPerMonth,
   };
 
   const [selectedIndex, setSelectedIndex] = useState(0);

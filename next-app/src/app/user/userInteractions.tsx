@@ -23,7 +23,7 @@ export default function UsersInteractionTable({ users, interaction }: { users: U
           <TableHeaderCell className="text-justify">Name</TableHeaderCell>
           <TableHeaderCell className="text-justify">Username</TableHeaderCell>
           <TableHeaderCell className="text-center">Ubication</TableHeaderCell>
-          <TableHeaderCell className="text-center">Follows Me</TableHeaderCell>
+          <TableHeaderCell className="text-center">Follows Back</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
