@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { put_async } from "./commun/fetch_async";
 import { BASE_TWEET_VISIBILITY } from "./commun/urls";
 
+
 export interface Snap {
   id: string;
   username:string,
@@ -100,12 +101,10 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
                       if (visibility.valueOf() === true) {
 
-                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_public/" + snap.id;
-                        console.log("url: " + url);
+                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
                         res = await put_async(url);
                       }else{
-                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_private/" + snap.id;
-                        console.log("url: " + url);
+                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
                         res = await put_async(url);
                       }
                       

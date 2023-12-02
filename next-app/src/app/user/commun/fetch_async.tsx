@@ -26,8 +26,10 @@ export async function put_async(url:string){
     headers: {
       'Content-Type': 'application/json'
     }
-    //,body: JSON.stringify({ user_id })
-    });
+    }).then((response) => {
+      return response;
+    }
+    );
     resp = await response.json();
   }catch(error){
       throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
