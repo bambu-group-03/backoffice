@@ -32,9 +32,11 @@ export default function UserStats({data, users_per_month}:{data:MyStats[], users
           </Card>
         ))}
       </Grid>
+
       <div className="mx-auto max-w-7xl py-4">
         <PerMonth data_per_month={users_per_month}/>
       </div>
+    
     </div>
   );
 }

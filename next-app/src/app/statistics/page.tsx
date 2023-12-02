@@ -11,7 +11,7 @@ import { DataPerMonth, MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
 
-import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS } from '../user/commun/urls';
+import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH } from '../user/commun/urls';
 
 
 // Formato de fecha 2024-01-01T00:00:00
@@ -191,38 +191,32 @@ export default function StatisticsPage() {
 
   ///////////////// Snap Stats /////////////////
   const [totalSnaps, setTotalSnaps] = useState(0);
-  const [blockedSnaps, setBlockedSnaps] = useState(0);
-  const [nonBlockedSnaps, setNonBlockedSnaps] = useState(0);
-  const [blockedSnapsRate, setBlockedSnapsRate] = useState(0);
-  const [nonBlockedSnapsRate, setNonBlockedSnapsRate] = useState(0);
+  const [privateSnaps, setPrivateSnaps] = useState(0);
+  const [publicSnaps, setPublicSnaps] = useState(0);
 
 
   useEffect(() => {
     const fetchSnapstats = async () => {
       let user_stats = await fetch_async(URL_SNAP_STATS);
-      setTotalSnaps(user_stats.total_Snaps);
-      setBlockedSnaps(user_stats.blocked_Snaps);
-      setNonBlockedSnaps(user_stats.non_blocked_Snaps);
-      setBlockedSnapsRate(user_stats.blocked_Snaps_rate);
-      setNonBlockedSnapsRate(user_stats.non_blocked_Snaps_rate);
+      setTotalSnaps(user_stats.total_snaps);
+      setPrivateSnaps(user_stats.private_snaps);
+      setPublicSnaps(user_stats.public_snaps);
     };
     fetchSnapstats();
   }, []);
 
-  const Snaps = [
-    { name: "total Snaps", value: totalSnaps },
-    { name: "blocked_user", value: blockedSnaps },
-    { name: "non blocked Snaps", value: nonBlockedSnaps },
-    { name: "blocked Snaps rate", value: blockedSnapsRate },
-    { name: "non blocked Snaps rate", value: nonBlockedSnapsRate },
+  const snaps = [
+    { name: "Total Snaps", value: totalSnaps },
+    { name: "Private Snaps", value: privateSnaps },
+    { name: "Public Snaps", value: publicSnaps },
   ];
 
 
   const snapData: MyStats[] = [
   {
     category: "Snaps",
-    stat: totalUsers.toString(),
-    data: users,
+    stat: totalSnaps?.toString(),
+    data: snaps,
   },
   ];
 
@@ -231,8 +225,7 @@ export default function StatisticsPage() {
 
   //////// Stats per Month /////////
 
-    // const [newSnaps, setNewSnaps] = useState<any[]>([]); 
-
+  // const [newSnaps, setNewSnaps] = useState<any[]>([]); 
   // const [totalSnapsPerMonth, setTotalSnapsPerMonth] = useState<{ month: string; value: number }[]>([]);
 
   // useEffect(() => {
@@ -245,9 +238,9 @@ export default function StatisticsPage() {
   
   // useEffect(() => {
   //   if (newSnaps.length > 0) {
-  //     const mappedNewUsers = newSnaps.map((newUser: any) => ({
-  //       month: newUser.month,
-  //       value: newUser.value
+  //     const mappedNewUsers = newSnaps.map((newSnap: number) => ({
+  //       month: newSnap?.month,
+  //       value: newSnap.value ? newSnap?.value : newSnap
   //     }));
   //     setTotalSnapsPerMonth(mappedNewUsers);
   //   }
@@ -277,8 +270,7 @@ export default function StatisticsPage() {
     data: total_snaps_per_month,
   };
 
-    // const [newUsers, setNewUsers] = useState<any[]>([]); 
-
+  // const [newUsers, setNewUsers] = useState<any[]>([]); 
   // const [totalUsersPerMonth, setTotalUsersPerMonth] = useState<{ month: string; value: number }[]>([]);
 
   // useEffect(() => {
