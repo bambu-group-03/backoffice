@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
 import UserStats from "./userStats";
-import { MyStats } from "./types";
+import { DataPerMonth, MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
 
@@ -226,6 +226,104 @@ export default function StatisticsPage() {
   },
   ];
 
+
+
+
+  //////// Stats per Month /////////
+
+    // const [newSnaps, setNewSnaps] = useState<any[]>([]); 
+
+  // const [totalSnapsPerMonth, setTotalSnapsPerMonth] = useState<{ month: string; value: number }[]>([]);
+
+  // useEffect(() => {
+  //   const fetchNewUsersStats = async () => {
+  //     let new_snaps_per_month_stats = await fetch_async(URL_SNAPS_PER_MONTH);
+  //     setNewSnaps(new_snaps_per_month_stats);
+  //   };
+  //   fetchNewUsersStats();
+  // }, []);
+  
+  // useEffect(() => {
+  //   if (newSnaps.length > 0) {
+  //     const mappedNewUsers = newSnaps.map((newUser: any) => ({
+  //       month: newUser.month,
+  //       value: newUser.value
+  //     }));
+  //     setTotalSnapsPerMonth(mappedNewUsers);
+  //   }
+  // }, [newSnaps]);
+
+  const total_snaps_per_month  = [{
+    month: '08-21',
+    value: 2890,
+  },
+  {
+    month: '09-21',
+    value: 5890,
+  },
+  {
+    month: '10-22',
+    value: 6890,
+  },
+  {
+    month: '11-22',
+    value: 5890,
+  }];
+
+  const snaps_per_month: DataPerMonth = {
+    name: "Snaps",
+    description: "Total snaps since lauch",
+    color: "cyan",
+    data: total_snaps_per_month,
+  };
+
+    // const [newUsers, setNewUsers] = useState<any[]>([]); 
+
+  // const [totalUsersPerMonth, setTotalUsersPerMonth] = useState<{ month: string; value: number }[]>([]);
+
+  // useEffect(() => {
+  //   const fetchNewUsersStats = async () => {
+  //     let new_users_per_month_stats = await fetch_async(URL_USERS_PER_MONTH);
+  //     setNewUsers(new_users_per_month_stats);
+  //   };
+  //   fetchNewUsersStats();
+  // }, []);
+  
+  // useEffect(() => {
+  //   if (newUsers.length > 0) {
+  //     const mappedNewUsers = newUsers.map((newUser: any) => ({
+  //       month: newUser.month,
+  //       value: newUser.value
+  //     }));
+  //     setTotalUsersPerMonth(mappedNewUsers);
+  //   }
+  // }, [newUsers]);
+
+
+  const total_users_per_month  = [{
+    month: '08-21',
+    value: 1234,
+  },
+  {
+    month: '09-21',
+    value: 5432,
+  },
+  {
+    month: '10-22',
+    value: 1124,
+  },
+  {
+    month: '11-22',
+    value: 3421,
+  }];
+
+  const users_per_month: DataPerMonth = {
+    name: "Users",
+    description: "Total users since lauch",
+    color: "indigo",
+    data: total_users_per_month,
+  };
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
@@ -289,15 +387,15 @@ export default function StatisticsPage() {
 
       <Tab.Panels>
             <Tab.Panel>
-            <UserStats data={userData}/> 
+            <UserStats data={userData} users_per_month={users_per_month}/> 
             </Tab.Panel>
         
           <Tab.Panel>
-            <SnapStats data={snapData} />
+            <SnapStats data={snapData} snaps_per_month={snaps_per_month} />
           </Tab.Panel>
 
           <Tab.Panel>
-            <GrowthStats />
+            <GrowthStats snaps_per_month={snaps_per_month} users_per_month={users_per_month}/>
           </Tab.Panel>
       </Tab.Panels>
     </div>    
