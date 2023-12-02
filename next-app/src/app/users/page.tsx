@@ -9,7 +9,7 @@ import { Card, Text, Title } from '@tremor/react';
 
 import { BASE_TEST_URL, BASE_REAL_URL } from '../user/commun/urls';
 
-import Search from '../search';
+import Search from '../search-users';
 import UsersTable from '../table';
 import { fetch_async } from "../user/commun/fetch_async";
 
