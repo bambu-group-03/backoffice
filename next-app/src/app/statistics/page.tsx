@@ -254,19 +254,19 @@ export default function StatisticsPage() {
   // }, [newSnaps]);
 
   const total_snaps_per_month  = [{
-    month: '08-21',
+    month: 'August-2023',
     value: 2890,
   },
   {
-    month: '09-21',
+    month: 'September-2023',
     value: 5890,
   },
   {
-    month: '10-22',
+    month: 'October-2023',
     value: 6890,
   },
   {
-    month: '11-22',
+    month: 'November-2023',
     value: 5890,
   }];
 
@@ -301,19 +301,19 @@ export default function StatisticsPage() {
 
 
   const total_users_per_month  = [{
-    month: '08-21',
+    month: 'August-2023',
     value: 1234,
   },
   {
-    month: '09-21',
+    month: 'September-2023',
     value: 5432,
   },
   {
-    month: '10-22',
+    month: 'October-2023',
     value: 1124,
   },
   {
-    month: '11-22',
+    month: 'November-2023',
     value: 3421,
   }];
 
