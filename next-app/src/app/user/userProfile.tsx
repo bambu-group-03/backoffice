@@ -18,7 +18,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Switch } from '@headlessui/react'
 import Image from 'next/image';
 
-import { BASE_REAL_URL, BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
+import { BASE_INTERACTION_URL, BASE_REAL_URL, BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
 import { fetch_async, put_async } from './commun/fetch_async';
@@ -99,27 +99,23 @@ export default function UsersTable({ user }: {  user: User }) {
         };
         fetchSnaps();
        
-        //setTweets( ["Tweet 1", "Tweet 2", "Tweet 3", "Tweet 4"]);
         break;
 
       case 2: // GET user following
 
         const fetchFollowing = async () => {
-          //const url = "http://localhost:8000/api/auth/string_1/following"
-          const url = BASE_REAL_URL + "api/auth/" + user.id + "/following"; 
+          const url = BASE_INTERACTION_URL + user.id + "/following"; 
           let following_received: [] = await fetch_async(url); 
           setFollowing(following_received);
         };
         fetchFollowing();
-
-
-        //setFollowing(["Luis", "Edu", "Dani", "Mafer"]);
         break;
+
       case 3: // GET user followers
 
         const fetchFollowers = async () => {
-          //const url = "http://localhost:8000/api/auth/string_1/followers"
-          const url = BASE_REAL_URL + "api/auth/" + user.id + "/followers"; 
+          const url = BASE_INTERACTION_URL + user.id + "/followers"; 
+          console.log("url: " + url);
           let followers_received: [] = await fetch_async(url); 
           setFollowers(followers_received);
         };
@@ -147,16 +143,7 @@ export default function UsersTable({ user }: {  user: User }) {
           className={`${profileWidth} -mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5`}
         >
           <div className="relative group h-24 w-24 rounded-full overflow-hidden sm:h-32 sm:w-32">
-            {/* {settingsPage && (
-              <button
-                className="absolute bg-gray-800 bg-opacity-50 hover:bg-opacity-70 w-full h-full z-10 transition-all flex items-center justify-center"
-                onClick={() =>
-                  alert('Image upload has been disabled for demo purposes.')
-                }
-              >
-                <UploadIcon className="h-6 w-6 text-black" />
-              </button>
-            )} */}
+            
             <BlurImage
               src={validImgUrl(data.image)}
               alt={data.firstName}
@@ -176,31 +163,7 @@ export default function UsersTable({ user }: {  user: User }) {
                 <CheckInCircleIcon className="w-6 h-6 text-[#0070F3]" />
               )}
             </div>
-            {/* {user.verified ? (
-              <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                <a
-                  href={`https://github.com/${data.username}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex justify-center px-4 py-2 border border-gray-800 hover:border-white shadow-sm text-sm font-medium rounded-md text-black font-mono bg-black focus:outline-none focus:ring-0 transition-all"
-                >
-                  <GitHubIcon className="mr-3 h-5 w-5 text-black" />
-                  <span>More info</span>
-                </a>
-              </div>
-            ) : (
-              <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                <a
-                  href="https://github.com/vercel/mongodb-starter"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex justify-center px-4 py-2 border border-gray-800 hover:border-white shadow-sm text-sm font-medium rounded-md text-black font-mono bg-black focus:outline-none focus:ring-0 transition-all"
-                >
-                  <GitHubIcon className="mr-3 h-5 w-5 text-black" />
-                  <span>Demo Account</span>
-                </a>
-              </div>
-            )} */}
+           
 
         <Switch
             checked={!data.user_blocked}
@@ -355,47 +318,6 @@ export default function UsersTable({ user }: {  user: User }) {
       </Tab.Panels>
       </div>    
     </Tab.Group>
-
-      {/* // Hacer switch para mostrar los datos de cada tab */}
-
-     
-
-      {/* Edit buttons */}
-      {/* {settingsPage ? (
-        <div className="fixed bottom-10 right-10 flex items-center space-x-3">
-          <p className="text-sm text-gray-500">{error}</p>
-          <button
-            className={`${
-              saving ? 'cursor-not-allowed' : ''
-            } rounded-full border border-[#0070F3] hover:border-2 w-12 h-12 flex justify-center items-center transition-all`}
-            disabled={saving}
-            onClick={handleSave}
-          >
-            {saving ? (
-              <LoadingDots color="white" />
-            ) : (
-              <CheckIcon className="h-4 w-4 text-black" />
-            )}
-          </button>
-          <Link href={`/${data.username}`} shallow replace scroll={false}>
-            <a className="rounded-full border border-gray-800 hover:border-white w-12 h-12 flex justify-center items-center transition-all">
-              <XIcon className="h-4 w-4 text-black" />
-            </a>
-          </Link>
-        </div>
-      ) : session?.username === data.username ? (
-        <Link
-          href={{ query: { settings: true } }}
-          as="/settings"
-          shallow
-          replace
-          scroll={false}
-        >
-          <a className="fixed bottom-10 right-10 rounded-full border bg-black border-gray-800 hover:border-white w-12 h-12 flex justify-center items-center transition-all">
-            <EditIcon className="h-4 w-4 text-black" />
-          </a>
-        </Link>
-      ) : null} */}
     </div>
   );
 }

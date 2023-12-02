@@ -21,6 +21,8 @@ export interface User {
   profile_photo_id:string;
   blocked: boolean;
   verified?: boolean;
+  is_followed?: boolean;
+  ubication?: string;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {
