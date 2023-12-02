@@ -7,7 +7,7 @@ import SnapTable from "../user/userSnaps";
 import { Card } from "@tremor/react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import Search from "../search";
+import Search from "../search-snaps";
 
 export default async function SnapsPage(){
 
