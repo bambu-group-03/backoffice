@@ -14,10 +14,14 @@ export interface Snap {
   author: string;
   content:string;
   visibility: number;
+  shares?: number;
+  likes?: number;
+  privacy? : number;
   created_at?: string;
 }
 
 const SNAP_VISIBLE = 1;
+const SNAP_PRIVATE = 1;
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
   
@@ -29,8 +33,11 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
         <TableRow>
           <TableHeaderCell className="text-justify">User ID</TableHeaderCell>
           <TableHeaderCell className="text-justify">Content</TableHeaderCell>
-          <TableHeaderCell className="text-justify">Date</TableHeaderCell>
-          <TableHeaderCell className="text-justify">Visibility</TableHeaderCell>
+          <TableHeaderCell className="text-center">Shares</TableHeaderCell>
+          <TableHeaderCell className="text-center">Likes</TableHeaderCell>
+          <TableHeaderCell className="text-center">Privacy</TableHeaderCell>
+          <TableHeaderCell className="text-center">Date</TableHeaderCell>
+          <TableHeaderCell className="text-center">Visibility</TableHeaderCell>
         </TableRow>
       </TableHead>
 
@@ -49,11 +56,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             const user_id = snap.username ? snap.username : snap.user_id;
 
             const snap_date = new Date(snap.created_at as string);
-            // to format dd//mm//yyyy hh:mm:ss
             const snap_date_string = snap_date.toLocaleDateString('en-GB') ;
-            
-
-            
             
             return (     
 
@@ -72,10 +75,22 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
               </TableCell>
 
               <TableCell>
-                <Text>{snap_date_string}</Text>
+                <Text className="text-center">{snap.shares}</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-center">{snap.likes}</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-center">{snap.privacy === SNAP_PRIVATE ? "Private" : "Public" }</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-right">{snap_date_string}</Text>
               </TableCell>
               
-              <TableCell>
+              <TableCell className="flex justify-center items-center">
                 <Switch
                     checked={snapVisible}
                     onChange={async (visibility) => {
