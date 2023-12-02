@@ -10,12 +10,19 @@ import UserStats from "./userStats";
 import { MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
-import { stat } from 'fs';
 
-const url_user_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_user_rates" ;
-const url_locality_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_ubication_count" ;
-const url_logIn_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_log_in_rates";
-const url_signUp_stats = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/get_sign_up_rates";
+
+const BASE_USER_STATS_URL = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics";
+const BASE_SNAP_STATS_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/snaps/stats";
+
+// User URLs
+const URL_USER_STATS =  BASE_USER_STATS_URL + "/get_user_rates" ;
+const URL_LOCATILY_STATS = BASE_USER_STATS_URL + "/get_ubication_count" ;
+const URL_LOGIN_STATS = BASE_USER_STATS_URL + "/get_log_in_rates";
+const URL_SIGNUP_STATS = BASE_USER_STATS_URL + "/get_sign_up_rates";
+
+// Snap URLs
+const URL_SNAP_STATS = BASE_SNAP_STATS_URL + "/";
 
 // Formato de fecha 2024-01-01T00:00:00
 
@@ -57,7 +64,6 @@ export default function StatisticsPage() {
   }, [ user, router ] );
 
   // User Stats
-
   const [totalUsers, setTotalUsers] = useState(0);
   const [blockedUsers, setBlockedUsers] = useState(0);
   const [nonBlockedUsers, setNonBlockedUsers] = useState(0);
@@ -67,7 +73,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchUserStats = async () => {
-      let user_stats = await fetch_async(url_user_stats);
+      let user_stats = await fetch_async(URL_USER_STATS);
       setTotalUsers(user_stats.total_users);
       setBlockedUsers(user_stats.blocked_users);
       setNonBlockedUsers(user_stats.non_blocked_users);
@@ -86,14 +92,13 @@ export default function StatisticsPage() {
   ];
 
   // Location Stats
-
   const [locations, setLocations] = useState<any[]>([]); 
 
   const [location, setLocation] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     const fetchLocationStats = async () => {
-      let locations_stats = await fetch_async(url_locality_stats);
+      let locations_stats = await fetch_async(URL_LOCATILY_STATS);
       console.log(locations_stats);
       console.log("Entre aca");
       setLocations(locations_stats);
@@ -112,7 +117,6 @@ export default function StatisticsPage() {
   }, [locations]);
 
   // LogIn Stats
-
   const [totalLogIns, setTotalLogIns] = useState(0);
   const [totalLogInSuccssful, setTotalLogInSuccssful] = useState(0);
   const [totalLogInGoogle, setTotalLogInGoogle] = useState(0);
@@ -124,7 +128,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchLogInStats = async () => {
-      let logInStats = await fetch_async(url_logIn_stats);
+      let logInStats = await fetch_async(URL_LOGIN_STATS);
       setTotalLogIns(logInStats.total_log_ins);
       setTotalLogInSuccssful(logInStats.log_in_successful);
       setTotalLogInGoogle(logInStats.log_in_google);
@@ -161,7 +165,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchSignUpStats = async () => {
-      let signUpStats = await fetch_async(url_signUp_stats);
+      let signUpStats = await fetch_async(URL_SIGNUP_STATS);
       setTotalSignUps(signUpStats.total_sign_ups);
       setSignUpSuccessful(signUpStats.sign_up_successful);
       setSignUpGoogle(signUpStats.sign_up_google);
@@ -216,6 +220,36 @@ export default function StatisticsPage() {
     }
     
   ];
+
+
+  // Snap Stats
+  const [totalSnaps, setTotalSnaps] = useState(0);
+  const [blockedSnaps, setBlockedSnaps] = useState(0);
+  const [nonBlockedSnaps, setNonBlockedSnaps] = useState(0);
+  const [blockedSnapsRate, setBlockedSnapsRate] = useState(0);
+  const [nonBlockedSnapsRate, setNonBlockedSnapsRate] = useState(0);
+
+
+  useEffect(() => {
+    const fetchSnapstats = async () => {
+      let user_stats = await fetch_async(URL_SNAP_STATS);
+      setTotalSnaps(user_stats.total_Snaps);
+      setBlockedSnaps(user_stats.blocked_Snaps);
+      setNonBlockedSnaps(user_stats.non_blocked_Snaps);
+      setBlockedSnapsRate(user_stats.blocked_Snaps_rate);
+      setNonBlockedSnapsRate(user_stats.non_blocked_Snaps_rate);
+    };
+    fetchSnapstats();
+  }, []);
+
+  const Snaps = [
+    { name: "total Snaps", value: totalSnaps },
+    { name: "blocked_user", value: blockedSnaps },
+    { name: "non blocked Snaps", value: nonBlockedSnaps },
+    { name: "blocked Snaps rate", value: blockedSnapsRate },
+    { name: "non blocked Snaps rate", value: nonBlockedSnapsRate },
+  ];
+
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
