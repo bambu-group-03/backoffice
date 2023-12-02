@@ -4,7 +4,7 @@ import { profileWidth } from "./userProfile";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { put_async } from "./commun/fetch_async";
+import { post_async } from "./commun/fetch_async";
 import { BASE_TWEET_VISIBILITY } from "./commun/urls";
 
 
@@ -102,13 +102,12 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                       if (visibility.valueOf() === true) {
 
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
-                        res = await put_async(url);
+                        res = await post_async(url);
                       }else{
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
-                        res = await put_async(url);
+                        res = await post_async(url);
                       }
                       
-                      console.log("response: " + res.status);
                       setSnapVisible(visibility);
                     }}
                     className={`${
