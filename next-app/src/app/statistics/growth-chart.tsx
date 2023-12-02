@@ -1,7 +1,7 @@
 import { AreaChart, Card, Text, Title } from '@tremor/react';
 import { useEffect, useState } from 'react';
 import { fetch_async } from '../user/commun/fetch_async';
-import { BASE_SNAP_STATS } from '../user/commun/urls';
+import { BASE_SNAP_STATS_URL } from '../user/commun/urls';
 
 const cant_dias:string = "25";
 
@@ -42,7 +42,7 @@ let data = [{
 
 
 
-const url = BASE_SNAP_STATS + "frequency/daily/number_of_points/" + cant_dias;
+const url = BASE_SNAP_STATS_URL + "frequency/daily/number_of_points/" + cant_dias;
 
 useEffect(() => {
   const fetchUsers = async () => {

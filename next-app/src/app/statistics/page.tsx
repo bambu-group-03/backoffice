@@ -11,18 +11,8 @@ import { MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
 
+import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS } from '../user/commun/urls';
 
-const BASE_USER_STATS_URL = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics";
-const BASE_SNAP_STATS_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/snaps/stats";
-
-// User URLs
-const URL_USER_STATS =  BASE_USER_STATS_URL + "/get_user_rates" ;
-const URL_LOCATILY_STATS = BASE_USER_STATS_URL + "/get_ubication_count" ;
-const URL_LOGIN_STATS = BASE_USER_STATS_URL + "/get_log_in_rates";
-const URL_SIGNUP_STATS = BASE_USER_STATS_URL + "/get_sign_up_rates";
-
-// Snap URLs
-const URL_SNAP_STATS = BASE_SNAP_STATS_URL + "/";
 
 // Formato de fecha 2024-01-01T00:00:00
 
