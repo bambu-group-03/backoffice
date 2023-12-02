@@ -1,5 +1,3 @@
-"use client";
-
 import { BarChart, Card, Text, Title } from '@tremor/react';
 import { DataPerMonth } from "./types";
 
@@ -18,7 +16,7 @@ export default function PerMonth({data_per_month}:{data_per_month:DataPerMonth})
       className="mt-4 h-80"
       data={data_per_month.data}
       categories={[tag]}
-      index="Month"
+      index="month"
       colors={[color]}
       valueFormatter={(number: number) =>
         ` ${Intl.NumberFormat('us').format(number).toString()}`

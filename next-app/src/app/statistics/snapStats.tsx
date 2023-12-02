@@ -7,19 +7,19 @@ import PerMonth from "./bar-chart-per-month";
 export default function SnapStats({data}:{data:MyStats[]}) {
 
   const total_snaps_per_month  = [{
-    Month: '08-21',
+    month: '08-21',
     value: 2890,
   },
   {
-    Month: '09-21',
+    month: '09-21',
     value: 5890,
   },
   {
-    Month: '10-22',
+    month: '10-22',
     value: 6890,
   },
   {
-    Month: '11-22',
+    month: '11-22',
     value: 5890,
   }];
 
@@ -30,8 +30,6 @@ export default function SnapStats({data}:{data:MyStats[]}) {
     data: total_snaps_per_month,
   };
   
-
-
   return (
     <div className="mx-auto max-w-7xl p-4 md:p-5">
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6">

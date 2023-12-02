@@ -8,5 +8,5 @@ export interface DataPerMonth {
   name: string;
   description: string; 
   color : string;
-  data: { Month: string; value: number}[];
+  data: { month: string; value: number}[];
 };
