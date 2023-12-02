@@ -19,6 +19,7 @@ export default function GrowthStats() {
   const [newUsersSept, setNewUsersSept] = useState(1500);
   const [newUsersOct, setNewUsersOct] = useState(3000);
   const [newUsersNov, setNewUsersNov] = useState(2580);
+  
 let data = [{
   Month: '08-21',
   Snaps: snapsAgust,

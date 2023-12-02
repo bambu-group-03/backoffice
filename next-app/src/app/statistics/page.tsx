@@ -16,28 +16,6 @@ import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, 
 
 // Formato de fecha 2024-01-01T00:00:00
 
-// const users = [
-//   { name: "total users", value: 1230 },
-//   { name: "blocked_user", value: 751 },
-//   { name: "non blocked users", value: 471 },
-//   { name: "blocked users rate", value: 280 },
-// ];
-
-// const shop = [
-//   { name: "/home", value: 453 },
-//   { name: "/imprint", value: 351 },
-//   { name: "/shop", value: 271 },
-//   { name: "/pricing", value: 191 },
-// ];
-
-const app = [
-  { name: "/shop", value: 789 },
-  { name: "/product-features", value: 676 },
-  { name: "/about", value: 564 },
-  { name: "/login", value: 234 },
-  { name: "/downloads", value: 191 },
-];
-
 
 export default function StatisticsPage() {
 
@@ -46,20 +24,19 @@ export default function StatisticsPage() {
   // Admin must be logged in to create a new user 
   const { user } = useAuthContext() as { user: any };
 
+  // Redirect to the logIn page if the user is not logged in
   useEffect( () => {
-    // Redirect to the logIn page if the user is not logged in
     if ( user == null ) {
       router.push( "/signin" );
     }
   }, [ user, router ] );
 
-  // User Stats
+  //////////// User Stats /////////////////
   const [totalUsers, setTotalUsers] = useState(0);
   const [blockedUsers, setBlockedUsers] = useState(0);
   const [nonBlockedUsers, setNonBlockedUsers] = useState(0);
   const [blockedUsersRate, setBlockedUsersRate] = useState(0);
   const [nonBlockedUsersRate, setNonBlockedUsersRate] = useState(0);
-
 
   useEffect(() => {
     const fetchUserStats = async () => {
@@ -186,7 +163,7 @@ export default function StatisticsPage() {
   ];
 
 
-  const data : MyStats[] = [
+  const userData : MyStats[] = [
     {
       category: "Users",
       stat: totalUsers.toString(),
@@ -212,7 +189,7 @@ export default function StatisticsPage() {
   ];
 
 
-  // Snap Stats
+  ///////////////// Snap Stats /////////////////
   const [totalSnaps, setTotalSnaps] = useState(0);
   const [blockedSnaps, setBlockedSnaps] = useState(0);
   const [nonBlockedSnaps, setNonBlockedSnaps] = useState(0);
@@ -240,6 +217,14 @@ export default function StatisticsPage() {
     { name: "non blocked Snaps rate", value: nonBlockedSnapsRate },
   ];
 
+
+  const snapData: MyStats[] = [
+  {
+    category: "Snaps",
+    stat: totalUsers.toString(),
+    data: users,
+  },
+  ];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -304,11 +289,11 @@ export default function StatisticsPage() {
 
       <Tab.Panels>
             <Tab.Panel>
-            <UserStats data={data}/> 
+            <UserStats data={userData}/> 
             </Tab.Panel>
         
           <Tab.Panel>
-            <SnapStats data={data} />
+            <SnapStats data={snapData} />
           </Tab.Panel>
 
           <Tab.Panel>

@@ -1,65 +1,22 @@
 "use client";
 
-import { AreaChart, BarChart, Card, Text, Title } from '@tremor/react';
-import { useEffect, useState } from 'react';
-import { fetch_async } from '../user/commun/fetch_async';
-import { BASE_SNAP_STATS_URL } from '../user/commun/urls';
+import { BarChart, Card, Text, Title } from '@tremor/react';
+import { DataPerMonth } from "./types";
 
 
-const cant_dias:string = "25";
-
-export default function UsersPerMonth() {
-
-  const [userData, setUserData] = useState([]); 
+export default function PerMonth({data_per_month}:{data_per_month:DataPerMonth}) {
 
 
-  const [newUsersAgust, setNewUsersAgust] = useState(1200);
-  const [newUsersSept, setNewUsersSept] = useState(1500);
-  const [newUsersOct, setNewUsersOct] = useState(3000);
-  const [newUsersNov, setNewUsersNov] = useState(2580);
-
-
-  let data = [{
-    Month: '08-21',
-    NewUsers: newUsersAgust,
-  },
-  {
-    Month: '09-21',
-    NewUsers: newUsersSept,
-  },
-  {
-    Month: '10-22',
-    NewUsers: newUsersOct,
-  },
-  {
-    Month: '11-22',
-    NewUsers: newUsersNov,
-  }];
-
+  const tag = "value";
+  const color:string = data_per_month.color.toString();
   
-
-  const url = BASE_SNAP_STATS_URL + "frequency/daily/number_of_points/" + cant_dias;
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      let snap_stats = await fetch_async(url); 
-      console.log(snap_stats);
-    };
-    fetchUsers();
-  }, []);
-
-  const tag = "NewUsers";
-  const description = "New users since lauch";
-  const color = "indigo";
-  
-
-
   return (
   <Card>
-    <Title>{description}</Title>
+    <Title>{data_per_month.name}</Title>
+    <Text>{data_per_month.description}</Text>
     <BarChart
       className="mt-4 h-80"
-      data={data}
+      data={data_per_month.data}
       categories={[tag]}
       index="Month"
       colors={[color]}
