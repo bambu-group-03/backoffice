@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { put_async } from "./commun/fetch_async";
-import { BASE_TWEET_URL, BASE_TWEET_VISIBILITY } from "./commun/urls";
+import { BASE_TWEET_VISIBILITY } from "./commun/urls";
+
 
 export interface Snap {
   id: string;
@@ -14,9 +15,14 @@ export interface Snap {
   author: string;
   content:string;
   visibility: number;
+  shares?: number;
+  likes?: number;
+  privacy? : number;
+  created_at?: string;
 }
 
 const SNAP_VISIBLE = 1;
+const SNAP_PRIVATE = 1;
 
 export default function SnapTable({ snaps }: { snaps: Snap[] }) {
   
@@ -26,9 +32,13 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell>User ID</TableHeaderCell>
-          <TableHeaderCell>Content</TableHeaderCell>
-          <TableHeaderCell>Visibility</TableHeaderCell>
+          <TableHeaderCell className="text-justify">User ID</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Content</TableHeaderCell>
+          <TableHeaderCell className="text-center">Shares</TableHeaderCell>
+          <TableHeaderCell className="text-center">Likes</TableHeaderCell>
+          <TableHeaderCell className="text-center">Privacy</TableHeaderCell>
+          <TableHeaderCell className="text-center">Date</TableHeaderCell>
+          <TableHeaderCell className="text-center">Visibility</TableHeaderCell>
         </TableRow>
       </TableHead>
 
@@ -45,6 +55,9 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
 
             const user_id = snap.username ? snap.username : snap.user_id;
+
+            const snap_date = new Date(snap.created_at as string);
+            const snap_date_string = snap_date.toLocaleDateString('en-GB') ;
             
             return (     
 
@@ -55,12 +68,30 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                   <span className="link"> @{user_id}</span>
                 </Link>
               </TableCell>
+
+          
               
-              <TableCell>
+              <TableCell className="whitespace-normal break-words">
                 <Text>{snap.content}</Text>
               </TableCell>
-              
+
               <TableCell>
+                <Text className="text-center">{snap.shares}</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-center">{snap.likes}</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-center">{snap.privacy === SNAP_PRIVATE ? "Private" : "Public" }</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text className="text-right">{snap_date_string}</Text>
+              </TableCell>
+              
+              <TableCell className="flex justify-center items-center">
                 <Switch
                     checked={snapVisible}
                     onChange={async (visibility) => {
@@ -70,12 +101,10 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
                       if (visibility.valueOf() === true) {
 
-                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_public/" + snap.id;
-                        console.log("url: " + url);
+                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
                         res = await put_async(url);
                       }else{
-                        url = BASE_TWEET_VISIBILITY + snap.user_id + "/set_private/" + snap.id;
-                        console.log("url: " + url);
+                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
                         res = await put_async(url);
                       }
                       

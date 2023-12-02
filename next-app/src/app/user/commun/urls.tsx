@@ -1,6 +1,8 @@
 export const BASE_TEST_URL = "http://localhost:8000/api/auth/";
 
 export const BASE_REAL_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/';
+export const BASE_INTERACTION_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/interactions/';
+
 
 export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/";
 

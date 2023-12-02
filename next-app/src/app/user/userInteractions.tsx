@@ -13,17 +13,17 @@ import {
 import { User } from '../table';
 import Link from 'next/link';
 import { profileWidth } from './userProfile';
+import router from 'next/router';
 
 export default function UsersInteractionTable({ users, interaction }: { users: User[], interaction: string }) {
   return (
-
-    
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Username</TableHeaderCell>
-          <TableHeaderCell>Link</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Name</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Username</TableHeaderCell>
+          <TableHeaderCell className="text-center">Ubication</TableHeaderCell>
+          <TableHeaderCell className="text-center">Follows Me</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -37,15 +37,23 @@ export default function UsersInteractionTable({ users, interaction }: { users: U
 
         users?.map((user) => (
           <TableRow key={user.id}>
-            <TableCell>{user.firstName} {user.lastName}</TableCell>
+            <TableCell>{user.first_name} {user.last_name}</TableCell>
             <TableCell>
-              <Text>{user.username}</Text>
+            <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700" 
+              onClick={()=>router.push( `/user?id=${user.id}` )}>
+               <span className="link"> @{user.username}</span>
+            </Link>
+
+             
             </TableCell>
-            <TableCell>
-              <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
-                <span className="link">View</span>
-              </Link>
+            <TableCell className="text-center">
+              <Text >{user.ubication}</Text>
             </TableCell>
+
+            <TableCell className="text-center">
+              <Text >{user.is_followed ? "Yes" : "No"}</Text>
+            </TableCell>
+
           </TableRow>
         ))}
       </TableBody>
