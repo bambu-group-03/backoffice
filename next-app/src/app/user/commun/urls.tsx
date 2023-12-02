@@ -27,7 +27,7 @@ export const URL_USER_STATS =  BASE_USER_STATS_URL + "/get_user_rates" ;
 export const URL_LOCATILY_STATS = BASE_USER_STATS_URL + "/get_ubication_count" ;
 export const URL_LOGIN_STATS = BASE_USER_STATS_URL + "/get_log_in_rates";
 export const URL_SIGNUP_STATS = BASE_USER_STATS_URL + "/get_sign_up_rates";
-export const URL_USERS_PER_MONTH = BASE_USER_STATS_URL + "/"; // To Do
+export const URL_USERS_PER_MONTH = BASE_USER_STATS_URL + "/get_user_by_month_count";
 
 // Snap URLs
 export const URL_SNAP_STATS = BASE_SNAP_METRICS_URL + "/get_snap_rates"; 

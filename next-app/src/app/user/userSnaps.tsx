@@ -32,7 +32,7 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell className="text-justify">User ID</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Username</TableHeaderCell>
           <TableHeaderCell className="text-justify">Content</TableHeaderCell>
           <TableHeaderCell className="text-center">Shares</TableHeaderCell>
           <TableHeaderCell className="text-center">Likes</TableHeaderCell>
@@ -63,9 +63,9 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
             <TableRow key={snap.id}>
               <TableCell>
-                <Link href={`/user?id=${user_id}`} className="text-blue-500 hover:text-blue-700"
-                  onClick={()=> router.push( `/user?id=${user_id}` )}>
-                  <span className="link"> @{user_id}</span>
+                <Link href={`/user?id=${snap.user_id}`} className="text-blue-500 hover:text-blue-700"
+                  onClick={()=> router.push( `/user?id=${snap.user_id}` )}>
+                  <span className="link"> @{ snap.username }</span>
                 </Link>
               </TableCell>
 

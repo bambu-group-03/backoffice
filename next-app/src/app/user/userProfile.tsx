@@ -86,7 +86,7 @@ export default function UsersTable({ user }: {  user: User }) {
         const offset = 0;
 
         const fetchSnaps = async () => {
-          const url = BASE_TWEET_URL +  user.id + "/snaps?limit=" + limit + "&offset=" + offset;
+          const url = BASE_TWEET_URL +  'admin/' + user.id + "/snaps?limit=" + limit + "&offset=" + offset;
 
           let snaps_received: [] = await fetch_async(url); 
           setSnaps(snaps_received.snaps);
