@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { put_async } from "./commun/fetch_async";
-import { BASE_TWEET_URL, BASE_TWEET_VISIBILITY } from "./commun/urls";
+import { BASE_TWEET_VISIBILITY } from "./commun/urls";
 
 export interface Snap {
   id: string;
@@ -14,6 +14,7 @@ export interface Snap {
   author: string;
   content:string;
   visibility: number;
+  created_at?: string;
 }
 
 const SNAP_VISIBLE = 1;
@@ -26,9 +27,10 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell>User ID</TableHeaderCell>
-          <TableHeaderCell>Content</TableHeaderCell>
-          <TableHeaderCell>Visibility</TableHeaderCell>
+          <TableHeaderCell className="text-justify">User ID</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Content</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Date</TableHeaderCell>
+          <TableHeaderCell className="text-justify">Visibility</TableHeaderCell>
         </TableRow>
       </TableHead>
 
@@ -45,6 +47,13 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
 
             const user_id = snap.username ? snap.username : snap.user_id;
+
+            const snap_date = new Date(snap.created_at as string);
+            // to format dd//mm//yyyy hh:mm:ss
+            const snap_date_string = snap_date.toLocaleDateString('en-GB') ;
+            
+
+            
             
             return (     
 
@@ -55,9 +64,15 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                   <span className="link"> @{user_id}</span>
                 </Link>
               </TableCell>
+
+          
               
-              <TableCell>
+              <TableCell className="whitespace-normal break-words">
                 <Text>{snap.content}</Text>
+              </TableCell>
+
+              <TableCell>
+                <Text>{snap_date_string}</Text>
               </TableCell>
               
               <TableCell>

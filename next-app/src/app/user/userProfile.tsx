@@ -327,7 +327,7 @@ export default function UsersTable({ user }: {  user: User }) {
         <Tab.Panel>
           <div className={`${profileWidth} mt-10`}>
             <Card className="mt-6">
-            <SnapTable snaps={snaps}></SnapTable>
+             <SnapTable snaps={snaps}></SnapTable>
             </Card> 
 
           </div>
