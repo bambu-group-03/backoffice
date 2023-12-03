@@ -6,7 +6,7 @@ import { useTransition } from 'react';
 import { fetch_async } from './user/commun/fetch_async';
 import { BASE_REAL_URL, IDENTITY_FILTER } from './user/commun/urls';
 
-export default function Search({ disabled, set }: { disabled?: boolean , set: any}) {
+export default function SearchUsers({ disabled, set }: { disabled?: boolean , set: any}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -23,10 +23,13 @@ export default function Search({ disabled, set }: { disabled?: boolean , set: an
 
     let username_searched = params.toString().split("=")[1]
 
+    let limit = 1000;
+    let offset = 0;
+
     if (username_searched){
       url = IDENTITY_FILTER + username_searched;
     }else{
-      url = BASE_REAL_URL + "users?limit=10&offset=0"
+      url = BASE_REAL_URL + "users?limit=" + limit + "&offset=" + offset
     }
     
     const res:[] = await fetch_async(url);
@@ -60,7 +63,7 @@ export default function Search({ disabled, set }: { disabled?: boolean , set: an
           id="search"
           disabled={disabled}
           className="block h-10 w-full rounded-md border border-gray-200 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          placeholder="Search by name..."
+          placeholder="Search by content..."
           spellCheck={false}
           onChange={(e) => handleSearch(e.target.value)}
         />

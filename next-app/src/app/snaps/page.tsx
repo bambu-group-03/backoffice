@@ -7,7 +7,7 @@ import SnapTable from "../user/userSnaps";
 import { Card } from "@tremor/react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import Search from "../search-snaps";
+import SearchSnaps from "../search-snaps";
 
 export default async function SnapsPage(){
 
@@ -40,7 +40,7 @@ export default async function SnapsPage(){
   
     return (
       <main className="mx-auto max-w-7xl p-4 md:p-10">
-         <Search set={setSnaps}/>
+         <SearchSnaps set={setSnaps}/>
         <Card className="mt-6">
           <SnapTable snaps={snaps} />
         </Card>  
