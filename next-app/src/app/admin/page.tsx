@@ -76,7 +76,7 @@ export default async function AdminPage(){
           </div>
         </div>
 
-        <h1>Other Admins</h1>
+        <h1>All Admins</h1>
           <AdminTable admins={admins}/>
           
       </div>
