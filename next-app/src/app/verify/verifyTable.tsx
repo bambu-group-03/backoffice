@@ -1,10 +1,8 @@
 import { Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell,Text, Button } from "@tremor/react";
 import Link from "next/link";
 import { User } from "../table";
-import { post_async, put_async } from "../user/commun/fetch_async";
+import {  put_async } from "../user/commun/fetch_async";
 import { useEffect, useState } from "react";
-import { BASE_TWEET_VISIBILITY } from "../user/commun/urls";
-import { Snap } from "../user/userSnaps";
 import { profileWidth } from "../user/userProfile";
 
 
@@ -28,7 +26,7 @@ export default function VerifyTable({ users }: { users: User[] }) {
     
     const url = "/api/certified_request/" + status + "/" + userId;
 
-    await post_async(url, "identity");
+    await put_async(url, "identity");
   };
 
   return (
