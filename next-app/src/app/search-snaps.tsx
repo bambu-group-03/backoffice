@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { fetch_async } from './user/commun/fetch_async';
-import { BASE_REAL_URL, BASE_TWEET_URL, IDENTITY_FILTER } from './user/commun/urls';
+import {  BASE_TWEET_URL, SNAP_FILTER } from './user/commun/urls';
 
 export default function Search({ disabled, set }: { disabled?: boolean , set: any}) {
   const { replace } = useRouter();
@@ -21,14 +21,13 @@ export default function Search({ disabled, set }: { disabled?: boolean , set: an
 
     let url = "";
 
-    let username_searched = params.toString().split("=")[1]
+    let snap_searched = params.toString().split("=")[1]
 
     let limit = 1000;
     let offset = 0;
 
-    if (username_searched){
-      // url = SNAP_FILTER + username_searched;
-      url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset
+    if (snap_searched){
+      url = SNAP_FILTER + snap_searched;
     }else{
       url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset
     }

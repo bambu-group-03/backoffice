@@ -4,7 +4,8 @@ export const BASE_REAL_URL = 'https://api-identity-socializer-luiscusihuaman.clo
 export const BASE_INTERACTION_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/interactions/';
 
 
-export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/";
+export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/admin/";
+export const SNAP_FILTER = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/filter/admin/";
 
 export const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
 
