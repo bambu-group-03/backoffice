@@ -5,14 +5,28 @@ import {  put_async } from "../user/commun/fetch_async";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
 
+export interface CertifiedUser {
+  first_name: string;
+  last_name: string;
+  username: string;
+  id: string;
+  user_id: string;
+  created_at: string;
+  email: string;
+  status : string;
+  img1_url: string;
+  img2_url: string;
+  dni: string;
+}
 
-export default function VerifyTable({ users }: { users: User[] }) {
+
+export default function VerifyTable({ users }: { users: CertifiedUser[] }) {
 
   const [userStatus, setUserStatus] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const initialUserStatus: { [key: string]: string } = {};
-    users.forEach((user: User) => {
+    users.forEach((user: CertifiedUser) => {
       initialUserStatus[user.id] = user.status? user.status : "Pending";
     });
     setUserStatus(initialUserStatus);
@@ -78,7 +92,7 @@ export default function VerifyTable({ users }: { users: User[] }) {
             </TableCell>
 
             <TableCell className="text-center space-x-4">
-              <Button className="bg-blue-500 hover:bg-red-500 text-white px-4 py-2 rounded"
+              <Button className="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded"
                 onClick={async() => {
                   await updateUserStatus(user.id, "approve");
                 }}
