@@ -29,7 +29,6 @@ export async function fetch_async(url:string, service:string){
 
   let data:any = null;
   try{
-      console.log(cliente.defaults.baseURL + url);
       const response = await  cliente.get(url);
       
       data = response.data;
