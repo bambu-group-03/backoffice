@@ -42,6 +42,8 @@ function Page(): JSX.Element {
     // Sign up successful
     console.log(result);
 
+    alert("User created successfully");
+
     // Redirect to the main page
     router.push("/");
     };

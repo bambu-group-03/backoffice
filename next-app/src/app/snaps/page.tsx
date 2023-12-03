@@ -8,13 +8,14 @@ import { Card } from "@tremor/react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import SearchSnaps from "../search-snaps";
+import { Snap } from "../user/userSnaps";
 
 export default async function SnapsPage(){
 
   const { user } = useAuthContext() as { user: any };
   const router = useRouter();
 
-  let [snaps, setSnaps] = useState([]);
+  let [snaps, setSnaps] = useState<Snap[]>([]);
 
   useEffect( () => {
     
