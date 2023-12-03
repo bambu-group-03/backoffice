@@ -23,6 +23,8 @@ export interface User {
   verified?: boolean;
   is_followed?: boolean;
   ubication?: string;
+  status? : string;
+  created_at?: string;
 }
 
 export default function UsersTable({ users }: { users: User[] }) {

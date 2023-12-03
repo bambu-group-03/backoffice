@@ -5,28 +5,14 @@ import {  put_async } from "../user/commun/fetch_async";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
 
-export interface CertifiedUser {
-  first_name: string;
-  last_name: string;
-  username: string;
-  id: string;
-  user_id: string;
-  created_at: string;
-  email: string;
-  status : string;
-  img1_url: string;
-  img2_url: string;
-  dni: string;
-}
 
-
-export default function VerifyTable({ users }: { users: CertifiedUser[] }) {
+export default function VerifyTable({ users }: { users: User[] }) {
 
   const [userStatus, setUserStatus] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const initialUserStatus: { [key: string]: string } = {};
-    users.forEach((user: CertifiedUser) => {
+    users.forEach((user: User) => {
       initialUserStatus[user.id] = user.status? user.status : "Pending";
     });
     setUserStatus(initialUserStatus);
@@ -47,9 +33,9 @@ export default function VerifyTable({ users }: { users: CertifiedUser[] }) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeaderCell className=" text-center">Name</TableHeaderCell>
           <TableHeaderCell className=" text-center">Username</TableHeaderCell>
           <TableHeaderCell className=" text-center">Email</TableHeaderCell>
+          <TableHeaderCell className=" text-center">Date</TableHeaderCell>
           <TableHeaderCell className=" text-center">State</TableHeaderCell>
           <TableHeaderCell className=" text-center">Aprove</TableHeaderCell>
         </TableRow>
@@ -66,7 +52,10 @@ export default function VerifyTable({ users }: { users: CertifiedUser[] }) {
         users.map((user) => {
 
           const userStat = userStatus[user.id] || "Pending";
-          
+          const admin_date = new Date(user.created_at as string);
+          const admin_date_string = admin_date.toLocaleDateString('en-GB');
+
+
           return (  
 
           <TableRow key={user.id}>
@@ -74,17 +63,17 @@ export default function VerifyTable({ users }: { users: CertifiedUser[] }) {
             <TableCell>
               <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
                 <span className="link">
-                   {user.first_name} {user.last_name}
+                   {user.username}
                 </span>
               </Link>
-             </TableCell>
-
-            <TableCell>
-              <Text>{user.username}</Text>
             </TableCell>
 
             <TableCell>
               <Text>{user.email}</Text>
+            </TableCell>
+
+            <TableCell  className="text-center space-x-4">
+              <Text>{admin_date_string}</Text>
             </TableCell>
       
             <TableCell className="text-center">
