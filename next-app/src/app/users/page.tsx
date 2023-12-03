@@ -1,31 +1,19 @@
 'use client'
 
 import { useAuthContext } from "@/context/AuthContext";
-import logOut from "@/firebase/auth/signOut";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Card, Text, Title } from '@tremor/react';
+import { Card } from '@tremor/react';
 
-import { BASE_TEST_URL, BASE_REAL_URL } from '../user/commun/urls';
+import {BASE_REAL_URL } from '../user/commun/urls';
 
-import Search from '../search-users';
 import UsersTable from '../table';
 import { fetch_async } from "../user/commun/fetch_async";
+import SearchUsers from "../search-users";
 
 export const dynamic = 'force-dynamic';
 
-
-async function logOutAccount(event: { preventDefault: () => void }) {
-  
-    event.preventDefault();
-    
-    const { result, error } = await logOut();
-    if (error) {
-      console.log(error)
-      return
-    }
-}
 
 async function Page({
   searchParams,
@@ -48,11 +36,14 @@ async function Page({
     }
   }, [ user, router ] );
 
+  let limit = 1000;
+  let offset = 0;
+
 
   // Load data
   useEffect(() => {
     const fetchData = async () => {
-      const url = BASE_REAL_URL + "users?limit=10&offset=0";
+      const url = BASE_REAL_URL + "users?limit="+limit+"&offset="+offset;
       let data: [] = await fetch_async(url);
       setUsers(data);
     };
@@ -62,7 +53,7 @@ async function Page({
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
-       <Search set={setUsers}/>
+       <SearchUsers set={setUsers}/>
        <Card className="mt-6">
          <UsersTable users={users} />
        </Card>     

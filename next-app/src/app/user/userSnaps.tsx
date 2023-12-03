@@ -54,10 +54,9 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
 
             const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
 
-            const user_id = snap.username ? snap.username : snap.user_id;
 
             const snap_date = new Date(snap.created_at as string);
-            const snap_date_string = snap_date.toLocaleDateString('en-GB') ;
+            const snap_date_string = snap_date.toLocaleDateString('en-GB');
             
             return (     
 
@@ -68,8 +67,6 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                   <span className="link"> @{ snap.username }</span>
                 </Link>
               </TableCell>
-
-          
               
               <TableCell className="whitespace-normal break-words">
                 <Text>{snap.content}</Text>

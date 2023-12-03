@@ -5,8 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { fetch_async } from './user/commun/fetch_async';
 import {  BASE_TWEET_URL, SNAP_FILTER } from './user/commun/urls';
+import { Snap } from './user/userSnaps';
 
-export default function Search({ disabled, set }: { disabled?: boolean , set: any}) {
+export default function SearchSnaps({ disabled, set }: { disabled?: boolean , set: any}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -27,12 +28,12 @@ export default function Search({ disabled, set }: { disabled?: boolean , set: an
     let offset = 0;
 
     if (snap_searched){
-      url = SNAP_FILTER + snap_searched;
+      url = SNAP_FILTER + 'content?content=' + snap_searched;
     }else{
       url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset
     }
     
-    const res:[] = await fetch_async(url);
+    const res:Snap[] = await fetch_async(url);
 
     set(res);
     
@@ -63,7 +64,7 @@ export default function Search({ disabled, set }: { disabled?: boolean , set: an
           id="search"
           disabled={disabled}
           className="block h-10 w-full rounded-md border border-gray-200 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          placeholder="Search by name..."
+          placeholder="Search by content..."
           spellCheck={false}
           onChange={(e) => handleSearch(e.target.value)}
         />

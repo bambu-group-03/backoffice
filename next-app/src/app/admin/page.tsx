@@ -2,14 +2,18 @@
 
 import { useAuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import AdminTable from './admins';
+import { fetch_async } from '../user/commun/fetch_async';
+import { BASE_REAL_URL } from '../user/commun/urls';
 
 
 export default async function AdminPage(){
 
   const { user } = useAuthContext() as { user: any };
   const router = useRouter();
+  let [admins, setAdmins] = useState([]);
 
   useEffect( () => {
     
@@ -18,6 +22,18 @@ export default async function AdminPage(){
       router.push( "/" );
     }
   }, [ user, [] ] );
+
+  let limit = 1000;
+  let offset = 0;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = BASE_REAL_URL + "admins?limit=" + limit + "&offset=" + offset;
+      let data: [] = await fetch_async(url);
+      setAdmins(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">
@@ -59,6 +75,10 @@ export default async function AdminPage(){
             </div>
           </div>
         </div>
+
+        <h1>Other Admins</h1>
+          <AdminTable admins={admins}/>
+          
       </div>
     </main>
   );
