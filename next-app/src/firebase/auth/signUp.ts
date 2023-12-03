@@ -1,7 +1,7 @@
 import firebaseApp from "../config";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
-import { BASE_REAL_URL, BASE_TEST_URL } from "@/app/user/commun/urls";
+import { BASE_REAL_URL } from "@/app/user/commun/urls";
 import { post_async_with_body } from "@/app/user/commun/fetch_async";
 
 // Get the authentication instance using the Firebase app
@@ -20,7 +20,7 @@ const registerIntoDb = async (name = 'ANONIM_ADMIN', email: string, id: string) 
     name: name,
   };
 
-  res = await post_async_with_body(url, datos);
+  res = await post_async_with_body(url, datos, "identity");
 
   return res;
 };

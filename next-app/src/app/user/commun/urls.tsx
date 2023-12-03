@@ -1,11 +1,11 @@
 export const BASE_TEST_URL = "http://localhost:8000/api/auth/";
 
-export const BASE_REAL_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/auth/';
-export const BASE_INTERACTION_URL = 'https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/interactions/';
+export const BASE_REAL_URL = '/api/auth/';
+export const BASE_INTERACTION_URL = '/api/interactions/';
 
 
-export const IDENTITY_FILTER = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/filter/admin/";
-export const SNAP_FILTER = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/filter/admin/";
+export const IDENTITY_FILTER = "/api/filter/admin/";
+export const SNAP_FILTER = "/api/filter/admin/";
 
 export const DEFAULT_IMG_LINK = "https://robohash.org/hicveldicta.png"
 
@@ -15,13 +15,13 @@ export const DUMMY_URL = "https://dummyjson.com/users";
 
 export const BASE_TESTS_TWEETS_URL = "http://localhost:8000/api/tweets/";
 
-export const BASE_TWEET_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/"
-export const BASE_TWEET_VISIBILITY = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/interactions/"
+export const BASE_TWEET_URL = "/api/feed/"
+export const BASE_TWEET_VISIBILITY = "/api/interactions/"
 
 /////////////////// Statistics //////////////////////
-export const BASE_USER_STATS_URL = "https://api-identity-socializer-luiscusihuaman.cloud.okteto.net/api/metrics/";
-export const BASE_SNAP_STATS_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/feed/snaps/stats/";
-export const BASE_SNAP_METRICS_URL = "https://api-content-discovery-luiscusihuaman.cloud.okteto.net/api/metrics/";
+export const BASE_USER_STATS_URL = "/api/metrics/";
+export const BASE_SNAP_STATS_URL = "/api/feed/snaps/stats/";
+export const BASE_SNAP_METRICS_URL = "/api/metrics/";
 
 // User URLs
 export const URL_USER_STATS =  BASE_USER_STATS_URL + "get_user_rates" ;

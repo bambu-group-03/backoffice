@@ -32,7 +32,7 @@ export default function SearchUsers({ disabled, set }: { disabled?: boolean , se
       url = BASE_REAL_URL + "users?limit=" + limit + "&offset=" + offset
     }
     
-    const res:[] = await fetch_async(url);
+    const res:[] = await fetch_async(url, "identity");
 
     set(res);
     

@@ -99,10 +99,10 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
                       if (visibility.valueOf() === true) {
 
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
-                        res = await post_async(url);
+                        res = await post_async(url, "content");
                       }else{
                         url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
-                        res = await post_async(url);
+                        res = await post_async(url, "content");
                       }
                       
                       setSnapVisible(visibility);

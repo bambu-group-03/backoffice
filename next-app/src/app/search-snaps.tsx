@@ -33,7 +33,7 @@ export default function SearchSnaps({ disabled, set }: { disabled?: boolean , se
       url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset
     }
 
-    const res:Snap[] = await fetch_async(url);
+    const res:Snap[] = await fetch_async(url, "content");
 
     set(res);
 

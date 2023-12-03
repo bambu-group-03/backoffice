@@ -6,7 +6,7 @@ import UserProfile from './userProfile';
 import { fetch_async } from './commun/fetch_async';
 import { useEffect, useState } from 'react';
 
-import { BASE_REAL_URL, BASE_TEST_URL } from './commun/urls';
+import { BASE_REAL_URL } from './commun/urls';
 
 
 const ProfilePage = async () => {
@@ -21,7 +21,7 @@ const ProfilePage = async () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      let user: User = await fetch_async(url); 
+      let user: User = await fetch_async(url, "identity"); 
       setUser(user);
     };
     fetchUsers();

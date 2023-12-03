@@ -40,7 +40,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchUserStats = async () => {
-      let user_stats = await fetch_async(URL_USER_STATS);
+      let user_stats = await fetch_async(URL_USER_STATS, "identity");
       setTotalUsers(user_stats.total_users);
       setBlockedUsers(user_stats.blocked_users);
       setNonBlockedUsers(user_stats.non_blocked_users);
@@ -65,7 +65,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchLocationStats = async () => {
-      let locations_stats = await fetch_async(URL_LOCATILY_STATS);
+      let locations_stats = await fetch_async(URL_LOCATILY_STATS, "identity");
       console.log(locations_stats);
       console.log("Entre aca");
       setLocations(locations_stats);
@@ -95,7 +95,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchLogInStats = async () => {
-      let logInStats = await fetch_async(URL_LOGIN_STATS);
+      let logInStats = await fetch_async(URL_LOGIN_STATS, "identity");
       setTotalLogIns(logInStats.total_log_ins);
       setTotalLogInSuccssful(logInStats.log_in_successful);
       setTotalLogInGoogle(logInStats.log_in_google);
@@ -132,7 +132,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchSignUpStats = async () => {
-      let signUpStats = await fetch_async(URL_SIGNUP_STATS);
+      let signUpStats = await fetch_async(URL_SIGNUP_STATS, "identity");
       setTotalSignUps(signUpStats.total_sign_ups);
       setSignUpSuccessful(signUpStats.sign_up_successful);
       setSignUpGoogle(signUpStats.sign_up_google);
@@ -194,10 +194,9 @@ export default function StatisticsPage() {
   const [privateSnaps, setPrivateSnaps] = useState(0);
   const [publicSnaps, setPublicSnaps] = useState(0);
 
-
   useEffect(() => {
     const fetchSnapstats = async () => {
-      let user_stats = await fetch_async(URL_SNAP_STATS);
+      let user_stats = await fetch_async(URL_SNAP_STATS, "content");
       setTotalSnaps(user_stats.total_snaps);
       setPrivateSnaps(user_stats.private_snaps);
       setPublicSnaps(user_stats.public_snaps);
@@ -220,9 +219,6 @@ export default function StatisticsPage() {
   },
   ];
 
-
-
-
   //////// Stats per Month /////////
 
   const [newSnaps, setNewSnaps] = useState<any[]>([]); 
@@ -230,7 +226,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchNewUsersStats = async () => {
-      let new_snaps_per_month_stats = await fetch_async(URL_SNAPS_PER_MONTH);
+      let new_snaps_per_month_stats = await fetch_async(URL_SNAPS_PER_MONTH, "content");
       setNewSnaps(new_snaps_per_month_stats);
     };
     fetchNewUsersStats();
@@ -258,7 +254,7 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     const fetchNewUsersStats = async () => {
-      let new_users_per_month_stats = await fetch_async(URL_USERS_PER_MONTH);
+      let new_users_per_month_stats = await fetch_async(URL_USERS_PER_MONTH, "identity");
       setNewUsers(new_users_per_month_stats);
     };
     fetchNewUsersStats();

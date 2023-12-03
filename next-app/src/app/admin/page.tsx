@@ -29,7 +29,7 @@ export default async function AdminPage(){
   useEffect(() => {
     const fetchData = async () => {
       const url = BASE_REAL_URL + "admins?limit=" + limit + "&offset=" + offset;
-      let data: [] = await fetch_async(url);
+      let data: [] = await fetch_async(url, "identity");
       setAdmins(data);
     };
     fetchData();
