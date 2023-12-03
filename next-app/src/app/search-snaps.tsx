@@ -64,7 +64,7 @@ export default function SearchSnaps({ disabled, set }: { disabled?: boolean , se
           id="search"
           disabled={disabled}
           className="block h-10 w-full rounded-md border border-gray-200 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          placeholder="Search by username..."
+          placeholder="Search by content..."
           spellCheck={false}
           onChange={(e) => handleSearch(e.target.value)}
         />
