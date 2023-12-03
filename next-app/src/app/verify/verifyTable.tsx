@@ -96,26 +96,29 @@ export default function VerifyTable({ users }: { users: User[] }) {
             { userStat === "Pending" ? (
               
               <div>
-              <Button className="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded"
-                onClick={async() => {
-                  await updateUserStatus(user.id, "approve");
-                }}
-              >Aprove</Button>
+                <Button className="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded"
+                  onClick={async() => {await updateUserStatus(user.id, "approve");}}> 
+                    Aprove
+                </Button>
 
-              <Button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
-                onClick={async() => {
-                  await updateUserStatus(user.id, "reject");
-                }}
-                >Reject</Button>
-              </div>):(
                 <Button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
-                onClick={async() => {await deleteUserStatus(user.id)}}>
+                  onClick={async() => {await updateUserStatus(user.id, "reject");}}>
+                    Reject
+                </Button>
+              </div>
+              ):
+              
+              (
+              <div>
+                <Button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                  onClick={async() => {await deleteUserStatus(user.id)}}>
                     Delete
                 </Button>
+              </div>
               )
             }
             </TableCell>
-          
+
           </TableRow>
         )
       }
