@@ -51,11 +51,11 @@ export default function StatisticsPage() {
   }, []);
 
   const users = [
-    { name: "total users", value: totalUsers },
-    { name: "blocked_user", value: blockedUsers },
-    { name: "non blocked users", value: nonBlockedUsers },
-    { name: "blocked users rate", value: blockedUsersRate },
-    { name: "non blocked users rate", value: nonBlockedUsersRate },
+    { name: "Total Users", value: totalUsers },
+    { name: "Blocked User", value: blockedUsers },
+    { name: "Non Blocked Users", value: nonBlockedUsers },
+    { name: "Blocked Users Rate", value: blockedUsersRate },
+    { name: "Non Blocked Users Rate", value: nonBlockedUsersRate },
   ];
 
   // Location Stats
