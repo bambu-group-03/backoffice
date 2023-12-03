@@ -33,3 +33,7 @@ export const URL_USERS_PER_MONTH = BASE_USER_STATS_URL + "get_user_by_month_coun
 // Snap URLs
 export const URL_SNAP_STATS = BASE_SNAP_METRICS_URL + "get_snap_rates"; 
 export const URL_SNAPS_PER_MONTH = BASE_SNAP_STATS_URL + "monthly_frequency";
+
+
+// Certificate
+export const URL_CERTIFICATE_BASE = "/api/certified_request/"

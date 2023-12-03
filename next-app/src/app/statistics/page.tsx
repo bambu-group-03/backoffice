@@ -14,9 +14,6 @@ import { fetch_async } from '../user/commun/fetch_async';
 import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH, URL_USERS_PER_MONTH } from '../user/commun/urls';
 
 
-// Formato de fecha 2024-01-01T00:00:00
-
-
 export default function StatisticsPage() {
 
   const router = useRouter();
