@@ -1,7 +1,7 @@
 import { Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell,Text, Button } from "@tremor/react";
 import Link from "next/link";
 import { User } from "../table";
-import {  put_async } from "../user/commun/fetch_async";
+import {  delete_async, put_async } from "../user/commun/fetch_async";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
 
@@ -29,6 +29,17 @@ export default function VerifyTable({ users }: { users: User[] }) {
     await put_async(url, "identity");
   };
 
+  const deleteUserStatus = async (userId: string) => {
+    setUserStatus((prevStatus) => ({
+      ...prevStatus,
+      [userId]: "Deleted",
+    }));
+    
+    const url = "/api/certified_request/delete/" + userId;
+
+    await delete_async(url, "identity");
+  }
+
   return (
     <Table>
       <TableHead>
@@ -37,7 +48,7 @@ export default function VerifyTable({ users }: { users: User[] }) {
           <TableHeaderCell className=" text-center">Email</TableHeaderCell>
           <TableHeaderCell className=" text-center">Date</TableHeaderCell>
           <TableHeaderCell className=" text-center">State</TableHeaderCell>
-          <TableHeaderCell className=" text-center">Aprove</TableHeaderCell>
+          <TableHeaderCell className=" text-center">Action</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -81,6 +92,10 @@ export default function VerifyTable({ users }: { users: User[] }) {
             </TableCell>
 
             <TableCell className="text-center space-x-4">
+
+            { userStat === "Pending" ? (
+              
+              <div>
               <Button className="bg-blue-500 hover:bg-blue-800 text-white px-4 py-2 rounded"
                 onClick={async() => {
                   await updateUserStatus(user.id, "approve");
@@ -91,7 +106,14 @@ export default function VerifyTable({ users }: { users: User[] }) {
                 onClick={async() => {
                   await updateUserStatus(user.id, "reject");
                 }}
-              >Reject</Button>
+                >Reject</Button>
+              </div>):(
+                <Button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+                onClick={async() => {await deleteUserStatus(user.id)}}>
+                    Delete
+                </Button>
+              )
+            }
             </TableCell>
           
           </TableRow>

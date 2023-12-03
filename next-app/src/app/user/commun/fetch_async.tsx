@@ -51,7 +51,7 @@ export async function put_async(url:string, service:string){
     const response = await cliente.put(url, null);
     resp = response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
+    throw new Error(`Failed to fetch users: ${error}`);
   }
 
   return resp;
@@ -68,7 +68,7 @@ export async function post_async(url:string, service:string){
     const response = await cliente.post(url, null);
     resp = response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
+    throw new Error(`Failed to fetch users: ${error}`);
   }
 
   return resp;
@@ -85,9 +85,26 @@ export async function post_async_with_body(url:string, datos:{}, service:string)
     const response = await cliente.post(url, datos);
     resp = response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
+    throw new Error(`Failed to post users: ${error} `);
   }
   
   return resp;
 
-} 
+}
+
+export async function delete_async(url:string, service:string){
+
+  let resp:any = null;
+
+  let cliente = service === "content" ? client.content : client.identity;
+  
+  try {
+    const response = await cliente.delete(url);
+    resp = response.data;
+  } catch (error) {
+    throw new Error(`Failed to delete users: ${error}`);
+  }
+
+  return resp;
+
+}
