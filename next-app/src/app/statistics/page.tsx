@@ -256,15 +256,15 @@ export default function StatisticsPage() {
   },
   {
     month: 'October-2023',
-    value: 200,
+    value: 0,
   },
   {
     month: 'November-2023',
-    value: 500,
+    value: 20,
   },
   {
     month: 'December-2023',
-    value: 500,
+    value: 2,
   }];
 
   const snaps_per_month: DataPerMonth = {
