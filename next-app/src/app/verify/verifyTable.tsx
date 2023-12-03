@@ -8,18 +8,18 @@ import { profileWidth } from "../user/userProfile";
 
 export default function VerifyTable({ users }: { users: User[] }) {
 
-  const [userStatus, setUserVisibilities] = useState<{ [key: string]: string }>({});
+  const [userStatus, setUserStatus] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const initialSnapVisibilities: { [key: string]: string } = {};
+    const initialUserStatus: { [key: string]: string } = {};
     users.forEach((user: User) => {
-      initialSnapVisibilities[user.id] = user.status? user.status : "Pending";
+      initialUserStatus[user.id] = user.status? user.status : "Pending";
     });
-    setUserVisibilities(initialSnapVisibilities);
+    setUserStatus(initialUserStatus);
   }, [users]);
 
   const updateUserStatus = async (userId: string, status: string) => {
-    setUserVisibilities((prevStatus) => ({
+    setUserStatus((prevStatus) => ({
       ...prevStatus,
       [userId]: status === "approve" ? "Approved" : "Rejected",
     }));
