@@ -44,7 +44,7 @@ async function Page({
   useEffect(() => {
     const fetchData = async () => {
       const url = BASE_REAL_URL + "users?limit="+limit+"&offset="+offset;
-      let data: [] = await fetch_async(url);
+      let data: [] = await fetch_async(url, "identity");
       setUsers(data);
     };
     fetchData();

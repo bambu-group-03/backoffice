@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { fetch_async } from "../user/commun/fetch_async";
-import { BASE_TEST_URL, BASE_TWEET_URL } from "../user/commun/urls";
+import { BASE_TWEET_URL } from "../user/commun/urls";
 import SnapTable from "../user/userSnaps";
 import { Card } from "@tremor/react";
 import { useAuthContext } from "@/context/AuthContext";
@@ -33,7 +33,7 @@ export default async function SnapsPage(){
   useEffect(() => {
     const fetchData = async () => {
       const url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset;
-      let snaps: [] = await fetch_async(url);
+      let snaps: [] = await fetch_async(url, "content");
       setSnaps(snaps);
     };
     fetchData();

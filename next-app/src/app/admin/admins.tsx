@@ -37,7 +37,7 @@ return (
       admins.map((admin:Admin) => { 
 
         const admin_date = new Date(admin.created_at as string);
-        const admin_date_string = admin_date.toLocaleDateString('en-GB') ;
+        const admin_date_string = admin_date.toLocaleDateString('en-GB');
        
         return(
           <TableRow key={admin.id}>

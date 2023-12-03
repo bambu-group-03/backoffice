@@ -1,28 +1,19 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User } from '../table';
 import {
   CheckInCircleIcon,
-  CheckIcon,
-  EditIcon,
-  GitHubIcon,
-  LoadingDots,
-  UploadIcon,
-  XIcon,
   BlurImage
 } from '@/components/icons';
 //import { MDXRemote } from 'next-mdx-remote';
 import { Tab } from '@headlessui/react'
-import TextareaAutosize from 'react-textarea-autosize';
 import { getGradient } from '@/components/lib/gradient';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Switch } from '@headlessui/react'
-import Image from 'next/image';
 
-import { BASE_INTERACTION_URL, BASE_REAL_URL, BASE_TEST_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
+import { BASE_INTERACTION_URL, BASE_REAL_URL, BASE_TWEET_URL,  } from '../../app/user/commun/urls';
 
 import { DEFAULT_IMG_LINK } from './commun/urls';
 import { fetch_async, put_async } from './commun/fetch_async';
-import { Card, Text, Title } from '@tremor/react';
+import { Card } from '@tremor/react';
 import SnapTable from './userSnaps';
 import UsersInteractionTable from './userInteractions';
 
@@ -88,7 +79,7 @@ export default function UsersTable({ user }: {  user: User }) {
         const fetchSnaps = async () => {
           const url = BASE_TWEET_URL +  'admin/' + user.id + "/snaps?limit=" + limit + "&offset=" + offset;
 
-          let snaps_received: [] = await fetch_async(url); 
+          let snaps_received: [] = await fetch_async(url, "content"); 
           setSnaps(snaps_received.snaps);
         };
         fetchSnaps();
@@ -99,7 +90,7 @@ export default function UsersTable({ user }: {  user: User }) {
 
         const fetchFollowing = async () => {
           const url = BASE_INTERACTION_URL + user.id + "/following"; 
-          let following_received: [] = await fetch_async(url); 
+          let following_received: [] = await fetch_async(url, "identity"); 
           setFollowing(following_received);
         };
         fetchFollowing();
@@ -110,7 +101,7 @@ export default function UsersTable({ user }: {  user: User }) {
         const fetchFollowers = async () => {
           const url = BASE_INTERACTION_URL + user.id + "/followers"; 
           console.log("url: " + url);
-          let followers_received: [] = await fetch_async(url); 
+          let followers_received: [] = await fetch_async(url, "identity"); 
           setFollowers(followers_received);
         };
         fetchFollowers();
@@ -168,10 +159,10 @@ export default function UsersTable({ user }: {  user: User }) {
 
               if (data.user_blocked) {
                 url = BASE_REAL_URL + "unblock_user/" + data.id;
-                res = await put_async(url);
+                res = await put_async(url, "identity");
               }else{
                 url = BASE_REAL_URL + "block_user/" + data.id;
-                res = await put_async(url);
+                res = await put_async(url, "identity");
               }
 
               setData({

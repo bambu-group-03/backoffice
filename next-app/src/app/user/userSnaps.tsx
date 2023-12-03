@@ -2,7 +2,7 @@ import { Table, TableHead, TableRow, TableHeaderCell, TableBody, Text, TableCell
 import { Switch } from '@headlessui/react'
 import { profileWidth } from "./userProfile";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { post_async } from "./commun/fetch_async";
 import { BASE_TWEET_VISIBILITY } from "./commun/urls";
@@ -28,6 +28,29 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
   
   const router = useRouter();
 
+  const [snapVisibilities, setSnapVisibilities] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    const initialSnapVisibilities: { [key: string]: boolean } = {};
+    snaps.forEach((snap: Snap) => {
+      initialSnapVisibilities[snap.id] = snap.visibility === SNAP_VISIBLE;
+    });
+    setSnapVisibilities(initialSnapVisibilities);
+  }, [snaps]);
+
+  const updateSnapVisibility = async (author: string, snapId: string, visibility: boolean) => {
+    setSnapVisibilities((prevVisibilities) => ({
+      ...prevVisibilities,
+      [snapId]: visibility,
+    }));
+    
+    const url = visibility
+      ? BASE_TWEET_VISIBILITY + author + "/set_public/" + snapId
+      : BASE_TWEET_VISIBILITY + author + "/set_private/" + snapId;
+
+    await post_async(url, "content");
+  };
+
   return (
     <Table>
       <TableHead>
@@ -50,13 +73,12 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
             </div>
           :
 
-          snaps.map((snap:Snap) => {
+          snaps.map((snap: Snap) => {
 
-            const [snapVisible, setSnapVisible] = useState((snap.visibility === SNAP_VISIBLE)? true : false);
-
-
+            const snapVisible = snapVisibilities[snap.id] || false;
             const snap_date = new Date(snap.created_at as string);
             const snap_date_string = snap_date.toLocaleDateString('en-GB');
+            
             
             return (     
 
@@ -89,23 +111,10 @@ export default function SnapTable({ snaps }: { snaps: Snap[] }) {
               </TableCell>
               
               <TableCell className="flex justify-center items-center">
-                <Switch
+                 <Switch
                     checked={snapVisible}
                     onChange={async (visibility) => {
-                        
-                      let url = "";
-                      let res = null;
-
-                      if (visibility.valueOf() === true) {
-
-                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_public/" + snap.id;
-                        res = await post_async(url);
-                      }else{
-                        url = BASE_TWEET_VISIBILITY + snap.author + "/set_private/" + snap.id;
-                        res = await post_async(url);
-                      }
-                      
-                      setSnapVisible(visibility);
+                      await updateSnapVisibility(snap.author, snap.id, visibility);
                     }}
                     className={`${
                       snapVisible ? 'bg-blue-600' : 'bg-gray-200'

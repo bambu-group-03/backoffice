@@ -2,20 +2,19 @@ import axios from 'axios';
 
 // Configurar encabezados por defecto para todas las solicitudes
 // Instancia para el microservicio de contenido
-const contentService = axios.create({ baseURL: `${process.env.API_URL}/content` });
+const contentService = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}/content` });
 
 // Instancia para el microservicio de identidad
-const identityService = axios.create({ baseURL: `${process.env.API_URL}/identity` });
+const identityService = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}/identity` });
 
 
-contentService.defaults.headers.common.adminToken =  `${process.env.ADMIN_TOKEN}`;
+contentService.defaults.headers.common.clientToken =  `${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`;
 contentService.defaults.headers.common['Content-Type'] = 'application/json';
 contentService.defaults.headers.common.Accept = 'application/json';
 
-identityService.defaults.headers.common.adminToken = `${process.env.ADMIN_TOKEN}`;
+identityService.defaults.headers.common.clientToken = `${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`;
 identityService.defaults.headers.common['Content-Type'] = 'application/json';
 identityService.defaults.headers.common.Accept = 'application/json';
-
 
 
 export const client = {
@@ -23,35 +22,33 @@ export const client = {
   identity: identityService,
 };
 
-const REFRESH_INTERVAL = 1000 * 60 * 60 * 24; // 24 hours
 
+export async function fetch_async(url:string, service:string){
 
-export async function fetch_async(url:string){
+  let cliente = service === "content" ? client.content : client.identity;
 
   let data:any = null;
   try{
-      const response = await  client.content.get(url, {
-        headers: { 'Cache-Control': 'no-cache' }, //  `next: { revalidate: REFRESH_INTERVAL }`
-      });
+      const response = await  cliente.get(url);
       
       data = response.data;
   }catch(error){
-      throw new Error(`Failed to fetch users: ${error.status} ${error.statusText}`);
+
+      throw new Error(`Failed to fetch users: ${error}`);
   }
 
   return data;
 }
 
-export async function put_async(url:string){
+export async function put_async(url:string, service:string){
 
   let resp:any = null;
+
+  let cliente = service === "content" ? client.content : client.identity;
   
   try {
-    const response = await axios.put(url, null, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    
+    const response = await cliente.put(url, null);
     resp = response.data;
   } catch (error) {
     throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
@@ -61,17 +58,14 @@ export async function put_async(url:string){
 
 } 
 
-export async function post_async(url:string){
+export async function post_async(url:string, service:string){
 
   let resp:any = null;
-  
+
+  let cliente = service === "content" ? client.content : client.identity;
   
   try {
-    const response = await axios.post(url, null, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await cliente.post(url, null);
     resp = response.data;
   } catch (error) {
     throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
@@ -81,16 +75,14 @@ export async function post_async(url:string){
 
 } 
 
-export async function post_async_with_body(url:string, datos:{}){
+export async function post_async_with_body(url:string, datos:{}, service:string){
 
   let resp:any = null;
   
+  let cliente = service === "content" ? client.content : client.identity;
+  
   try {
-    const response = await axios.post(url, datos, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await cliente.post(url, datos);
     resp = response.data;
   } catch (error) {
     throw new Error(`Failed to fetch users: ${error.response.status} ${error.response.statusText}`);
