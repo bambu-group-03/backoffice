@@ -8,7 +8,7 @@ export default function GrowthStats({snaps_per_month, users_per_month}:{snaps_pe
   const total_users_per_month = users_per_month.data;
 
   let data = total_snaps_per_month.slice(0, total_snaps_per_month.length).map((_, index) => ({
-    Month: total_snaps_per_month[index]?.month,
+    Month: total_users_per_month[index]?.month,
     Snaps: total_snaps_per_month[index]?.value,
     NewUsers: total_users_per_month[index]?.value,
   }));

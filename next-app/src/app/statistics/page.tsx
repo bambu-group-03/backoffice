@@ -225,53 +225,32 @@ export default function StatisticsPage() {
 
   //////// Stats per Month /////////
 
-  // const [newSnaps, setNewSnaps] = useState<any[]>([]); 
-  // const [totalSnapsPerMonth, setTotalSnapsPerMonth] = useState<{ month: string; value: number }[]>([]);
+  const [newSnaps, setNewSnaps] = useState<any[]>([]); 
+  const [totalSnapsPerMonth, setTotalSnapsPerMonth] = useState<{ month: string; value: number }[]>([]);
 
-  // useEffect(() => {
-  //   const fetchNewUsersStats = async () => {
-  //     let new_snaps_per_month_stats = await fetch_async(URL_SNAPS_PER_MONTH);
-  //     setNewSnaps(new_snaps_per_month_stats);
-  //   };
-  //   fetchNewUsersStats();
-  // }, []);
+  useEffect(() => {
+    const fetchNewUsersStats = async () => {
+      let new_snaps_per_month_stats = await fetch_async(URL_SNAPS_PER_MONTH);
+      setNewSnaps(new_snaps_per_month_stats);
+    };
+    fetchNewUsersStats();
+  }, []);
   
-  // useEffect(() => {
-  //   if (newSnaps.length > 0) {
-  //     const mappedNewUsers = newSnaps.map((newSnap: number) => ({
-  //       month: newSnap?.month,
-  //       value: newSnap.value ? newSnap?.value : newSnap
-  //     }));
-  //     setTotalSnapsPerMonth(mappedNewUsers);
-  //   }
-  // }, [newSnaps]);
-
-  const total_snaps_per_month  = [{
-    month: 'August-2023',
-    value: 0,
-  },
-  {
-    month: 'September-2023',
-    value: 0,
-  },
-  {
-    month: 'October-2023',
-    value: 0,
-  },
-  {
-    month: 'November-2023',
-    value: 20,
-  },
-  {
-    month: 'December-2023',
-    value: 2,
-  }];
+  useEffect(() => {
+    if (newSnaps.length > 0) {
+      const mappedNewUsers = newSnaps.map((newSnap) => ({
+        month: newSnap.month,
+        value: newSnap.value
+      }));
+      setTotalSnapsPerMonth(mappedNewUsers);
+    }
+  }, [newSnaps]);
 
   const snaps_per_month: DataPerMonth = {
     name: "Snaps",
     description: "Total snaps since lauch",
     color: "cyan",
-    data: total_snaps_per_month,
+    data: totalSnapsPerMonth,
   };
 
   const [newUsers, setNewUsers] = useState<any[]>([]); 
@@ -295,23 +274,6 @@ export default function StatisticsPage() {
     }
   }, [newUsers]);
 
-
-  // const total_users_per_month  = [{
-  //   month: 'August-2023',
-  //   value: 1234,
-  // },
-  // {
-  //   month: 'September-2023',
-  //   value: 5432,
-  // },
-  // {
-  //   month: 'October-2023',
-  //   value: 1124,
-  // },
-  // {
-  //   month: 'November-2023',
-  //   value: 3421,
-  // }];
 
   const users_per_month: DataPerMonth = {
     name: "Users",
