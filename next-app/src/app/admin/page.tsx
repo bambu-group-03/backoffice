@@ -75,11 +75,11 @@ export default async function AdminPage(){
             </div>
           </div>
         </div>
-        <h1>Other Admins</h1>
-      <AdminTable admins={admins}/>
-      </div>
 
-     
+        <h1>Other Admins</h1>
+          <AdminTable admins={admins}/>
+          
+      </div>
     </main>
   );
 }
