@@ -20,7 +20,7 @@ export interface User {
   bio_msg: string;
   profile_photo_id:string;
   blocked: boolean;
-  verified?: boolean;
+  certified?: boolean;
   is_followed?: boolean;
   ubication?: string;
   status? : string;

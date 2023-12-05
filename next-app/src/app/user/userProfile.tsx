@@ -38,7 +38,7 @@ export default function UsersTable({ user }: {  user: User }) {
       username: user?.username || 'anon',
       image: user?.profile_photo_id || DEFAULT_IMG_LINK,
       bio: user?.bio_msg || 'No Bio provided',
-      user_verified: user?.verified || false,
+      user_verified: user?.certified || false,
       user_blocked: user?.blocked || false ,
     }
   );
@@ -58,7 +58,7 @@ export default function UsersTable({ user }: {  user: User }) {
         username: user?.username || 'anon',
         image: user?.profile_photo_id || DEFAULT_IMG_LINK,
         bio: user?.bio_msg || 'No Bio provided',
-        user_verified: user?.verified || false,
+        user_verified: user?.certified || false,
         user_blocked: user?.blocked || false ,
       }
     );
