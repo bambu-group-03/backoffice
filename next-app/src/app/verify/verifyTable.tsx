@@ -5,14 +5,26 @@ import {  delete_async, put_async } from "../user/commun/fetch_async";
 import { useEffect, useState } from "react";
 import { profileWidth } from "../user/userProfile";
 
+type CertifiedType = {
 
-export default function VerifyTable({ users }: { users: User[] }) {
+  id: string;
+  user_id: string;
+  dni: string;
+  img1_url: string;
+  img2_url: string;
+  status: string;
+  created_at: string;
+  username: string;
+  email: string;
+}
+
+export default function VerifyTable({ users }: { users: CertifiedType[] }) {
 
   const [userStatus, setUserStatus] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const initialUserStatus: { [key: string]: string } = {};
-    users.forEach((user: User) => {
+    users.forEach((user: CertifiedType) => {
       initialUserStatus[user.id] = user.status? user.status : "Pending";
     });
     setUserStatus(initialUserStatus);
@@ -72,7 +84,7 @@ export default function VerifyTable({ users }: { users: User[] }) {
           <TableRow key={user.id}>
 
             <TableCell>
-              <Link href={`/user?id=${user.id}`} className="text-blue-500 hover:text-blue-700">
+              <Link href={`/user?id=${user.user_id}`} className="text-blue-500 hover:text-blue-700">
                 <span className="link">
                    {user.username}
                 </span>

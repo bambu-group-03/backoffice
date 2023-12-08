@@ -11,7 +11,7 @@ import { DataPerMonth, MyStats } from "./types";
 import SnapStats from './snapStats';
 import { fetch_async } from '../user/commun/fetch_async';
 
-import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH, URL_USERS_PER_MONTH } from '../user/commun/urls';
+import { URL_USER_STATS, URL_LOCATILY_STATS, URL_LOGIN_STATS, URL_SIGNUP_STATS, URL_SNAP_STATS, URL_SNAPS_PER_MONTH, URL_USERS_PER_MONTH, URL_RESET_PASSWORD_STATS } from '../user/commun/urls';
 
 
 export default function StatisticsPage() {
@@ -87,8 +87,6 @@ export default function StatisticsPage() {
   const [totalLogInError, setTotalLogInError] = useState(0);
   const [logInSuccessfulRate, setLogInSuccessfulRate] = useState(0);
   const [logInErrorRate, setLogInErrorRate] = useState(0);
-  const [resetPassword, setResetPassword] = useState(0);
- 
 
   useEffect(() => {
     const fetchLogInStats = async () => {
@@ -99,7 +97,6 @@ export default function StatisticsPage() {
       setTotalLogInError(logInStats.log_in_error);
       setLogInSuccessfulRate(logInStats.log_in_successful_rate);
       setLogInErrorRate(logInStats.log_in_error_rate);
-      setResetPassword(logInStats.reset_password);
     };
     fetchLogInStats();
   }, []);
@@ -111,7 +108,6 @@ export default function StatisticsPage() {
     { name: "Total LogIn Error", value: totalLogInError },
     { name: "Total LogIn Successful Rate", value: logInSuccessfulRate },
     { name: "Total LogIn Error Rate", value: logInErrorRate },
-    { name: "Total Reset Password", value: resetPassword },
   ];
 
   // Sign Up Stats
@@ -159,6 +155,36 @@ export default function StatisticsPage() {
     { name: "Complete Sign Up Error Rate", value: completeSignUpErrorRate },
   ];
 
+  // Reset Password Stats
+
+
+  const [totalResetPassword, setTotalResetPassword] = useState(0);
+  const [resetPasswordSuccessful, setResetPasswordSuccessful] = useState(0);
+  const [resetPasswordError, setResetPasswordError] = useState(0);
+  const [resetPasswordSuccessfulRate, setResetPasswordSuccessfulRate] = useState(0);
+  const [resetPasswordErrorRate, setResetPasswordErrorRate] = useState(0);
+
+  useEffect(() => {
+    const fetchResetPasswordStats = async () => {
+      let resetPasswordStats = await fetch_async(URL_RESET_PASSWORD_STATS, "identity");
+      setTotalResetPassword(resetPasswordStats.total_reset_password);
+      setResetPasswordSuccessful(resetPasswordStats.reset_password_successful);
+      setResetPasswordError(resetPasswordStats.reset_password_error);
+      setResetPasswordSuccessfulRate(resetPasswordStats.reset_password_successful_rate);
+      setResetPasswordErrorRate(resetPasswordStats.reset_password_error_rate);
+    };
+    fetchResetPasswordStats();
+  }, []);
+
+  const resetPassword = [
+    { name: "Total Reset Password", value: totalResetPassword },
+    { name: "Reset Password Successful", value: resetPasswordSuccessful },
+    { name: "Reset Password Error", value: resetPasswordError },
+    { name: "Reset Password Successful Rate", value: resetPasswordSuccessfulRate },
+    { name: "Reset Password Error Rate", value: resetPasswordErrorRate },
+  ];
+
+
 
   const userData : MyStats[] = [
     {
@@ -181,6 +207,12 @@ export default function StatisticsPage() {
       category: "Sing Up Rates",
       stat: signUpSuccessful.toString(),
       data: signUp,
+    },
+
+    {
+      category: "Reset Password Rates",
+      stat: totalResetPassword.toString(),
+      data: resetPassword,
     }
     
   ];

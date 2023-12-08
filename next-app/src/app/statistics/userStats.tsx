@@ -6,7 +6,7 @@ export default function UserStats({data, users_per_month}:{data:MyStats[], users
 
   return (
     <div className="mx-auto max-w-7xl p-4 md:p-5">
-      <Grid numItemsSm={2} numItemsLg={4} className="gap-6">
+      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         {data.map((item) => (
           <Card key={item.category}>
             <Title>{item.category}</Title>
