@@ -41,7 +41,7 @@ export default async function AdminPage() {
           <div className="flex w-full lg:w-11/12 xl:w-3/4">
             <div className="hidden h-auto w-full rounded-l-lg bg-gray-400 bg-cover lg:block lg:w-1/2">
               <Image
-                src="/assets/images/new_admin.jpg"
+                src="https://www.wallpaperup.com/uploads/wallpapers/2014/06/05/364432/39372972d5deb4cdbab6ef65380cb54f.jpg"
                 alt="new_admin_img"
                 width={500}
                 height={500}
