@@ -1,7 +1,8 @@
-import { AuthContextProvider } from '@/context/AuthContext';
 import '@/styles/globals.css';
 
 import { Suspense } from 'react';
+
+import { AuthContextProvider } from '@/context/AuthContext';
 
 import Nav from './nav';
 
@@ -24,7 +25,6 @@ export default async function RootLayout({
           </Suspense>
           {children}
         </AuthContextProvider>
-        
       </body>
     </html>
   );

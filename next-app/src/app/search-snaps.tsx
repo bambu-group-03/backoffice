@@ -3,11 +3,18 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { fetch_async } from './user/commun/fetch_async';
-import {  BASE_TWEET_URL, SNAP_FILTER } from './user/commun/urls';
-import { Snap } from './user/userSnaps';
 
-export default function SearchSnaps({ disabled, set }: { disabled?: boolean , set: any}) {
+import { fetch_async } from './user/commun/fetch_async';
+import { BASE_TWEET_URL, SNAP_FILTER } from './user/commun/urls';
+import type { Snap } from './user/userSnaps';
+
+export default function SearchSnaps({
+  disabled,
+  set,
+}: {
+  disabled?: boolean;
+  set: any;
+}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -20,25 +27,25 @@ export default function SearchSnaps({ disabled, set }: { disabled?: boolean , se
       params.delete('q');
     }
 
-    let url = "";
+    let url = '';
 
-    let snap_searched = params.toString().split("=")[1]
+    const snap_searched = params.toString().split('=')[1];
 
-    let limit = 1000;
-    let offset = 0;
+    const limit = 1000;
+    const offset = 0;
 
-    if (snap_searched){
-      url = SNAP_FILTER + 'content?content=' + snap_searched;
-    }else{
-      url = BASE_TWEET_URL + "get_all_snaps?limit=" + limit + "&offset=" + offset
+    if (snap_searched) {
+      url = `${SNAP_FILTER}content?content=${snap_searched}`;
+    } else {
+      url = `${BASE_TWEET_URL}get_all_snaps?limit=${limit}&offset=${offset}`;
     }
 
-    const res:Snap[] = await fetch_async(url, "content");
+    const res: Snap[] = await fetch_async(url, 'content');
 
     set(res);
 
     console.log('res', res);
-    
+
     startTransition(() => {
       replace(`${pathname}?${params.toString()}`);
     });

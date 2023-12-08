@@ -1,5 +1,3 @@
-import { Text, Title } from '@tremor/react';
-
 export default async function Loading() {
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10">

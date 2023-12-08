@@ -2,18 +2,18 @@
 
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import type { DefaultSession } from 'next-auth';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 
 import logOut from '@/firebase/auth/signOut';
 
 const navigation = [
   { name: 'Users', href: '/' },
-  { name: 'Snaps', href: '/snaps'},
-  { name: 'Admin', href: '/admin'},
-  { name: 'Statistics', href: '/statistics' } ,
-  { name: 'Verify', href: '/verify' } 
+  { name: 'Snaps', href: '/snaps' },
+  { name: 'Admin', href: '/admin' },
+  { name: 'Statistics', href: '/statistics' },
+  { name: 'Verify', href: '/verify' },
 ];
 
 function classNames(...classes: string[]) {
@@ -21,16 +21,12 @@ function classNames(...classes: string[]) {
 }
 
 async function logOutAccount(event: { preventDefault: () => void }) {
-  
   event.preventDefault();
-  
+
   const { result, error } = await logOut();
   if (error) {
-    console.log(error)
-    return
+    console.log(error);
   }
-
-  
 }
 
 export default function Navbar({ user }: { user: DefaultSession['user'] }) {
@@ -44,14 +40,16 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex shrink-0 items-center">
-                  
                   <Image
-                        className="h-18 w-18 rounded-full"
-                        src={user?.image || 'https://avatars.githubusercontent.com/t/8529037?s=116&v=4'}
-                        height={50}
-                        width={50}
-                        alt={`${user?.name || 'placeholder'} avatar`}
-                      />
+                    className="h-18 w-18 rounded-full"
+                    src={
+                      user?.image ||
+                      'https://avatars.githubusercontent.com/t/8529037?s=116&v=4'
+                    }
+                    height={50}
+                    width={50}
+                    alt={`${user?.name || 'placeholder'} avatar`}
+                  />
                 </div>
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   {navigation.map((item) => (
@@ -72,19 +70,27 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                
-                <Menu as="div" className="relative ml-3"
-                  
-                >
+                <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-                    disabled={user?false:true}
-                    
+                    <Menu.Button
+                      className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                      disabled={!user}
                     >
                       <span className="sr-only">Open user menu</span>
 
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                        />
                       </svg>
                     </Menu.Button>
                   </div>
@@ -111,7 +117,7 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                                 e.preventDefault();
                                 logOutAccount(e);
                                 close();
-                            }}
+                              }}
                             >
                               Sign out
                             </button>
@@ -134,9 +140,7 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                         </Menu.Item>
                       )}
 
-                      
-
-                        {/* <Menu.Item>
+                      {/* <Menu.Item>
                           {({ active }) => (
                             <button
                               type="button"
@@ -150,7 +154,6 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
                             </button>
                           )}
                         </Menu.Item> */}
-
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -167,7 +170,7 @@ export default function Navbar({ user }: { user: DefaultSession['user'] }) {
               </div> */}
             </div>
           </div>
-{/* 
+          {/* 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pb-3 pt-2">
               {navigation.map((item) => (

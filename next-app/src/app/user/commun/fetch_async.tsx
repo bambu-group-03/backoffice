@@ -2,13 +2,16 @@ import axios from 'axios';
 
 // Configurar encabezados por defecto para todas las solicitudes
 // Instancia para el microservicio de contenido
-const contentService = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}/content` });
+const contentService = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/content`,
+});
 
 // Instancia para el microservicio de identidad
-const identityService = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}/identity` });
+const identityService = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/identity`,
+});
 
-
-contentService.defaults.headers.common.clientToken =  `${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`;
+contentService.defaults.headers.common.clientToken = `${process.env.NEXT_PUBLIC_ADMIN_TOKEN}`;
 contentService.defaults.headers.common['Content-Type'] = 'application/json';
 contentService.defaults.headers.common.Accept = 'application/json';
 
@@ -16,38 +19,32 @@ identityService.defaults.headers.common.clientToken = `${process.env.NEXT_PUBLIC
 identityService.defaults.headers.common['Content-Type'] = 'application/json';
 identityService.defaults.headers.common.Accept = 'application/json';
 
-
 export const client = {
   content: contentService,
   identity: identityService,
 };
 
+export async function fetch_async(url: string, service: string) {
+  const cliente = service === 'content' ? client.content : client.identity;
 
-export async function fetch_async(url:string, service:string){
+  let data: any = null;
+  try {
+    const response = await cliente.get(url);
 
-  let cliente = service === "content" ? client.content : client.identity;
-
-  let data:any = null;
-  try{
-      const response = await  cliente.get(url);
-      
-      data = response.data;
-  }catch(error){
-
-      throw new Error(`Failed to fetch users: ${error}`);
+    data = response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch users: ${error}`);
   }
 
   return data;
 }
 
-export async function put_async(url:string, service:string){
+export async function put_async(url: string, service: string) {
+  let resp: any = null;
 
-  let resp:any = null;
+  const cliente = service === 'content' ? client.content : client.identity;
 
-  let cliente = service === "content" ? client.content : client.identity;
-  
   try {
-    
     const response = await cliente.put(url, null);
     resp = response.data;
   } catch (error) {
@@ -55,15 +52,13 @@ export async function put_async(url:string, service:string){
   }
 
   return resp;
+}
 
-} 
+export async function post_async(url: string, service: string) {
+  let resp: any = null;
 
-export async function post_async(url:string, service:string){
+  const cliente = service === 'content' ? client.content : client.identity;
 
-  let resp:any = null;
-
-  let cliente = service === "content" ? client.content : client.identity;
-  
   try {
     const response = await cliente.post(url, null);
     resp = response.data;
@@ -72,32 +67,32 @@ export async function post_async(url:string, service:string){
   }
 
   return resp;
+}
 
-} 
+export async function post_async_with_body(
+  url: string,
+  datos: {},
+  service: string,
+) {
+  let resp: any = null;
 
-export async function post_async_with_body(url:string, datos:{}, service:string){
+  const cliente = service === 'content' ? client.content : client.identity;
 
-  let resp:any = null;
-  
-  let cliente = service === "content" ? client.content : client.identity;
-  
   try {
     const response = await cliente.post(url, datos);
     resp = response.data;
   } catch (error) {
     throw new Error(`Failed to post users: ${error} `);
   }
-  
-  return resp;
 
+  return resp;
 }
 
-export async function delete_async(url:string, service:string){
+export async function delete_async(url: string, service: string) {
+  let resp: any = null;
 
-  let resp:any = null;
+  const cliente = service === 'content' ? client.content : client.identity;
 
-  let cliente = service === "content" ? client.content : client.identity;
-  
   try {
     const response = await cliente.delete(url);
     resp = response.data;
@@ -106,5 +101,4 @@ export async function delete_async(url:string, service:string){
   }
 
   return resp;
-
 }

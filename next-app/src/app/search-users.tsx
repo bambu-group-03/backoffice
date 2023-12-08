@@ -3,10 +3,17 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+
 import { fetch_async } from './user/commun/fetch_async';
 import { BASE_REAL_URL, IDENTITY_FILTER } from './user/commun/urls';
 
-export default function SearchUsers({ disabled, set }: { disabled?: boolean , set: any}) {
+export default function SearchUsers({
+  disabled,
+  set,
+}: {
+  disabled?: boolean;
+  set: any;
+}) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -19,25 +26,25 @@ export default function SearchUsers({ disabled, set }: { disabled?: boolean , se
       params.delete('q');
     }
 
-    let url = "";
+    let url = '';
 
-    let username_searched = params.toString().split("=")[1]
+    const username_searched = params.toString().split('=')[1];
 
-    let limit = 1000;
-    let offset = 0;
+    const limit = 1000;
+    const offset = 0;
 
-    if (username_searched){
+    if (username_searched) {
       url = IDENTITY_FILTER + username_searched;
-    }else{
-      url = BASE_REAL_URL + "users?limit=" + limit + "&offset=" + offset
+    } else {
+      url = `${BASE_REAL_URL}users?limit=${limit}&offset=${offset}`;
     }
-    
-    const res:[] = await fetch_async(url, "identity");
+
+    const res: [] = await fetch_async(url, 'identity');
 
     set(res);
 
     console.log('res', res);
-    
+
     startTransition(() => {
       replace(`${pathname}?${params.toString()}`);
     });

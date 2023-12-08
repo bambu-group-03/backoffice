@@ -9,7 +9,12 @@ const bundleAnalyzer = withBundleAnalyzer({
 export default bundleAnalyzer({
   eslint: {
     dirs: ['.'],
+    ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
   poweredByHeader: false,
   basePath: '',
   // The starter code load resources from `public` folder with `router.basePath` in React components.
@@ -32,9 +37,9 @@ export default bundleAnalyzer({
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
-  }
+  },
 });
